@@ -1,8 +1,0 @@
-# Ignore .idea directory
-.idea/
-
-# Ignore bin directory
-bin/
-
-# Ignore obj directory
-obj/
