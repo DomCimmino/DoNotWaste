@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using DoNotWaste.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using DoNotWaste.Models;
 
@@ -13,7 +14,7 @@ public class HomeController : Controller
         _logger = logger;
     }
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
         return View();
     }
