@@ -1,7 +1,15 @@
+using DoNotWaste.Services;
+
 var builder = WebApplication.CreateBuilder(args);
+
+//Update configuration
+builder.UpdateConfiguration();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+//Add service for dependency injection
+builder.RegisterServices();
 
 var app = builder.Build();
 
