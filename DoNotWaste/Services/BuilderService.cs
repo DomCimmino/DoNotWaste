@@ -1,7 +1,5 @@
 using DoNotWaste.Authentication;
 using DoNotWaste.HttpManager;
-using DoNotWaste.Services.Interfaces;
-using Microsoft.AspNetCore.Server.HttpSys;
 
 namespace DoNotWaste.Services;
 
@@ -11,7 +9,6 @@ public static class BuilderService
     {
         builder.Services.AddSingleton<IAuthenticationService, AuthenticationService>();
         builder.Services.AddTransient<IHttpClientFactory, HttpClientFactory>();
-        builder.Services.AddTransient<IUserService, UserService>();
         builder.Services
             .Configure<Configuration>(builder.Configuration.GetSection(nameof(Configuration)))
             .AddOptions();
