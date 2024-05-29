@@ -1,7 +1,9 @@
+using DoNotWaste.Models;
+
 namespace DoNotWaste.Services.Interfaces;
 
 public interface IUserService
 {
-    Task<HttpResponse> GetUser();
-    Task<HttpResponse> CreateUser(Account account);
+    Task<Account> GetUser();
+    Task<EnergyStarResponse> CreateUser(Account account);
 }

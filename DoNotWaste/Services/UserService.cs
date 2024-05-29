@@ -1,16 +1,19 @@
+using DoNotWaste.Models;
+using DoNotWaste.Rest;
+using DoNotWaste.Services.API;
 using DoNotWaste.Services.Interfaces;
 
 namespace DoNotWaste.Services;
 
-public class UserService : IUserService
+public class UserService(IHttpClient httpClient) : IUserService
 {
-    public Task<HttpResponse> GetUser()
+    public async Task<Account> GetUser()
     {
-        throw new NotImplementedException();
+        return await RefitExtensions.For<IUserApi>(await httpClient.GetHttpClient()).GetUser();
     }
 
-    public Task<HttpResponse> CreateUser(Account account)
+    public async Task<EnergyStarResponse> CreateUser(Account account)
     {
-        throw new NotImplementedException();
+        return await RefitExtensions.For<IUserApi>(await httpClient.GetHttpClient()).CreateUser(account);
     }
 }

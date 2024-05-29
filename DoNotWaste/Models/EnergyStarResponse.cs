@@ -4,7 +4,7 @@ namespace DoNotWaste.Models;
 /// Represents the response of the operation.
 /// </summary>
 [XmlRoot(ElementName = "response")]
-public class Response
+public class EnergyStarResponse
 {
     /// <summary>
     /// The id of the entity that you are trying to add or update.

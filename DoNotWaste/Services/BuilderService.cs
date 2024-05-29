@@ -1,5 +1,7 @@
 using DoNotWaste.Authentication;
 using DoNotWaste.HttpManager;
+using DoNotWaste.Rest;
+using DoNotWaste.Services.Interfaces;
 
 namespace DoNotWaste.Services;
 
@@ -9,6 +11,8 @@ public static class BuilderService
     {
         builder.Services.AddSingleton<IAuthenticationService, AuthenticationService>();
         builder.Services.AddTransient<IHttpClientFactory, HttpClientFactory>();
+        builder.Services.AddTransient<IHttpClient, EnergyStarClient>();
+        builder.Services.AddTransient<IUserService, UserService>();
         builder.Services
             .Configure<Configuration>(builder.Configuration.GetSection(nameof(Configuration)))
             .AddOptions();
