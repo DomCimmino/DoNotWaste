@@ -1,21 +1,15 @@
 using System.Diagnostics;
-using DoNotWaste.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using DoNotWaste.Models;
+using DoNotWaste.Services.Interfaces;
 
 namespace DoNotWaste.Controllers;
 
-public class HomeController : Controller
+public class HomeController(IUserService userService) : Controller
 {
-    private readonly ILogger<HomeController> _logger;
-
-    public HomeController(ILogger<HomeController> logger)
+    public async Task<ActionResult> Index()
     {
-        _logger = logger;
-    }
-
-    public async Task<IActionResult> Index()
-    {
+        var account = await userService.GetUser();
         return View();
     }
 
