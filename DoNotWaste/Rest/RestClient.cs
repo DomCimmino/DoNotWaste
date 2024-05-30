@@ -3,13 +3,15 @@ using Microsoft.Extensions.Options;
 
 namespace DoNotWaste.Rest;
 
-public class EnergyStarClient(
+public class RestClient(
     IAuthenticationService authenticationService,
     IHttpClientFactory httpClientFactory,
     IOptions<Configuration> secrets) : IHttpClient
 {
-    public async Task<HttpClient> GetHttpClient()
+    public async Task<HttpClient> GetHttpClient(bool isTokenRequired = true)
     {
+        if (!isTokenRequired) return httpClientFactory.GetHttpClient();
+        
         var token = await authenticationService.GetToken();
 
         if (string.IsNullOrEmpty(token))

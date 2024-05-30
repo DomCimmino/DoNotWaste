@@ -11,7 +11,7 @@ public static class BuilderService
     {
         builder.Services.AddSingleton<IAuthenticationService, AuthenticationService>();
         builder.Services.AddTransient<IHttpClientFactory, HttpClientFactory>();
-        builder.Services.AddTransient<IHttpClient, EnergyStarClient>();
+        builder.Services.AddTransient<IHttpClient, RestClient>();
         builder.Services.AddTransient<IUserService, UserService>();
         builder.Services
             .Configure<Configuration>(builder.Configuration.GetSection(nameof(Configuration)))
