@@ -1,8 +1,8 @@
-using Microsoft.Data.Sqlite;
+using System.Data.SQLite;
 
 namespace DoNotWaste.Repository.Interfaces;
 
 public interface IHouseHoldConnectionFactory
 {
-    SqliteConnection CreateConnection();
+    SQLiteConnection CreateConnection();
 }

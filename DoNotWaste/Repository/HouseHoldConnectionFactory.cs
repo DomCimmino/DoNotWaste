@@ -1,5 +1,5 @@
+using System.Data.SQLite;
 using DoNotWaste.Repository.Interfaces;
-using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.Options;
 
 namespace DoNotWaste.Repository;
@@ -7,13 +7,15 @@ namespace DoNotWaste.Repository;
 public class HouseHoldConnectionFactory(IWebHostEnvironment environment, IOptions<Configuration> secrets)
     : IHouseHoldConnectionFactory
 {
-    private readonly string? _connectionString =
-        Path.Combine(environment.WebRootPath, secrets.Value.FileDataName ?? string.Empty);
+    private SQLiteConnection? _sqliteConnection;
 
-    private SqliteConnection? _sqliteConnection;
+    private string GetPath() =>
+        "Data Source=" + Path.Combine(environment.WebRootPath, "data", secrets.Value.FileDataName ?? string.Empty) + ";Version=3";
 
-    public SqliteConnection CreateConnection()
-    {
-        return _sqliteConnection ??= new SqliteConnection(_connectionString);
+    public SQLiteConnection CreateConnection()
+    { 
+        _sqliteConnection ??= new SQLiteConnection(GetPath());
+        _sqliteConnection.Open();
+        return _sqliteConnection;
     }
 }
