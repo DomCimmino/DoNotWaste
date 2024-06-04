@@ -4,5 +4,6 @@ namespace DoNotWaste.Repository.Interfaces;
 
 public interface IBuildingRepository
 {
-    ResidentialBuilding GetResidential(int residentialNumber);
+    ResidentialBuilding GetResidential(NumberResidentialBuildings residentialNumber);
+    IndustrialBuilding GetIndustrial(NumberIndustrialBuildings industrialNumber);
 }

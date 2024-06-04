@@ -15,7 +15,7 @@ public class HouseHoldConnectionFactory(IWebHostEnvironment environment, IOption
     public SQLiteConnection CreateConnection()
     { 
         _sqliteConnection ??= new SQLiteConnection(GetPath());
-        _sqliteConnection.Open();
+        _sqliteConnection.OpenAsync();
         return _sqliteConnection;
     }
 }

@@ -3,7 +3,7 @@ namespace DoNotWaste.Models.DataModel;
 /// <summary>
 /// Energy imported from the public grid in an industrial warehouse building in kWh.
 /// </summary>
-public class IndustrialBuilding
+public class IndustrialBuilding : BaseBuilding
 {
     /// <summary>
     /// Energy imported from the public grid in an industrial warehouse building in kWh.
@@ -108,12 +108,12 @@ public class IndustrialBuilding
     /// <summary>
     /// Total Photovoltaic energy generation in an industrial building, part of a research institute in kWh.
     /// </summary>
-    public double? FacadePhotovoltaciProduction { get; set; }
+    public double? FacadePhotovoltaicProduction { get; set; }
 
     /// <summary>
     /// Total Photovoltaic energy generation in an industrial building, part of a research institute in kWh.
     /// </summary>
-    public double? RoofPhotovoltaciProduction { get; set; }
+    public double? RoofPhotovoltaicProduction { get; set; }
 
     /// <summary>
     /// Refrigerator energy consumption in an industrial building, part of a research institute in kWh.
