@@ -14,7 +14,7 @@ public class EnergyStarGrossFloorArea
     /// The units of the Gross Floor Area (Square Foot or Square Meter).
     /// </summary>
     [XmlAttribute(AttributeName="units")] 
-    public EnergyStarGrossFloorAreaUnitsType? Units { get; set; } 
+    public EnergyStarGrossFloorAreaUnitsType Units { get; set; } 
 
     [XmlAttribute(AttributeName="temporary")] 
     public bool Temporary { get; set; } 
