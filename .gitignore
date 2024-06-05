@@ -49,3 +49,6 @@ bld/
 # Resharper files
 _ReSharper*/
 *.ReSharper*/
+
+# Ignore data
+/DoNotWaste/wwwroot/data
