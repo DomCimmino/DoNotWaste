@@ -7,11 +7,12 @@ using DoNotWaste.Services.Interfaces;
 
 namespace DoNotWaste.Controllers;
 
-public class HomeController(IUserService userService, IBuildingRepository buildingRepository) : Controller
+public class HomeController(IUserService userService, IBuildingRepository buildingRepository, IEnergyStarPropertyService propertyService) : Controller
 {
     public async Task<ActionResult> Index()
     {
-        var account = await userService.GetUser();
+        var account = await userService.GetEnergyStarAccount();
+        var properties = await propertyService.GetPropertiesList(account.Id ?? -1);
         var residential1 = buildingRepository.GetResidential(NumberResidentialBuildings.First);
         var residential2 = buildingRepository.GetResidential(NumberResidentialBuildings.Second);
         var residential3 = buildingRepository.GetResidential(NumberResidentialBuildings.Third);

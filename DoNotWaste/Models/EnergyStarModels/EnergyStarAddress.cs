@@ -1,7 +1,7 @@
 namespace DoNotWaste.Models.EnergyStarModels;
 
 [XmlRoot(ElementName = "address")]
-public class Address
+public class EnergyStarAddress
 {
     [XmlAttribute(AttributeName = "address1")]
     public string? Address1 { get; set; }

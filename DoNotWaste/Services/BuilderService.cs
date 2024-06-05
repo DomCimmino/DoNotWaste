@@ -13,6 +13,7 @@ public static class BuilderService
         builder.Services.AddTransient<IHttpClientFactory, HttpClientFactory>();
         builder.Services.AddTransient<IHttpClient, RestClient>();
         builder.Services.AddTransient<IUserService, UserService>();
+        builder.Services.AddTransient<IEnergyStarPropertyService, EnergyStarPropertyService>();
         builder.Services
             .Configure<Configuration>(builder.Configuration.GetSection(nameof(Configuration)))
             .AddOptions();

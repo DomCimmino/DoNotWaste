@@ -38,7 +38,7 @@ public class AuthenticationService(IHttpClientFactory httpClientFactory, IOption
 
             _token = authHeader.Parameter;
         }
-        catch (HttpRequestException exception)
+        catch (HttpRequestException)
         {
             _token = null;
             throw;

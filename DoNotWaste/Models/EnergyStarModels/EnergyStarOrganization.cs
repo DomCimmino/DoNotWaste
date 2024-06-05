@@ -1,16 +1,17 @@
 using System.ComponentModel.DataAnnotations;
+using DoNotWaste.Models.EnergyStarModels.Enums;
 
 namespace DoNotWaste.Models.EnergyStarModels;
 
 [XmlRoot(ElementName="organization")]
-public class Organization { 
+public class EnergyStarOrganization { 
 
     /// <summary>
     /// Your primary business.
     /// Value are in the PrimaryBusiness class
     /// </summary>
     [XmlElement(ElementName="primaryBusiness")] 
-    public string? PrimaryBusiness { get; set; } 
+    public EnergyStarPrimaryBusiness? PrimaryBusiness { get; set; } 
 
     /// <summary>
     /// Describes other if you chose other as your primary business.
@@ -32,7 +33,7 @@ public class Organization {
     /// Value are in the EnergyStarPartnerType class
     /// </summary>
     [XmlElement(ElementName="energyStarPartnerType")] 
-    public string? EnergyStarPartnerType { get; set; } 
+    public EnergyStarPartnerType? EnergyStarPartnerType { get; set; } 
 
     /// <summary>
     /// Your Organization's name.
