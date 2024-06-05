@@ -19,16 +19,7 @@ public class BaseRepository(IHouseHoldConnectionFactory factory)
 
     protected static double LoadData(DataRowCollection rows, string columnName)
     {
-        var totalConsumption = 0d;
-        var previousConsumption = (double)rows[0][columnName];
-
-        for (var i = 1; i < rows.Count; i++)
-        {
-            var currentConsumption = (double)rows[i][columnName];
-            totalConsumption += currentConsumption - previousConsumption;
-            previousConsumption = currentConsumption;
-        }
-
+        var totalConsumption = (double)rows[^1][columnName] - (double)rows[0][columnName];
         return totalConsumption;
     }
 }
