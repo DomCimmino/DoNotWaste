@@ -12,7 +12,7 @@ public class EnergyStarMeter
     /// The id of the meter.
     /// </summary>
     [XmlElement("id")]
-    public long? Id { get; set; }
+    public int? Id { get; set; }
 
     /// <summary>
     /// The type of meter (i.e. electric, natural gas, PDU, Indoor, etc.).
@@ -36,13 +36,13 @@ public class EnergyStarMeter
     /// The units that measure the energy for the meter (Kbtu, KWh, Mbtu, MWh, ccf, gallons, etc.).
     /// </summary>
     [XmlElement("unitOfMeasure")]
-    public EnergyStarUnitOfMeasure? UnitOfMeasure { get; set; }
+    public EnergyStarUnitOfMeasure UnitOfMeasure { get; set; }
 
     /// <summary>
     /// The date of the first bill.
     /// </summary>
     [XmlElement("firstBillDate")]
-    public DateTime? FirstBillDate { get; set; }
+    public string? FirstBillDate { get; set; }
 
     /// <summary>
     /// Is this meter in use?
@@ -54,7 +54,7 @@ public class EnergyStarMeter
     /// If the meter is no longer in use, this is the date that it went inactive.
     /// </summary>
     [XmlElement("inactiveDate")]
-    public DateTime? InactiveDate { get; set; }
+    public string? InactiveDate { get; set; }
 
     /// <summary>
     /// If the type of meter is "Other," this is the description of the meter's energy type.
@@ -66,7 +66,7 @@ public class EnergyStarMeter
     /// Current share level for the user calling the webservice.
     /// </summary>
     [XmlElement("accessLevel")]
-    public EnergyStarShareLevelType? AccessLevel { get; set; }
+    public EnergyStarShareLevelType AccessLevel { get; set; }
 
     /// <summary>
     /// If the meter is aggregate meter or not.

@@ -6,9 +6,12 @@ namespace DoNotWaste.Services.API;
 [Headers("Authorization: Basic Auth")]
 public interface IEnergyStarMeterApi
 {
-    [Get("/meter/{meterId}/consumptionData?page={page}&startDate={YYYY-MM-DD}&endDate={YYYY-MM-DD}")]
-    Task<EnergyStarMeterData> GetMeterData(int meterId, int? page, string startDate, string endDate);
-
+    [Get("/property/{propertyId}/meter/list")]
+    Task<EnergyStarResponse> GetMeterList(int propertyId, [Query] bool accessOnly = true);
+    
+    [Get("/meter/{meterId}/consumptionData")]
+    Task<EnergyStarMeterData> GetMeterData(int meterId, [Query] int? page, [Query] string startDate, [Query] string endDate);
+    
     [Post("/property/{propertyId}/meter")]
     Task<EnergyStarResponse> CreateMeter(int propertyId, [Body(BodySerializationMethod.Serialized)] EnergyStarMeter meter);
 

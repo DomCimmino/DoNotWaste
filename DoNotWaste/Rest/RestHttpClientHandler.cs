@@ -1,5 +1,4 @@
 using System.Net.Http.Headers;
-using DoNotWaste.Authentication;
 
 namespace DoNotWaste.Rest;
 

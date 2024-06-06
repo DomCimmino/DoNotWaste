@@ -22,7 +22,7 @@ public class EnergyStarResponse
     /// The status of the web service call. Either Ok or Error.
     /// </summary>
     [XmlAttribute(AttributeName = "status")]
-    public StatusType Status { get; set; }
+    public StatusResponse Status { get; set; }
 }
 
 /// <summary>
@@ -79,7 +79,7 @@ public class Link
 /// Represents the status of the web service call.
 /// </summary>
 [XmlRoot(ElementName = "status")]
-public enum StatusType
+public enum StatusResponse
 {
     [XmlEnum("Ok")]Ok,
     [XmlEnum("Error")] Error

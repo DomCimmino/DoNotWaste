@@ -1,14 +1,17 @@
 using System.Diagnostics;
+using System.Reflection.Metadata;
 using Microsoft.AspNetCore.Mvc;
 using DoNotWaste.Models;
 using DoNotWaste.Models.EnergyStarModels;
+using DoNotWaste.Models.EnergyStarModels.Enums;
 using DoNotWaste.Services.Interfaces;
 
 namespace DoNotWaste.Controllers;
 
 public class HomeController(
     IUserService userService,
-    IEnergyStarPropertyService propertyService) : Controller
+    IEnergyStarPropertyService propertyService,
+    IEnergyStarMeterService meterService) : Controller
 {
     private EnergyStarProperty? Property { get; set; }
 
@@ -20,6 +23,7 @@ public class HomeController(
         Property =
             await propertyService.GetProperty(propertiesResponse.Links?.Link?.FirstOrDefault()?.Id ?? -1);
         Property.Id = propertiesResponse.Links?.Link?.FirstOrDefault()?.Id ?? -1;
+        var meterListRespone = await meterService.GetMeterList(Property.Id);
         return View();
     }
 
