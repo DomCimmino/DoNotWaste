@@ -18,7 +18,7 @@ public class EnergyStarProperty
     /// The primary function of the building.
     /// </summary>
     [XmlElement(ElementName="primaryFunction")] 
-    public EnergyStarPropertyPrimaryFunction? PrimaryFunction { get; set; } 
+    public EnergyStarPropertyPrimaryFunction PrimaryFunction { get; set; } 
 
     [XmlElement(ElementName="address")] 
     public EnergyStarAddress? Address { get; set; } 
@@ -39,7 +39,7 @@ public class EnergyStarProperty
     /// The construction status (either existing, design or test project).
     /// </summary>
     [XmlElement(ElementName="constructionStatus")] 
-    public EnergyStarPropertyConstructionStatusType? ConstructionStatus { get; set; } 
+    public EnergyStarPropertyConstructionStatusType ConstructionStatus { get; set; } 
 
     /// <summary>
     /// The Gross Floor Area
@@ -76,7 +76,7 @@ public class EnergyStarProperty
     /// Current share level for the user calling the webservice.
     /// </summary>
     [XmlElement(ElementName="accessLevel")] 
-    public EnergyStarShareLevelType? AccessLevel { get; set; } 
+    public EnergyStarShareLevelType AccessLevel { get; set; } 
 
     [XmlElement(ElementName="audit")] 
     public EnergyStarAudit? Audit { get; set; } 

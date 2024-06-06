@@ -1,5 +1,3 @@
-using System.Text;
-using System.Xml;
 using DoNotWaste.Models.EnergyStarModels;
 using DoNotWaste.Rest;
 using DoNotWaste.Services.API;
@@ -11,11 +9,11 @@ public class EnergyStarPropertyService(IHttpClient httpClient) : IEnergyStarProp
 {
     public async Task<EnergyStarResponse> GetPropertiesList(int accountId)
     {
-        return await RefitExtensions.For<IEnergyStarPropertyAPI>(await httpClient.GetHttpClient()).GetPropertiesList(accountId);
+        return await RefitExtensions.For<IEnergyStarPropertyApi>(await httpClient.GetHttpClient()).GetPropertiesList(accountId);
     }
 
     public async Task<EnergyStarResponse> CreateProperty(int accountId, EnergyStarProperty property)
     {
-        return await RefitExtensions.For<IEnergyStarPropertyAPI>(await httpClient.GetHttpClient()).CreateProperty(accountId, property);
+        return await RefitExtensions.For<IEnergyStarPropertyApi>(await httpClient.GetHttpClient()).CreateProperty(accountId, property);
     }
 }
