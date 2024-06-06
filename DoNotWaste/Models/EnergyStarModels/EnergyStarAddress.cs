@@ -24,7 +24,7 @@ public class EnergyStarAddress
     public string? City { get; set; }
 
     [XmlAttribute(AttributeName = "state")]
-    public UsCanadaStateProvince UsCanadaStateProvince { get; set; }
+    public string? UsCanadaStateProvince { get; set; }
     
     [XmlAttribute(AttributeName = "otherState")]
     [MinLength(1)]
@@ -38,5 +38,5 @@ public class EnergyStarAddress
 
     [XmlAttribute(AttributeName = "country")]
     [Required]
-    public Countries Country { get; set; }
+    public Country Country { get; set; }
 }

@@ -6,6 +6,9 @@ namespace DoNotWaste.Models.EnergyStarModels;
 [XmlRoot(ElementName="property")]
 public class EnergyStarProperty
 {
+    [XmlIgnore] 
+    public int Id { get; set; }
+    
     /// <summary>
     /// The name of the property.
     /// </summary>

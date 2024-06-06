@@ -16,7 +16,7 @@ public class EnergyStarResponse
     /// Contains the links related to the response.
     /// </summary>
     [XmlElement(ElementName = "links")]
-    public Link? Links { get; set; }
+    public Links? Links { get; set; }
 
     /// <summary>
     /// The status of the web service call. Either Ok or Error.
