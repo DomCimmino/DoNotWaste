@@ -1,11 +1,14 @@
 using DoNotWaste.Authentication;
 using DoNotWaste.HttpManager;
+using DoNotWaste.Repository;
+using DoNotWaste.Repository.Interfaces;
 using DoNotWaste.Rest;
+using DoNotWaste.Services;
 using DoNotWaste.Services.Interfaces;
 
-namespace DoNotWaste.Services;
+namespace DoNotWaste;
 
-public static class BuilderService
+public static class StartUp
 {
     public static WebApplicationBuilder RegisterServices(this WebApplicationBuilder builder)
     {
@@ -27,6 +30,13 @@ public static class BuilderService
             .AddUserSecrets<Configuration>()
             .AddEnvironmentVariables();
 
+        return builder;
+    }
+    
+    public static WebApplicationBuilder RegisterRepositories(this WebApplicationBuilder builder)
+    {
+        builder.Services.AddSingleton<IHouseHoldConnectionFactory, HouseHoldConnectionFactory>();
+        builder.Services.AddSingleton<IBuildingRepository, BuildingRepository>();
         return builder;
     }
 }
