@@ -1,5 +1,6 @@
-using DoNotWaste.Repository;
-using DoNotWaste.Services;
+
+
+using DoNotWaste;
 
 var builder = WebApplication.CreateBuilder(args);
 
