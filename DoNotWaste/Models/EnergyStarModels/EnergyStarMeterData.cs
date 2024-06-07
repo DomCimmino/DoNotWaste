@@ -10,25 +10,28 @@ public class EnergyStarMeterData
     public Links? Links { get; set; }
 }
 
-public class MeterConsumption
+public class MeterConsumptionBase
 {
-    [XmlElement(ElementName = "id")]
-    public long? Id { get; set; }
-
     [XmlElement(ElementName = "startDate")]
-    public DateTime? StartDate { get; set; }
+    public string? StartDate { get; set; }
 
     [XmlElement(ElementName = "endDate")]
-    public DateTime? EndDate { get; set; }
+    public string? EndDate { get; set; }
 
     [XmlElement(ElementName = "usage")]
-    public decimal? Usage { get; set; }
+    public double? Usage { get; set; }
+}
+
+public class MeterConsumption : MeterConsumptionBase
+{
+    [XmlElement(ElementName = "id", IsNullable = true)]
+    public int? Id { get; set; }
 
     [XmlElement(ElementName = "cost")]
-    public decimal? Cost { get; set; }
+    public double? Cost { get; set; }
 
     [XmlElement(ElementName = "energyExportedOffSite")]
-    public decimal? EnergyExportedOffSite { get; set; }
+    public double? EnergyExportedOffSite { get; set; }
 
     [XmlElement(ElementName = "greenPower")]
     public GreenPower? GreenPower { get; set; }
@@ -37,16 +40,16 @@ public class MeterConsumption
     public EnergyStarAudit? Audit { get; set; }
 
     [XmlAttribute(AttributeName = "estimatedValue")]
-    public bool? EstimatedValue { get; set; }
+    public bool EstimatedValue { get; set; }
 
     [XmlAttribute(AttributeName = "isGreenPower")]
-    public bool? IsGreenPower { get; set; }
+    public bool IsGreenPower { get; set; }
 }
 
 public class GreenPower
 {
     [XmlElement(ElementName = "value")]
-    public decimal? Value { get; set; }
+    public double? Value { get; set; }
 
     [XmlElement(ElementName = "sources")]
     public GreenPowerSources? Sources { get; set; }
@@ -58,25 +61,25 @@ public class GreenPower
 public class GreenPowerSources
 {
     [XmlElement(ElementName = "biomassPct")]
-    public decimal? BiomassPct { get; set; }
+    public double? BiomassPct { get; set; }
 
     [XmlElement(ElementName = "biogasPct")]
-    public decimal? BiogasPct { get; set; }
+    public double? BiogasPct { get; set; }
 
     [XmlElement(ElementName = "geothermalPct")]
-    public decimal? GeothermalPct { get; set; }
+    public double? GeothermalPct { get; set; }
 
     [XmlElement(ElementName = "smallHydroPct")]
-    public decimal? SmallHydroPct { get; set; }
+    public double? SmallHydroPct { get; set; }
 
     [XmlElement(ElementName = "solarPct")]
-    public decimal? SolarPct { get; set; }
+    public double? SolarPct { get; set; }
 
     [XmlElement(ElementName = "windPct")]
-    public decimal? WindPct { get; set; }
+    public double? WindPct { get; set; }
 
     [XmlElement(ElementName = "unknownPct")]
-    public decimal? UnknownPct { get; set; }
+    public double? UnknownPct { get; set; }
 }
 
 public class GenerationLocation

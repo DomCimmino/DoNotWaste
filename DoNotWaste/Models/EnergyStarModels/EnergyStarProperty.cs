@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using DoNotWaste.Models.DataModel;
 using DoNotWaste.Models.EnergyStarModels.Enums;
 
 namespace DoNotWaste.Models.EnergyStarModels;
@@ -8,6 +9,9 @@ public class EnergyStarProperty
 {
     [XmlIgnore] 
     public int Id { get; set; }
+    
+    [XmlIgnore]
+    public BaseBuilding? Consumption { get; set; }
     
     /// <summary>
     /// The name of the property.

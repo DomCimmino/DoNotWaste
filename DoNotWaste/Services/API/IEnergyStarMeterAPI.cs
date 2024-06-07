@@ -14,6 +14,9 @@ public interface IEnergyStarMeterApi
     
     [Post("/property/{propertyId}/meter")]
     Task<EnergyStarResponse> CreateMeter(int propertyId, [Body(BodySerializationMethod.Serialized)] EnergyStarMeter meter);
+    
+    [Post("/meter/{meterId}/consumptionData")]
+    Task<EnergyStarMeterData> AddMeterData(int meterId, [Body(BodySerializationMethod.Serialized)] EnergyStarMeterData meterData);
 
     [Put("/consumptionData/{consumptionDataId}")]
     Task<EnergyStarResponse> ModifyConsumptionData(int consumptionDataId, [Body(BodySerializationMethod.Serialized)] EnergyStarMeterData meterData);
