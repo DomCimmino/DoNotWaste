@@ -29,7 +29,7 @@ public class EnergyStarReportService(IWebHostEnvironment environment, IHttpClien
         response.EnsureSuccessStatusCode();
 
         var fileBytes = await response.Content.ReadAsByteArrayAsync();
-        var filePath = Path.Combine(environment.WebRootPath, "data",$"report{reportId}.xlsx");
+        var filePath = Path.Combine(environment.WebRootPath, "data", $"report{reportId}.xlsx");
         if (!File.Exists(filePath)) File.Create(filePath);
         await File.WriteAllBytesAsync(filePath, fileBytes);
     }

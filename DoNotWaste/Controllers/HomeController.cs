@@ -1,10 +1,8 @@
 using System.Diagnostics;
-using System.Reflection;
 using Microsoft.AspNetCore.Mvc;
 using DoNotWaste.Models;
 using DoNotWaste.Models.DataModel;
 using DoNotWaste.Models.EnergyStarModels;
-using DoNotWaste.Models.EnergyStarModels.Enums;
 using DoNotWaste.Repository.Interfaces;
 using DoNotWaste.Services.Interfaces;
 
@@ -37,7 +35,7 @@ public class HomeController(
                 Costant.StartDate, Costant.EndDate);
 
         var dictionaryReportTypes = await reportService.GetReportTypes();
-
+        
         foreach (var reportType in dictionaryReportTypes.Where(reportType =>
                      reportType.Key is Costant.EnergyStarCertification or Costant.EnergyStarEmissionsPerformance
                          or Costant.EnergyStarEnergyPerformance))
