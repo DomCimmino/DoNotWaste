@@ -18,6 +18,9 @@ public interface IEnergyStarPropertyApi
     [Post("/account/{accountId}/property")]
     Task<EnergyStarResponse> CreateProperty(int accountId, [Body(BodySerializationMethod.Serialized)] EnergyStarProperty property);
 
+    [Post("/property/{propertyId}/propertyUse")]
+    Task<EnergyStarResponse> CreatePropertyUse(int propertyId, [Body(BodySerializationMethod.Serialized)] EnergyStarResidentialUse residentialUse);
+
     [Put("/property/{propertyId}/internationalWeatherStation/{internationalWeatherStationId}")]
     Task<EnergyStarResponse> AddWeatherStationToProperty(int propertyId, int internationalWeatherStationId);
     

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using DoNotWaste.Models;
 using DoNotWaste.Models.DataModel;
 using DoNotWaste.Models.EnergyStarModels;
+using DoNotWaste.Models.EnergyStarModels.Enums;
 using DoNotWaste.Repository.Interfaces;
 using DoNotWaste.Services.Interfaces;
 
@@ -28,21 +29,37 @@ public class HomeController(
 
         Property.Consumption = buildingRepository.GetResidential(NumberResidentialBuildings.Fourth);
 
-        var meterListResponse = await meterService.GetMeterList(Property.Id);
+        var createPropertyUseResponse = await propertyService.CreatePropertyUse(Property.Id,
+            new EnergyStarResidentialUse
+            {
+                Name = "Single Family Home",
+                UseDetails = new List<UseDetail>{
+                    new UseDetail()
+                    {
+                        NumberOfBedrooms = new BaseUseDetails()
+                        {
+                            Value = 3,
+                            CurrentAsOf = Costant.EndDate.ToString("yyyy-MM-dd"),
+                            Temporary = false
+                        },
+                        NumberOfPeople = new BaseUseDetails()
+                        {
+                            Value = 4,
+                            CurrentAsOf = Costant.EndDate.ToString("yyyy-MM-dd"),
+                            Temporary = false
+                        },
+                        TotalGrossFloorArea = new EnergyStarGrossFloorArea()
+                        {
+                            Value = 120,
+                            Units = EnergyStarGrossFloorAreaUnitsType.SquareFeet,
+                            CurrentAsOf = Costant.EndDate.ToString("yyyy-MM-dd"),
+                            Temporary = false
+                        }
+                    }
+                }
+            });
 
-        var listConsumptionData =
-            await meterService.GetMeterData(meterListResponse.Links?.Link?.FirstOrDefault()?.Id ?? -1, null,
-                Costant.StartDate, Costant.EndDate);
-
-        var dictionaryReportTypes = await reportService.GetReportTypes();
-        
-        foreach (var reportType in dictionaryReportTypes.Where(reportType =>
-                     reportType.Key is Costant.EnergyStarCertification or Costant.EnergyStarEmissionsPerformance
-                         or Costant.EnergyStarEnergyPerformance))
-        {
-            await reportService.DownloadReport(reportType.Value);
-        }
-        
+        var metricResponse = await reportService.GetPropertyMetric(Property.Id);
         return View();
     }
 

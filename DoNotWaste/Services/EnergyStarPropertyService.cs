@@ -29,6 +29,12 @@ public class EnergyStarPropertyService(IHttpClient httpClient) : IEnergyStarProp
         return await RefitExtensions.For<IEnergyStarPropertyApi>(await httpClient.GetHttpClient()).CreateProperty(accountId, property);
     }
 
+    public async Task<EnergyStarResponse> CreatePropertyUse(int propertyId, EnergyStarResidentialUse residentialUse)
+    {
+        return await RefitExtensions.For<IEnergyStarPropertyApi>(await httpClient.GetHttpClient())
+            .CreatePropertyUse(propertyId, residentialUse);
+    }
+
     public async Task<EnergyStarResponse> AddWeatherStationToProperty(int propertyId, int internationalWeatherStationId)
     {
         return await RefitExtensions.For<IEnergyStarPropertyApi>(await httpClient.GetHttpClient()).AddWeatherStationToProperty(propertyId, internationalWeatherStationId);

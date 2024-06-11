@@ -21,17 +21,11 @@ public class EnergyStarReportService(IWebHostEnvironment environment, IHttpClien
             .GetReportStatus(reportId);
     }
 
-    public async Task DownloadReport(int reportId)
+
+    public async Task<EnergyStarMetric> GetPropertyMetric(int propertyId)
     {
-        var response = await RefitExtensions.For<IEnergyStarReportApi>(await httpClient.GetHttpClient())
-            .DownloadReport(reportId, Costant.EnergyStarExtensionFile);
-
-        response.EnsureSuccessStatusCode();
-
-        var fileBytes = await response.Content.ReadAsByteArrayAsync();
-        var filePath = Path.Combine(environment.WebRootPath, "data", $"report{reportId}.xlsx");
-        if (!File.Exists(filePath)) File.Create(filePath);
-        await File.WriteAllBytesAsync(filePath, fileBytes);
+        return await RefitExtensions.For<IEnergyStarReportApi>(await httpClient.GetHttpClient())
+            .GetPropertyMetric(propertyId, Costant.EndDate.Month - 1, Costant.EndDate.Year, Costant.MetricType);
     }
 
     public async Task<EnergyStarResponse> GenerateReport(int reportId)
