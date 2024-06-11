@@ -22,7 +22,7 @@ public class RestHttpClientHandler(string token) : HttpClientHandler
         }
         
 #if DEBUG
-        if (request.Method == HttpMethod.Post)
+        if (request.Method == HttpMethod.Post || request.Method == HttpMethod.Put) 
         {
             var bodyDebug = await request.Content?.ReadAsStringAsync();
         }

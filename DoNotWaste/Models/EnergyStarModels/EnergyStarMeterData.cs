@@ -4,7 +4,7 @@ namespace DoNotWaste.Models.EnergyStarModels;
 public class EnergyStarMeterData
 {
     [XmlElement(ElementName = "meterConsumption")]
-    public List<MeterConsumption>? MeterConsumptions { get; set; }
+    public List<MeterConsumptionBase>? MeterConsumptions { get; set; }
 
     [XmlElement(ElementName = "links")]
     public Links? Links { get; set; }
@@ -18,13 +18,22 @@ public class MeterConsumptionBase
     [XmlElement(ElementName = "endDate")]
     public string? EndDate { get; set; }
 
+    [XmlElement(ElementName = "RECOwnership")]
+    public string? RecOwnership { get; set; }
+    
     [XmlElement(ElementName = "usage")]
     public double? Usage { get; set; }
+    
+    [XmlElement(ElementName = "energyExportedOffSite")]
+    public string? EnergyExportedOffSite { get; set; }
+    
+    [XmlElement(ElementName = "greenPower")]
+    public GreenPower? GreenPower { get; set; }
 }
 
 public class MeterConsumption : MeterConsumptionBase
 {
-    [XmlElement(ElementName = "id", IsNullable = true)]
+    [XmlElement(ElementName = "id")]
     public int? Id { get; set; }
 
     [XmlElement(ElementName = "cost")]
@@ -32,9 +41,6 @@ public class MeterConsumption : MeterConsumptionBase
 
     [XmlElement(ElementName = "energyExportedOffSite")]
     public double? EnergyExportedOffSite { get; set; }
-
-    [XmlElement(ElementName = "greenPower")]
-    public GreenPower? GreenPower { get; set; }
 
     [XmlElement(ElementName = "audit")]
     public EnergyStarAudit? Audit { get; set; }
@@ -85,7 +91,7 @@ public class GreenPowerSources
 public class GenerationLocation
 {
     [XmlElement(ElementName = "generationPlant")]
-    public int? GenerationPlant { get; set; }
+    public double? GenerationPlant { get; set; }
 
     [XmlElement(ElementName = "eGridSubRegion")]
     public string? EGridSubRegion { get; set; }

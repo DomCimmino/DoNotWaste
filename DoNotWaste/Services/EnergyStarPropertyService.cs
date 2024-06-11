@@ -10,23 +10,32 @@ public class EnergyStarPropertyService(IHttpClient httpClient) : IEnergyStarProp
 {
     public async Task<EnergyStarResponse> GetPropertiesList(int accountId)
     {
-        return await RefitExtensions.For<IEnergyStarPropertyApi>(await httpClient.GetHttpClient()).GetPropertiesList(accountId);
+        return await RefitExtensions.For<IEnergyStarPropertyApi>(await httpClient.GetHttpClient())
+            .GetPropertiesList(accountId);
     }
 
     public async Task<EnergyStarProperty> GetProperty(int propertyId)
     {
-        return await RefitExtensions.For<IEnergyStarPropertyApi>(await httpClient.GetHttpClient()).GetProperty(propertyId);
+        return await RefitExtensions.For<IEnergyStarPropertyApi>(await httpClient.GetHttpClient())
+            .GetProperty(propertyId);
     }
 
     public async Task<EnergyStarWeatherStation> GetWeatherStations(Country country, int? page = null)
     {
         return await RefitExtensions.For<IEnergyStarPropertyApi>(await httpClient.GetHttpClient())
-            .GetWeatherStations(page, Enum.GetName(country) );
+            .GetWeatherStations(page, Enum.GetName(country));
+    }
+
+    public async Task<EnergyStarResponse> GetPropertyUseList(int propertyId)
+    {
+        return await RefitExtensions.For<IEnergyStarPropertyApi>(await httpClient.GetHttpClient())
+            .GetPropertyUseList(propertyId);
     }
 
     public async Task<EnergyStarResponse> CreateProperty(int accountId, EnergyStarProperty property)
     {
-        return await RefitExtensions.For<IEnergyStarPropertyApi>(await httpClient.GetHttpClient()).CreateProperty(accountId, property);
+        return await RefitExtensions.For<IEnergyStarPropertyApi>(await httpClient.GetHttpClient())
+            .CreateProperty(accountId, property);
     }
 
     public async Task<EnergyStarResponse> CreatePropertyUse(int propertyId, EnergyStarResidentialUse residentialUse)
@@ -37,11 +46,19 @@ public class EnergyStarPropertyService(IHttpClient httpClient) : IEnergyStarProp
 
     public async Task<EnergyStarResponse> AddWeatherStationToProperty(int propertyId, int internationalWeatherStationId)
     {
-        return await RefitExtensions.For<IEnergyStarPropertyApi>(await httpClient.GetHttpClient()).AddWeatherStationToProperty(propertyId, internationalWeatherStationId);
+        return await RefitExtensions.For<IEnergyStarPropertyApi>(await httpClient.GetHttpClient())
+            .AddWeatherStationToProperty(propertyId, internationalWeatherStationId);
+    }
+
+    public async Task<EnergyStarResponse> ModifyPropertyUse(int propertyUseId, EnergyStarResidentialUse residentialUse)
+    {
+        return await RefitExtensions.For<IEnergyStarPropertyApi>(await httpClient.GetHttpClient())
+            .ModifyPropertyUse(propertyUseId, residentialUse);
     }
 
     public async Task<EnergyStarResponse> DeleteProperty(int propertyId)
     {
-        return await RefitExtensions.For<IEnergyStarPropertyApi>(await httpClient.GetHttpClient()).DeleteProperty(propertyId);
+        return await RefitExtensions.For<IEnergyStarPropertyApi>(await httpClient.GetHttpClient())
+            .DeleteProperty(propertyId);
     }
 }

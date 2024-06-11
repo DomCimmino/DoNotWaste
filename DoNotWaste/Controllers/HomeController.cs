@@ -17,6 +17,8 @@ public class HomeController(
     IEnergyStarReportService reportService) : Controller
 {
     private EnergyStarProperty? Property { get; set; }
+    private EnergyStarMeter? EletricMeter { get; set; }
+    private EnergyStarMeter? PhotovoltaicMeter { get; set; }
 
     public async Task<ActionResult> Index()
     {
@@ -29,37 +31,75 @@ public class HomeController(
 
         Property.Consumption = buildingRepository.GetResidential(NumberResidentialBuildings.Fourth);
 
-        var createPropertyUseResponse = await propertyService.CreatePropertyUse(Property.Id,
-            new EnergyStarResidentialUse
+        var meterListResponse = await meterService.GetMeterList(Property.Id);
+
+        foreach (var link in meterListResponse.Links?.Link ?? [])
+        {
+            var meterResponse = await meterService.GetMeter(link.Id);
+            if (meterResponse.Type == EnergyStarMeterType.Electric) EletricMeter = meterResponse;
+            else PhotovoltaicMeter = meterResponse;
+        }
+
+        var type = typeof(ResidentialBuilding);
+
+        var propertyInfo = type.GetProperties();
+
+        var random = new Random();
+
+        foreach (var property in propertyInfo)
+        {
+            if (property.GetValue(Property.Consumption) == null) continue;
+            if (property.Name.Contains("Consumption") || property.Name.Contains("Import") )
             {
-                Name = "Single Family Home",
-                UseDetails = new List<UseDetail>{
-                    new UseDetail()
+                var createConsumptionData = await meterService.AddMeterData(EletricMeter?.Id ?? -1, new EnergyStarMeterData
+                {
+                    MeterConsumptions = new List<MeterConsumptionBase>
                     {
-                        NumberOfBedrooms = new BaseUseDetails()
+                        new()
                         {
-                            Value = 3,
-                            CurrentAsOf = Costant.EndDate.ToString("yyyy-MM-dd"),
-                            Temporary = false
-                        },
-                        NumberOfPeople = new BaseUseDetails()
-                        {
-                            Value = 4,
-                            CurrentAsOf = Costant.EndDate.ToString("yyyy-MM-dd"),
-                            Temporary = false
-                        },
-                        TotalGrossFloorArea = new EnergyStarGrossFloorArea()
-                        {
-                            Value = 120,
-                            Units = EnergyStarGrossFloorAreaUnitsType.SquareFeet,
-                            CurrentAsOf = Costant.EndDate.ToString("yyyy-MM-dd"),
-                            Temporary = false
+                            StartDate = Costant.StartDate.ToString("yyyy-MM-dd"),
+                            EndDate = Costant.EndDate.ToString("yyyy-MM-dd"),
+                            Usage = (double?)property.GetValue(Property.Consumption),
                         }
                     }
-                }
-            });
-
-        var metricResponse = await reportService.GetPropertyMetric(Property.Id);
+                });
+            }else if (property.Name.Contains("Production"))
+            {
+                var createConsumptionData = await meterService.AddMeterData(PhotovoltaicMeter?.Id ?? -1, new EnergyStarMeterData
+                {
+                    MeterConsumptions = new List<MeterConsumptionBase>
+                    {
+                        new()
+                        {
+                            StartDate = Costant.StartDate.ToString("yyyy-MM-dd"),
+                            EndDate = Costant.EndDate.ToString("yyyy-MM-dd"),
+                            Usage = (double?)property.GetValue(Property.Consumption),
+                            RecOwnership = "Arbitrage",
+                            EnergyExportedOffSite = "12",
+                            GreenPower = new GreenPower
+                            {
+                                Value = 100,
+                                Sources = new GreenPowerSources
+                                {
+                                    BiogasPct = 0,
+                                    GeothermalPct = 0,
+                                    SolarPct = Math.Round((double)property.GetValue(Property.Consumption),2),
+                                    BiomassPct = 0,
+                                    UnknownPct = 0,
+                                    WindPct = 0,
+                                    SmallHydroPct = 0,
+                                },
+                                GenerationLocation = new GenerationLocation
+                                {
+                                    GenerationPlant = 2
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        }
+        
         return View();
     }
 

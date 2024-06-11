@@ -9,6 +9,9 @@ public interface IEnergyStarMeterApi
     [Get("/property/{propertyId}/meter/list")]
     Task<EnergyStarResponse> GetMeterList(int propertyId, [Query] bool accessOnly = true);
     
+    [Get("/meter/{meterId}")]
+    Task<EnergyStarMeter> GetMeter(int meterId);
+
     [Get("/meter/{meterId}/consumptionData")]
     Task<EnergyStarMeterData> GetMeterData(int meterId, [Query] int? page, [Query] string startDate, [Query] string endDate);
     
@@ -20,4 +23,7 @@ public interface IEnergyStarMeterApi
 
     [Put("/consumptionData/{consumptionDataId}")]
     Task<EnergyStarResponse> ModifyConsumptionData(int consumptionDataId, [Body(BodySerializationMethod.Serialized)] EnergyStarMeterData meterData);
+
+    [Delete("/meter/{meterId}")]
+    Task<EnergyStarResponse> DeleteMeter(int meterId);
 }

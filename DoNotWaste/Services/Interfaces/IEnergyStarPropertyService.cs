@@ -8,8 +8,10 @@ public interface IEnergyStarPropertyService
     Task<EnergyStarResponse> GetPropertiesList(int accountId);
     Task<EnergyStarProperty> GetProperty(int propertyId);
     Task<EnergyStarWeatherStation> GetWeatherStations(Country country, int? page = null);
+    Task<EnergyStarResponse> GetPropertyUseList(int propertyId);
     Task<EnergyStarResponse> CreateProperty(int accountId, EnergyStarProperty property);
     Task<EnergyStarResponse> CreatePropertyUse(int propertyId, EnergyStarResidentialUse residentialUse);
     Task<EnergyStarResponse> AddWeatherStationToProperty(int propertyId, int internationalWeatherStationId);
+    Task<EnergyStarResponse> ModifyPropertyUse(int propertyUseId, EnergyStarResidentialUse residentialUse);
     Task<EnergyStarResponse> DeleteProperty(int propertyId);
 }

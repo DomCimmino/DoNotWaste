@@ -14,6 +14,9 @@ public interface IEnergyStarPropertyApi
 
     [Get("/property/internationalWeatherStation/list?page={page}&country={country}")]
     Task<EnergyStarWeatherStation> GetWeatherStations(int? page, string? country);
+    
+    [Get("/property/{propertyId}/propertyUse/list")]
+    Task<EnergyStarResponse> GetPropertyUseList(int propertyId);
 
     [Post("/account/{accountId}/property")]
     Task<EnergyStarResponse> CreateProperty(int accountId, [Body(BodySerializationMethod.Serialized)] EnergyStarProperty property);
@@ -23,6 +26,9 @@ public interface IEnergyStarPropertyApi
 
     [Put("/property/{propertyId}/internationalWeatherStation/{internationalWeatherStationId}")]
     Task<EnergyStarResponse> AddWeatherStationToProperty(int propertyId, int internationalWeatherStationId);
+    
+    [Put("/propertyUse/{propertyUseId}")]
+    Task<EnergyStarResponse> ModifyPropertyUse(int propertyUseId, [Body(BodySerializationMethod.Serialized)] EnergyStarResidentialUse residentialUse);
     
     [Delete("/property/{propertyId}")]
     Task<EnergyStarResponse> DeleteProperty(int propertyId);
