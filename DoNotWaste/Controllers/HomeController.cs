@@ -1,10 +1,8 @@
-using System.Collections;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using DoNotWaste.Models;
 using DoNotWaste.Models.DataModel;
 using DoNotWaste.Models.EnergyStarModels;
-using DoNotWaste.Models.EnergyStarModels.Enums;
 using DoNotWaste.Repository.Interfaces;
 using DoNotWaste.Services.Interfaces;
 
@@ -24,9 +22,8 @@ public class HomeController(
         var account = await userService.GetEnergyStarAccount();
         var propertiesResponse = await propertyService.GetPropertiesList(account.Id ?? -1);
         Property = await propertyService.GetProperty(propertiesResponse.Links?.Link?.FirstOrDefault()?.Id ?? -1);
-        var propertyUseListResponse = await propertyService.GetPropertyUseList(Property.Id);
         Property.Consumption = buildingRepository.GetResidential(NumberResidentialBuildings.Fourth);
-        var monthlyTotal = ((ResidentialBuilding)Property.Consumption).MonthlyTotal();
+        
         return View();
     }
 

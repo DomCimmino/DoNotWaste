@@ -17,18 +17,12 @@ public class MeterConsumptionBase
 
     [XmlElement(ElementName = "endDate")]
     public string? EndDate { get; set; }
-
-    [XmlElement(ElementName = "RECOwnership")]
-    public string? RecOwnership { get; set; }
+    
+    [XmlElement(ElementName = "cost")]
+    public double? Cost { get; set; }
     
     [XmlElement(ElementName = "usage")]
     public double? Usage { get; set; }
-    
-    [XmlElement(ElementName = "energyExportedOffSite")]
-    public string? EnergyExportedOffSite { get; set; }
-    
-    [XmlElement(ElementName = "greenPower")]
-    public GreenPower? GreenPower { get; set; }
 }
 
 public class MeterConsumption : MeterConsumptionBase
@@ -36,9 +30,9 @@ public class MeterConsumption : MeterConsumptionBase
     [XmlElement(ElementName = "id")]
     public int? Id { get; set; }
 
-    [XmlElement(ElementName = "cost")]
-    public double? Cost { get; set; }
-
+    [XmlElement(ElementName = "RECOwnership")]
+    public string? RecOwnership { get; set; }
+    
     [XmlElement(ElementName = "energyExportedOffSite")]
     public double? EnergyExportedOffSite { get; set; }
 
@@ -50,6 +44,9 @@ public class MeterConsumption : MeterConsumptionBase
 
     [XmlAttribute(AttributeName = "isGreenPower")]
     public bool IsGreenPower { get; set; }
+    
+    [XmlElement(ElementName = "greenPower")]
+    public GreenPower? GreenPower { get; set; }
 }
 
 public class GreenPower
