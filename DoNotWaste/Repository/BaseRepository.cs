@@ -45,8 +45,9 @@ public class BaseRepository(IHouseHoldConnectionFactory factory)
             var startDate = group.First();
             var endDate = group.Last();
 
-            var startConsumption = Convert.ToDouble(startDate[consumptionColumnName]);
-            var endConsumption = Convert.ToDouble(endDate[consumptionColumnName]);
+            
+            var startConsumption = startDate[consumptionColumnName] != DBNull.Value ? Convert.ToDouble(startDate[consumptionColumnName]) : 0d;
+            var endConsumption = endDate[consumptionColumnName] != DBNull.Value ? Convert.ToDouble(endDate[consumptionColumnName]) : startConsumption;
             var totalConsumption = endConsumption - startConsumption;
 
             var startDateTime = DateTime.Parse((string)startDate[0]);
