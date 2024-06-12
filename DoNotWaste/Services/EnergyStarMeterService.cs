@@ -24,7 +24,7 @@ public class EnergyStarMeterService(IHttpClient httpClient) : IEnergyStarMeterSe
             null, startDate.ToString("yyyy-MM-dd"), endDate.ToString("yyyy-MM-dd"));
     }
 
-    public async Task<EnergyStarResponse> CreateMeter(int propertyId, EnergyStarMeter meter)
+    public async Task<EnergyStarResponse> CreateMeter(int propertyId, EnergyStarMeterRequest meter)
     {
         return await RefitExtensions.For<IEnergyStarMeterApi>(await httpClient.GetHttpClient())
             .CreateMeter(propertyId, meter);

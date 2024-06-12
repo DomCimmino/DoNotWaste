@@ -16,8 +16,10 @@ public class EnergyStarPropertyService(IHttpClient httpClient) : IEnergyStarProp
 
     public async Task<EnergyStarProperty> GetProperty(int propertyId)
     {
-        return await RefitExtensions.For<IEnergyStarPropertyApi>(await httpClient.GetHttpClient())
+        var property = await RefitExtensions.For<IEnergyStarPropertyApi>(await httpClient.GetHttpClient())
             .GetProperty(propertyId);
+        property.Id = propertyId;
+        return property;
     }
 
     public async Task<EnergyStarWeatherStation> GetWeatherStations(Country country, int? page = null)

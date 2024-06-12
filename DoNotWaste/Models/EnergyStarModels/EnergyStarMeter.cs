@@ -30,7 +30,7 @@ public class EnergyStarMeter
     /// Indicates if the meter is set up to be metered monthly or for bulk delivery.
     /// </summary>
     [XmlElement("metered")]
-    public bool? Metered { get; set; } = true;
+    public bool? Metered { get; set; }
 
     /// <summary>
     /// The units that measure the energy for the meter (Kbtu, KWh, Mbtu, MWh, ccf, gallons, etc.).
@@ -79,4 +79,29 @@ public class EnergyStarMeter
     /// </summary>
     [XmlElement("audit")]
     public EnergyStarAudit? Audit { get; set; }
+}
+
+[XmlRoot("meter")]
+public class EnergyStarMeterRequest
+{
+    [XmlElement("type")]
+    public EnergyStarMeterType Type { get; set; }
+    
+    [XmlElement("name")]
+    public string? Name { get; set; }
+    
+    [XmlElement("unitOfMeasure")]
+    public EnergyStarUnitOfMeasure UnitOfMeasure { get; set; }
+    
+    [XmlElement("metered")]
+    public bool? Metered { get; set; }
+    
+    [XmlElement("firstBillDate")]
+    public string? FirstBillDate { get; set; }
+    
+    [XmlElement("inUse")]
+    public bool? InUse { get; set; }
+    
+    [XmlElement("inactiveDate")]
+    public string? InactiveDate { get; set; }
 }
