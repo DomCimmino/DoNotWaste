@@ -27,12 +27,6 @@ public class BuildingRepository(IHouseHoldConnectionFactory factory)
                          FROM
                              household_data_60min_singleindex
                          WHERE
-                             DE_KN_residential{(int)residentialNumber}_dishwasher IS NOT NULL AND
-                             DE_KN_residential{(int)residentialNumber}_freezer IS NOT NULL AND
-                             DE_KN_residential{(int)residentialNumber}_grid_import IS NOT NULL AND
-                             DE_KN_residential{(int)residentialNumber}_heat_pump IS NOT NULL AND
-                             DE_KN_residential{(int)residentialNumber}_pv IS NOT NULL AND
-                             DE_KN_residential{(int)residentialNumber}_washing_machine IS NOT NULL AND
                              utc_timestamp BETWEEN '2016-01-01T00:00:00Z' AND '2017-06-01T00:00:00Z'
                          """;
                 dataTable = DoQuery(query);
@@ -63,11 +57,6 @@ public class BuildingRepository(IHouseHoldConnectionFactory factory)
                          FROM
                              household_data_60min_singleindex
                          WHERE
-                             DE_KN_residential{(int)residentialNumber}_circulation_pump IS NOT NULL AND
-                             DE_KN_residential{(int)residentialNumber}_dishwasher IS NOT NULL AND
-                             DE_KN_residential{(int)residentialNumber}_freezer IS NOT NULL AND
-                             DE_KN_residential{(int)residentialNumber}_grid_import IS NOT NULL AND
-                             DE_KN_residential{(int)residentialNumber}_washing_machine IS NOT NULL AND
                              utc_timestamp BETWEEN '2016-01-01T00:00:00Z' AND '2017-06-01T00:00:00Z'
                          """;
                 dataTable = DoQuery(query);
@@ -100,14 +89,6 @@ public class BuildingRepository(IHouseHoldConnectionFactory factory)
                          FROM
                              household_data_60min_singleindex
                          WHERE
-                             DE_KN_residential{(int)residentialNumber}_circulation_pump IS NOT NULL AND
-                             DE_KN_residential{(int)residentialNumber}_dishwasher IS NOT NULL AND
-                             DE_KN_residential{(int)residentialNumber}_freezer IS NOT NULL AND
-                             DE_KN_residential{(int)residentialNumber}_grid_export IS NOT NULL AND
-                             DE_KN_residential{(int)residentialNumber}_grid_import IS NOT NULL AND
-                             DE_KN_residential{(int)residentialNumber}_pv IS NOT NULL AND
-                             DE_KN_residential{(int)residentialNumber}_refrigerator IS NOT NULL AND
-                             DE_KN_residential{(int)residentialNumber}_washing_machine IS NOT NULL AND
                              utc_timestamp BETWEEN '2016-01-01T00:00:00Z' AND '2017-06-01T00:00:00Z'
                          """;
                 dataTable = DoQuery(query);
@@ -146,15 +127,6 @@ public class BuildingRepository(IHouseHoldConnectionFactory factory)
                          FROM
                              household_data_60min_singleindex
                          WHERE
-                             DE_KN_residential{(int)residentialNumber}_dishwasher IS NOT NULL AND
-                             DE_KN_residential{(int)residentialNumber}_ev IS NOT NULL AND
-                             DE_KN_residential{(int)residentialNumber}_freezer IS NOT NULL AND
-                             DE_KN_residential{(int)residentialNumber}_grid_export IS NOT NULL AND
-                             DE_KN_residential{(int)residentialNumber}_grid_import IS NOT NULL AND
-                             DE_KN_residential{(int)residentialNumber}_heat_pump IS NOT NULL AND
-                             DE_KN_residential{(int)residentialNumber}_pv IS NOT NULL AND
-                             DE_KN_residential{(int)residentialNumber}_refrigerator IS NOT NULL AND
-                             DE_KN_residential{(int)residentialNumber}_washing_machine IS NOT NULL AND
                              utc_timestamp BETWEEN '2016-01-01T00:00:00Z' AND '2017-06-01T00:00:00Z'
                          """;
                 dataTable = DoQuery(query);
@@ -190,10 +162,6 @@ public class BuildingRepository(IHouseHoldConnectionFactory factory)
                          FROM
                              household_data_60min_singleindex
                          WHERE
-                             DE_KN_residential{(int)residentialNumber}_dishwasher IS NOT NULL AND
-                             DE_KN_residential{(int)residentialNumber}_grid_import IS NOT NULL AND
-                             DE_KN_residential{(int)residentialNumber}_refrigerator IS NOT NULL AND
-                             DE_KN_residential{(int)residentialNumber}_washing_machine IS NOT NULL AND
                              utc_timestamp BETWEEN '2016-01-01T00:00:00Z' AND '2017-06-01T00:00:00Z'
                          """;
                 dataTable = DoQuery(query);
@@ -224,13 +192,6 @@ public class BuildingRepository(IHouseHoldConnectionFactory factory)
                          FROM
                              household_data_60min_singleindex
                          WHERE
-                             DE_KN_residential{(int)residentialNumber}_circulation_pump IS NOT NULL AND
-                             DE_KN_residential{(int)residentialNumber}_dishwasher IS NOT NULL AND
-                             DE_KN_residential{(int)residentialNumber}_freezer IS NOT NULL AND
-                             DE_KN_residential{(int)residentialNumber}_grid_export IS NOT NULL AND
-                             DE_KN_residential{(int)residentialNumber}_grid_import IS NOT NULL AND
-                             DE_KN_residential{(int)residentialNumber}_pv IS NOT NULL AND
-                             DE_KN_residential{(int)residentialNumber}_washing_machine IS NOT NULL AND
                              utc_timestamp BETWEEN '2016-01-01T00:00:00Z' AND '2017-06-01T00:00:00Z'
                          """;
                 dataTable = DoQuery(query);
@@ -276,9 +237,6 @@ public class BuildingRepository(IHouseHoldConnectionFactory factory)
                          FROM
                              household_data_60min_singleindex
                          WHERE
-                             DE_KN_industrial{(int)industrialNumber}_grid_import IS NOT NULL AND
-                             DE_KN_industrial{(int)industrialNumber}_pv_1 IS NOT NULL AND
-                             DE_KN_industrial{(int)industrialNumber}_pv_2 IS NOT NULL AND
                              utc_timestamp BETWEEN '2016-01-01T00:00:00Z' AND '2017-06-01T00:00:00Z'
                          """;
                 dataTable = DoQuery(query);
@@ -304,10 +262,6 @@ public class BuildingRepository(IHouseHoldConnectionFactory factory)
                          FROM
                              household_data_60min_singleindex
                          WHERE
-                             DE_KN_industrial{(int)industrialNumber}_grid_import IS NOT NULL AND
-                             DE_KN_industrial{(int)industrialNumber}_pv IS NOT NULL AND
-                             DE_KN_industrial{(int)industrialNumber}_storage_charge IS NOT NULL AND
-                             DE_KN_industrial{(int)industrialNumber}_storage_decharge IS NOT NULL AND
                              utc_timestamp BETWEEN '2016-01-01T00:00:00Z' AND '2017-06-01T00:00:00Z'
                          """;
                 dataTable = DoQuery(query);
@@ -351,26 +305,6 @@ public class BuildingRepository(IHouseHoldConnectionFactory factory)
                          FROM
                              household_data_60min_singleindex
                          WHERE
-                             DE_KN_industrial{(int)industrialNumber}_area_offices IS NOT NULL AND
-                             DE_KN_industrial{(int)industrialNumber}_area_room_1 IS NOT NULL AND
-                             DE_KN_industrial{(int)industrialNumber}_area_room_2 IS NOT NULL AND
-                             DE_KN_industrial{(int)industrialNumber}_area_room_3 IS NOT NULL AND
-                             DE_KN_industrial{(int)industrialNumber}_area_room_4 IS NOT NULL AND
-                             DE_KN_industrial{(int)industrialNumber}_compressor IS NOT NULL AND
-                             DE_KN_industrial{(int)industrialNumber}_cooling_aggregate IS NOT NULL AND
-                             DE_KN_industrial{(int)industrialNumber}_cooling_pumps IS NOT NULL AND
-                             DE_KN_industrial{(int)industrialNumber}_dishwasher IS NOT NULL AND
-                             DE_KN_industrial{(int)industrialNumber}_ev IS NOT NULL AND
-                             DE_KN_industrial{(int)industrialNumber}_grid_import IS NOT NULL AND
-                             DE_KN_industrial{(int)industrialNumber}_machine_1 IS NOT NULL AND
-                             DE_KN_industrial{(int)industrialNumber}_machine_2 IS NOT NULL AND
-                             DE_KN_industrial{(int)industrialNumber}_machine_3 IS NOT NULL AND
-                             DE_KN_industrial{(int)industrialNumber}_machine_4 IS NOT NULL AND
-                             DE_KN_industrial{(int)industrialNumber}_machine_5 IS NOT NULL AND
-                             DE_KN_industrial{(int)industrialNumber}_pv_facade IS NOT NULL AND
-                             DE_KN_industrial{(int)industrialNumber}_pv_roof IS NOT NULL AND
-                             DE_KN_industrial{(int)industrialNumber}_refrigerator IS NOT NULL AND
-                             DE_KN_industrial{(int)industrialNumber}_ventilation IS NOT NULL AND
                              utc_timestamp BETWEEN '2016-01-01T00:00:00Z' AND '2017-06-01T00:00:00Z'
                          """;
                 dataTable = DoQuery(query);
