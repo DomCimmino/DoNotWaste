@@ -49,3 +49,4 @@ bld/
 # Resharper files
 _ReSharper*/
 *.ReSharper*/
+DoNotWaste/wwwroot/data/household_data.sqlite
