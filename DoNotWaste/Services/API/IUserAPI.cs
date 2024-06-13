@@ -7,8 +7,8 @@ public interface IUserApi
 {
     [Headers("Authorization: Basic Auth")]
     [Get("/account")]
-    Task<EnergyStarAccount> GetUser();
+    Task<EnergyStarAccount> GetEnergyStarAccount();
     
     [Post("/account")]
-    Task<EnergyStarResponse> CreateUser([Body(BodySerializationMethod.UrlEncoded)] EnergyStarAccount energyStarAccount);
+    Task<EnergyStarResponse> CreateEnergyStarAccount([Body(BodySerializationMethod.Default)] EnergyStarAccount account);
 }
