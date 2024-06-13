@@ -1,13 +1,40 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using DoNotWaste.Models;
+using DoNotWaste.Models.DataModel;
+using DoNotWaste.Models.EnergyStarModels;
+using DoNotWaste.Repository.Interfaces;
+using DoNotWaste.Services.Interfaces;
+
 namespace DoNotWaste.Controllers;
 
-public class HomeController: Controller
+public class HomeController(
+    IUserService userService,
+    IBuildingRepository buildingRepository,
+    IEnergyStarPropertyService propertyService,
+    IEnergyStarMeterService meterService,
+    IEnergyStarReportService reportService) : Controller
 {
-    public ActionResult Index()
+    private EnergyStarProperty? Property { get; set; }
+
+    private static MemoryStream? lastReport;
+
+    public async Task<ActionResult> Index()
     {
+        var account = await userService.GetEnergyStarAccount();
+        var propertiesResponse = await propertyService.GetPropertiesList(account.Id ?? -1);
+        Property = await propertyService.GetProperty(propertiesResponse.Links?.Link?.FirstOrDefault()?.Id ?? -1);
+        Property.Consumption = buildingRepository.GetResidential(NumberResidentialBuildings.Fourth);
+
+        lastReport = reportService.CreatePdf(Property, await reportService.GetPropertyMetric(Property.Id));
+        
         return View();
+    }
+
+    [HttpGet]
+    public IActionResult Pdf()
+    {
+        return File(lastReport.ToArray(), "application/pdf", "report.pdf");
     }
 
     public IActionResult Privacy()

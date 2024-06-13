@@ -1,3 +1,4 @@
+using System.Xml;
 using Refit;
 
 namespace DoNotWaste.Rest;

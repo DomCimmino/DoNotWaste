@@ -1,4 +1,4 @@
-using DoNotWaste.Models;
+using DoNotWaste.Models.EnergyStarModels;
 using DoNotWaste.Rest;
 using DoNotWaste.Services.API;
 using DoNotWaste.Services.Interfaces;

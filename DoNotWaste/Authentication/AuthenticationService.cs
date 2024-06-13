@@ -44,7 +44,7 @@ public class AuthenticationService(
 
             _energyStarToken = authHeader.Parameter;
         }
-        catch (HttpRequestException exception)
+        catch (HttpRequestException)
         {
             _energyStarToken = null;
             throw;

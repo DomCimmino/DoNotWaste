@@ -1,4 +1,4 @@
-using DoNotWaste.Models;
+using DoNotWaste.Models.EnergyStarModels;
 
 namespace DoNotWaste.Services.Interfaces;
 
