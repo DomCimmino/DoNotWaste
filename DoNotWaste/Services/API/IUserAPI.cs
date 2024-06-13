@@ -1,5 +1,4 @@
-using DoNotWaste.Models.AssetScoreModels.Request;
-using DoNotWaste.Models.AssetScoreModels.Response;
+using DoNotWaste.Models.AssetScoreModels;
 using DoNotWaste.Models.EnergyStarModels;
 using Refit;
 

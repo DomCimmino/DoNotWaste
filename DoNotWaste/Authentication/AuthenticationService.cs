@@ -1,6 +1,6 @@
 using System.Net.Http.Headers;
 using System.Text;
-using DoNotWaste.Models.AssetScoreModels.Request;
+using DoNotWaste.Models.AssetScoreModels;
 using DoNotWaste.Rest;
 using DoNotWaste.Services.API;
 using Microsoft.Extensions.Options;
@@ -72,12 +72,12 @@ public class AuthenticationService(
                 await RefitExtensions.For<IUserApi>(client, false).GetAssetScoreToken(request);
             _assetScoreToken = authenticationResponse.Token;
         }
-        catch (HttpRequestException exception)
+        catch (HttpRequestException)
         {
             _assetScoreToken = null;
             throw;
         }
-
+        
         return _assetScoreToken;
     }
 
