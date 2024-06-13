@@ -4,6 +4,6 @@ namespace DoNotWaste.Services.Interfaces;
 
 public interface IUserService
 {
-    Task<Account> GetEnergyStarUser();
-    Task<EnergyStarResponse> CreateEnergyStarUser(Account account);
+    Task<EnergyStarAccount> GetEnergyStarAccount();
+    Task<EnergyStarResponse> CreateEnergyStarAccount(EnergyStarAccount account);
 }

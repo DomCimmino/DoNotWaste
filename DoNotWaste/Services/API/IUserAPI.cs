@@ -9,11 +9,11 @@ public interface IUserApi
 {
     [Headers("Authorization: Basic Auth")]
     [Get("/account")]
-    Task<Account> GetEnergyStarUser();
+    Task<EnergyStarAccount> GetEnergyStarAccount();
     
     [Post("/account")]
-    Task<EnergyStarResponse> CreateEnergyStarUser([Body(BodySerializationMethod.Default)] Account account);
-    
+    Task<EnergyStarResponse> CreateEnergyStarAccount([Body(BodySerializationMethod.Serialized)] EnergyStarAccount account);
+
     [Post("/users/authenticate")]
     Task<AuthenticationResponse> GetAssetScoreToken([Body(BodySerializationMethod.Default)] AuthenticationRequest account);
 }

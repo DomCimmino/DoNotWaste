@@ -27,7 +27,6 @@ public class RestHttpClientHandler(string token) : HttpClientHandler
             var bodyDebug = await request.Content?.ReadAsStringAsync();
         }
 #endif
-        
         return await base.SendAsync(request, cancellationToken);
     }
 }

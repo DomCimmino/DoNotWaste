@@ -17,7 +17,7 @@ public class HomeController(
 {
     private EnergyStarProperty? Property { get; set; }
 
-    private static MemoryStream? lastReport;
+    private static MemoryStream? _lastReport;
 
     public async Task<ActionResult> Index()
     {
@@ -26,7 +26,7 @@ public class HomeController(
         Property = await propertyService.GetProperty(propertiesResponse.Links?.Link?.FirstOrDefault()?.Id ?? -1);
         Property.Consumption = buildingRepository.GetResidential(NumberResidentialBuildings.Fourth);
 
-        lastReport = reportService.CreatePdf(Property, await reportService.GetPropertyMetric(Property.Id));
+        _lastReport = reportService.CreatePdf(Property, await reportService.GetPropertyMetric(Property.Id));
         
         return View();
     }
@@ -34,7 +34,7 @@ public class HomeController(
     [HttpGet]
     public IActionResult Pdf()
     {
-        return File(lastReport.ToArray(), "application/pdf", "report.pdf");
+        return File(_lastReport?.ToArray() ?? [], "application/pdf", "report.pdf");
     }
 
     public IActionResult Privacy()

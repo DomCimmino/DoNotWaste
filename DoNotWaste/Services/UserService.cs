@@ -9,11 +9,11 @@ public class UserService(IHttpClient httpClient) : IUserService
 {
     public async Task<Account> GetEnergyStarUser()
     {
-        return await RefitExtensions.For<IUserApi>(await httpClient.GetHttpClient()).GetEnergyStarUser();
+        return await RefitExtensions.For<IUserApi>(await httpClient.GetHttpClient()).GetEnergyStarAccount();
     }
 
-    public async Task<EnergyStarResponse> CreateEnergyStarUser(Account account)
+    public async Task<EnergyStarResponse> CreateEnergyStarAccount(EnergyStarAccount account)
     {
-        return await RefitExtensions.For<IUserApi>(await httpClient.GetHttpClient()).CreateEnergyStarUser(account);
+        return await RefitExtensions.For<IUserApi>(await httpClient.GetHttpClient()).CreateEnergyStarAccount(account);
     }
 }
