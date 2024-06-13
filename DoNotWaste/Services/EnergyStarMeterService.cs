@@ -15,7 +15,10 @@ public class EnergyStarMeterService(IHttpClient httpClient) : IEnergyStarMeterSe
 
     public async Task<EnergyStarMeter> GetMeter(int meterId)
     {
-        return await RefitExtensions.For<IEnergyStarMeterApi>(await httpClient.GetHttpClient()).GetMeter(meterId);
+        var meter = await RefitExtensions.For<IEnergyStarMeterApi>(await httpClient.GetHttpClient())
+            .GetMeter(meterId);
+        meter.Id = meterId;
+        return meter;
     }
 
     public async Task<EnergyStarMeterData> GetMeterData(int meterId, int? page, DateTime startDate, DateTime endDate)
@@ -34,6 +37,12 @@ public class EnergyStarMeterService(IHttpClient httpClient) : IEnergyStarMeterSe
     {
         return await RefitExtensions.For<IEnergyStarMeterApi>(await httpClient.GetHttpClient())
             .AddMeterData(meterId, meterData);
+    }
+
+    public async Task<EnergyStarResponse> AssociateMeterToProperty(int propertyId, int meterId)
+    {
+        return await RefitExtensions.For<IEnergyStarMeterApi>(await httpClient.GetHttpClient())
+            .AssociateMeterToProperty(propertyId, meterId);
     }
 
     public async Task<EnergyStarResponse> ModifyConsumptionData(int consumptionDataId, EnergyStarMeterData meterData)

@@ -17,6 +17,16 @@ public class EnergyStarMetric
 
     [XmlAttribute("propertyId")]
     public long PropertyId { get; set; }
+
+
+    public DateTime DateYearEnding()
+    {
+        var firstDayOfNextMonth = new DateTime(Year, Month, 1).AddMonths(1);
+        
+        var lastDayOfMonth = firstDayOfNextMonth.AddDays(-1);
+
+        return lastDayOfMonth;
+    }
 }
 
 public class Metric

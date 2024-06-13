@@ -12,7 +12,7 @@ public interface IEnergyStarReportApi
     [Get("/reports/{reportId}/status")]
     Task<EnergyStarReportStatus> GetReportStatus(int reportId);
 
-    [Headers("PM-Metrics: score, siteTotal, sourceTotal,  siteIntensity, directGHGEmissions")]
+    [Headers("PM-Metrics: score, scoreMotivationText, siteIntensity")]
     [Get("/property/{propertyId}/metrics")]
     Task<EnergyStarMetric> GetPropertyMetric(int propertyId, [Query] int month, [Query] int year,
         [Query] string measurementSystem);
