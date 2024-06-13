@@ -1,11 +1,11 @@
 namespace DoNotWaste.Models.EnergyStarModels.Enums;
 
-public class EnergyStarPartnerType
+public enum EnergyStarPartnerType
 {
-    public static string Associations => nameof(Associations);
-    public static string OrganizationsThatOwnManageLeaseBuildingsAndPlants => "Organizations that Own/Manage/Lease Buildings and Plants";
-    public static string ServiceAndProductProviders => "Service and Product Providers";
-    public static string SmallBusinesses => "Small Businesses";
-    public static string UtilitiesAndEnergyEfficiencyProgramSponsors => "Utilities and Energy Efficiency Program Sponsors";
-    public static string Other => nameof(Other);
+    [XmlEnum("Associations")] Associations,
+    [XmlEnum("Organizations that Own/Manage/Lease Buildings and Plants")] OrganizationsThatOwnManageLeaseBuildingsAndPlants,
+    [XmlEnum("Service and Product Providers")] ServiceAndProductProviders,
+    [XmlEnum("Small Businesses")] SmallBusinesses,
+    [XmlEnum("Utilities and Energy Efficiency Program Sponsors")] UtilitiesAndEnergyEfficiencyProgramSponsors,
+    [XmlEnum("Other")] Other
 }

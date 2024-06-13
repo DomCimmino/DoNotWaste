@@ -1,8 +1,9 @@
 using System.ComponentModel.DataAnnotations;
-using DoNotWaste.Models.EnergyStarModels;
+using DoNotWaste.Models.EnergyStarModels.Enums;
 
+namespace DoNotWaste.Models.EnergyStarModels;
 [XmlRoot(ElementName="account")]
-public class Account { 
+public class EnergyStarAccount { 
 
     /// <summary>
     /// The ID to the account.
@@ -55,13 +56,13 @@ public class Account {
     /// Value are in LanguagePreference class
     /// </summary>
     [XmlElement(ElementName="languagePreference")] 
-    public string? LanguagePreference { get; set; } 
+    public LanguagePreference? LanguagePreference { get; set; } 
 
     [XmlElement(ElementName="contact")] 
-    public Contact? Contact { get; set; } 
+    public EnergyStarContact? Contact { get; set; } 
 
     [XmlElement(ElementName="organization")] 
-    public Organization? Organization { get; set; } 
+    public EnergyStarOrganization? Organization { get; set; } 
 
     /// <summary>
     /// Indicates whether properties marked as “Test Properties” in the account will be included in the charts and graphs on My Portfolio page.
