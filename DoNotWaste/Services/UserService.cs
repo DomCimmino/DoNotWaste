@@ -7,7 +7,7 @@ namespace DoNotWaste.Services;
 
 public class UserService(IHttpClient httpClient) : IUserService
 {
-    public async Task<Account> GetEnergyStarUser()
+    public async Task<EnergyStarAccount> GetEnergyStarAccount()
     {
         return await RefitExtensions.For<IUserApi>(await httpClient.GetHttpClient()).GetEnergyStarAccount();
     }

@@ -1,6 +1,6 @@
-using DoNotWaste.Models;
 using DoNotWaste.Models.AssetScoreModels.Request;
 using DoNotWaste.Models.AssetScoreModels.Response;
+using DoNotWaste.Models.EnergyStarModels;
 using Refit;
 
 namespace DoNotWaste.Services.API;
