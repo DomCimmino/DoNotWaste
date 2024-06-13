@@ -1,5 +1,4 @@
 using System.Net.Http.Headers;
-using DoNotWaste.Authentication;
 
 namespace DoNotWaste.Rest;
 
@@ -8,7 +7,7 @@ public class RestHttpClientHandler(string token): HttpClientHandler
     
     protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
     {
-        var uri = request.RequestUri;
+        var uri = request.RequestUri ?? new Uri(string.Empty);
         var unescapedQuery = Uri.UnescapeDataString(uri.Query);
         var userInfo = string.IsNullOrWhiteSpace(uri.UserInfo) ? "" : $"{uri.UserInfo}@";
         var scheme = string.IsNullOrWhiteSpace(uri.Scheme) ? "" : $"{uri.Scheme}://";
@@ -20,6 +19,13 @@ public class RestHttpClientHandler(string token): HttpClientHandler
         {
             request.Headers.Authorization = new AuthenticationHeaderValue(auth.Scheme, token);
         }
+        
+#if DEBUG
+        if (request.Method == HttpMethod.Post || request.Method == HttpMethod.Put) 
+        {
+            var bodyDebug = await request.Content?.ReadAsStringAsync();
+        }
+#endif
 
         return await base.SendAsync(request, cancellationToken);
     }
