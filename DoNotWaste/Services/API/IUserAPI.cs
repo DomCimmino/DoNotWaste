@@ -10,5 +10,5 @@ public interface IUserApi
     Task<EnergyStarAccount> GetEnergyStarAccount();
     
     [Post("/account")]
-    Task<EnergyStarResponse> CreateEnergyStarAccount([Body(BodySerializationMethod.Default)] EnergyStarAccount account);
+    Task<EnergyStarResponse> CreateEnergyStarAccount([Body(BodySerializationMethod.Serialized)] EnergyStarAccount account);
 }
