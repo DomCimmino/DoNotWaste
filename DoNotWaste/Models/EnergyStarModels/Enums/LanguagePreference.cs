@@ -1,8 +1,8 @@
 namespace DoNotWaste.Models.EnergyStarModels.Enums;
 
-public static class LanguagePreference
+public enum LanguagePreference
 {
-    public static string en_US => nameof(en_US);
-    public static string fr_CA => nameof(fr_CA);
-    public static string es_US => nameof(es_US);
+    [XmlEnum("en_US")] en_US,
+    [XmlEnum("fr_US")] fr_CA,
+    [XmlEnum("es_US")] es_US,
 }

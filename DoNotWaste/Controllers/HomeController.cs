@@ -2,27 +2,39 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using DoNotWaste.Models;
 using DoNotWaste.Models.DataModel;
+using DoNotWaste.Models.EnergyStarModels;
 using DoNotWaste.Repository.Interfaces;
 using DoNotWaste.Services.Interfaces;
 
 namespace DoNotWaste.Controllers;
 
-public class HomeController(IUserService userService, IBuildingRepository buildingRepository) : Controller
+public class HomeController(
+    IUserService userService,
+    IBuildingRepository buildingRepository,
+    IEnergyStarPropertyService propertyService,
+    IEnergyStarMeterService meterService,
+    IEnergyStarReportService reportService) : Controller
 {
+    private EnergyStarProperty? Property { get; set; }
+
+    private static MemoryStream? lastReport;
+
     public async Task<ActionResult> Index()
     {
-        var account = await userService.GetUser();
-        var residential1 = buildingRepository.GetResidential(NumberResidentialBuildings.First);
-        var residential2 = buildingRepository.GetResidential(NumberResidentialBuildings.Second);
-        var residential3 = buildingRepository.GetResidential(NumberResidentialBuildings.Third);
-        var residential4 = buildingRepository.GetResidential(NumberResidentialBuildings.Fourth);
-        var residential5 = buildingRepository.GetResidential(NumberResidentialBuildings.Fifth);
-        var residential6 = buildingRepository.GetResidential(NumberResidentialBuildings.Sixth);
-        var industrial1 = buildingRepository.GetIndustrial(NumberIndustrialBuildings.First);
-        var industrial2 = buildingRepository.GetIndustrial(NumberIndustrialBuildings.Second);
-        var industrial3 = buildingRepository.GetIndustrial(NumberIndustrialBuildings.Third);
+        var account = await userService.GetEnergyStarAccount();
+        var propertiesResponse = await propertyService.GetPropertiesList(account.Id ?? -1);
+        Property = await propertyService.GetProperty(propertiesResponse.Links?.Link?.FirstOrDefault()?.Id ?? -1);
+        Property.Consumption = buildingRepository.GetResidential(NumberResidentialBuildings.Fourth);
+
+        lastReport = reportService.CreatePdf(Property, await reportService.GetPropertyMetric(Property.Id));
         
         return View();
+    }
+
+    [HttpGet]
+    public IActionResult Pdf()
+    {
+        return File(lastReport.ToArray(), "application/pdf", "report.pdf");
     }
 
     public IActionResult Privacy()
