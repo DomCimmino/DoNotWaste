@@ -8,19 +8,26 @@ public class RestClient(
     IHttpClientFactory httpClientFactory,
     IOptions<Configuration> secrets) : IHttpClient
 {
-    public async Task<HttpClient> GetHttpClient()
+    public async Task<HttpClient> GetHttpClient(bool isXmlRequest = true)
     {
-        var token = await authenticationService.GetToken();
+        var token = isXmlRequest
+            ? await authenticationService.GetEnergyStarToken()
+            : await authenticationService.GetAssetScoreToken();
 
         if (string.IsNullOrEmpty(token))
             throw new ArgumentException("Invalid token");
 
-        return await GetHttpClient(new Uri(secrets.Value.EnergyStarUri ?? string.Empty), token);
+        return await GetHttpClient(
+            new Uri(isXmlRequest
+                ? secrets.Value.EnergyStarUri ?? string.Empty
+                : secrets.Value.AssetScoreUri ?? string.Empty), token);
     }
 
     public Task<HttpClient> GetHttpClient(Uri baseUri, string? token = null)
     {
-        var client = !string.IsNullOrEmpty(token) ? httpClientFactory.GetHttpClient(new RestHttpClientHandler(token)) : httpClientFactory.GetHttpClient();
+        var client = !string.IsNullOrEmpty(token)
+            ? httpClientFactory.GetHttpClient(new RestHttpClientHandler(token))
+            : httpClientFactory.GetHttpClient();
         client.BaseAddress = baseUri;
         return Task.FromResult(client);
     }

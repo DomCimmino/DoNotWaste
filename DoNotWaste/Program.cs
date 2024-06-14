@@ -1,5 +1,3 @@
-
-
 using DoNotWaste;
 
 var builder = WebApplication.CreateBuilder(args);
