@@ -33,10 +33,10 @@ public class AssetScoreSimpleBuilding
     public string? UseType { get; } = "Education";
     
     [JsonProperty("predominant_hvac_system_type_name")]
-    public HVACType? HcvaSystemType { get; set; }
+    public string? HcvaSystemType { get; set; }
     
     [JsonProperty("shape_name")] 
-    public BuildingShape? BuildingShape { get; set; }
+    public string? BuildingShape { get; set; }
     
     [JsonProperty("state")] 
     public UsCanadaStateProvince? State { get; set; }

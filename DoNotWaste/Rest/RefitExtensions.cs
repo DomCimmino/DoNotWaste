@@ -1,5 +1,7 @@
 using System.Xml;
+using Newtonsoft.Json;
 using Refit;
+using Formatting = Newtonsoft.Json.Formatting;
 
 namespace DoNotWaste.Rest;
 
@@ -18,5 +20,9 @@ public static class RefitExtensions
         })
     }));
     
-    private static RefitSettings GetJsonRefitSettings() => new (new NewtonsoftJsonContentSerializer());
+    private static RefitSettings GetJsonRefitSettings() => new (new NewtonsoftJsonContentSerializer(new JsonSerializerSettings(new JsonSerializerSettings
+    {
+        NullValueHandling = NullValueHandling.Ignore,
+        Formatting = Formatting.Indented,
+    })));
 }

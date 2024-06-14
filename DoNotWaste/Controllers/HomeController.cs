@@ -2,13 +2,11 @@ using System.Diagnostics;
 using DoNotWaste.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using DoNotWaste.Models;
-using DoNotWaste.Models.AssetScoreModels;
 using DoNotWaste.Models.EnergyStarModels;
-using DoNotWaste.Services.Interfaces;
 
 namespace DoNotWaste.Controllers;
 
-public class HomeController(IAssetScoreBuildingService assetScoreBuildingService, IAuthenticationService authenticationService) : Controller
+public class HomeController(IAuthenticationService authenticationService) : Controller
 {
     private EnergyStarProperty? Property { get; set; }
 
@@ -16,17 +14,7 @@ public class HomeController(IAssetScoreBuildingService assetScoreBuildingService
 
     public async Task<ActionResult> Index()
     {
-        var token = await assetScoreBuildingService.CreateSimpleBuildings(new SimpleBuildingRequest()
-        {
-            Token = await authenticationService.GetAssetScoreToken(),
-            AssetScoreBuilding = new AssetScoreSimpleBuilding
-            {
-                Address = "firstSample",
-                City = "Sample",
-                Notes = "Sample",
-                NumberOfFloors = "3",
-            }
-        });
+        var token = await authenticationService.GetAssetScoreToken();
         return View();
     }
 

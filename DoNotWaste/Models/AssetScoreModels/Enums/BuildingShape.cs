@@ -1,20 +1,9 @@
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-
 namespace DoNotWaste.Models.AssetScoreModels.Enums;
 
-[JsonConverter(typeof(StringEnumConverter))]
-public enum BuildingShape
+public static class BuildingShape
 {
-    [JsonProperty("H-shape")]
-    HShape,
-    
-    [JsonProperty("L-shape")]
-    LShape,
-    
-    [JsonProperty("Rectangle")]
-    Rectangle,
-    
-    [JsonProperty("U-shape")]
-    UShape
+    public const string HShape = "H-shape";
+    public const string LShape = "L-shape";
+    public const string Rectangle = "Rectangle";
+    public const string UShape = "U-shape";
 }
