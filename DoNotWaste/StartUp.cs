@@ -24,6 +24,7 @@ public static class StartUp
         builder.Services
             .Configure<Configuration>(builder.Configuration.GetSection(nameof(Configuration)))
             .AddOptions();
+        
         return builder;
     }
 
