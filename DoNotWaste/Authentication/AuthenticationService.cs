@@ -4,7 +4,8 @@ using Microsoft.Extensions.Options;
 
 namespace DoNotWaste.Authentication;
 
-public class AuthenticationService(IHttpClientFactory httpClientFactory, IOptions<Configuration> secrets) : IAuthenticationService
+public class AuthenticationService(IHttpClientFactory httpClientFactory, IOptions<Configuration> secrets)
+    : IAuthenticationService
 {
     private string? _token;
 
@@ -12,12 +13,12 @@ public class AuthenticationService(IHttpClientFactory httpClientFactory, IOption
     {
         if (!string.IsNullOrEmpty(_token)) return _token;
 
-        var username = secrets.Value.Username;
-        var password = secrets.Value.Password;
+        var username = secrets.Value.EnergyStarUsername;
+        var password = secrets.Value.EnergyStarPassword;
         var authHeader = CreateBasicAuthenticationHeader(username ?? string.Empty, password ?? string.Empty);
         try
         {
-            var tokenEndpoint = secrets.Value.BaseUri;
+            var tokenEndpoint = secrets.Value.EnergyStarUri;
             var httpClient = httpClientFactory.GetHttpClient();
             var request = new HttpRequestMessage()
             {
@@ -37,7 +38,7 @@ public class AuthenticationService(IHttpClientFactory httpClientFactory, IOption
 
             _token = authHeader.Parameter;
         }
-        catch (HttpRequestException exception)
+        catch (HttpRequestException)
         {
             _token = null;
             throw;
