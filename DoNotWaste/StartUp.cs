@@ -20,9 +20,11 @@ public static class StartUp
         builder.Services.AddTransient<IEnergyStarMeterService, EnergyStarMeterService>();
         builder.Services.AddTransient<IEnergyStarReportService, EnergyStarReportService>();
         builder.Services.AddTransient<IAssetScoreBuildingService, AssetScoreBuildingService>();
+        builder.Services.AddTransient<IChartService, ChartService>();
         builder.Services
             .Configure<Configuration>(builder.Configuration.GetSection(nameof(Configuration)))
             .AddOptions();
+        
         return builder;
     }
 
