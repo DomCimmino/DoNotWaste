@@ -1,8 +1,9 @@
+using DoNotWaste.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DoNotWaste.Controllers;
 
-public class ChartController : Controller
+public class ChartController(IChartService chartService) : Controller
 {
     public IActionResult Index()
     {
@@ -12,5 +13,15 @@ public class ChartController : Controller
     public IActionResult ShowChart()
     {
         return View();
+    }
+
+    [HttpPost]
+    public List<object> GetConsumption()
+    {
+        var data = new List<object>();
+        var chartData = chartService.GetDataChart();
+        data.Add(chartData.Labels);
+        data.Add(chartData.Data);
+        return data;
     }
 }
