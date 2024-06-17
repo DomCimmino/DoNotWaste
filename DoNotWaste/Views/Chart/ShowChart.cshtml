@@ -1,0 +1,48 @@
+@{
+Layout = "/Views/Shared/_Layout.cshtml";
+}
+
+<canvas id="lineChart" style="max-width: 700px;max-height: 430px">
+    
+</canvas>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script type="text/javascript">
+    $(document).ready(function (){
+        $.ajax({
+        type: "POST",
+        url: "/Chart/GetConsumption",
+        data: "",
+        contextType: "application/json; charset=utf8",
+        dataType: "json",
+        success: OnSuccess
+        })
+        
+        function OnSuccess(data){
+        const lineChart = document.getElementById('lineChart');
+        let _labels = data[0];
+        let _chartData = data[1];
+
+        new Chart(lineChart, 
+        {
+            type: "line",
+            data: {
+                labels: _labels,
+                datasets: [{
+                    label: "Monthly Consumption in kWh", 
+                    data: _chartData,
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }       
+        });
+        }
+    });
+</script>
