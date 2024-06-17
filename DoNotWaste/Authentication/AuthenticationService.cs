@@ -1,17 +1,23 @@
 using System.Net.Http.Headers;
 using System.Text;
+using DoNotWaste.Models.AssetScoreModels;
+using DoNotWaste.Rest;
+using DoNotWaste.Services.API;
 using Microsoft.Extensions.Options;
 
 namespace DoNotWaste.Authentication;
 
-public class AuthenticationService(IHttpClientFactory httpClientFactory, IOptions<Configuration> secrets)
+public class AuthenticationService(
+    IHttpClientFactory httpClientFactory,
+    IOptions<Configuration> secrets)
     : IAuthenticationService
 {
-    private string? _token;
+    private string? _energyStarToken;
+    private string? _assetScoreToken;
 
-    public async Task<string?> GetToken()
+    public async Task<string?> GetEnergyStarToken()
     {
-        if (!string.IsNullOrEmpty(_token)) return _token;
+        if (!string.IsNullOrEmpty(_energyStarToken)) return _energyStarToken;
 
         var username = secrets.Value.EnergyStarUsername;
         var password = secrets.Value.EnergyStarPassword;
@@ -19,7 +25,7 @@ public class AuthenticationService(IHttpClientFactory httpClientFactory, IOption
         try
         {
             var tokenEndpoint = secrets.Value.EnergyStarUri;
-            var httpClient = httpClientFactory.GetHttpClient();
+            var client = httpClientFactory.GetHttpClient();
             var request = new HttpRequestMessage()
             {
                 Method = HttpMethod.Get,
@@ -33,18 +39,46 @@ public class AuthenticationService(IHttpClientFactory httpClientFactory, IOption
                     })
             };
 
-            var response = await httpClient.SendAsync(request);
+            var response = await client.SendAsync(request);
             response.EnsureSuccessStatusCode();
 
-            _token = authHeader.Parameter;
+            _energyStarToken = authHeader.Parameter;
         }
         catch (HttpRequestException)
         {
-            _token = null;
+            _energyStarToken = null;
             throw;
         }
 
-        return _token;
+        return _energyStarToken;
+    }
+
+    public async Task<string?> GetAssetScoreToken()
+    {
+        if (!string.IsNullOrEmpty(_assetScoreToken)) return _assetScoreToken;
+        try
+        {
+            var request = new AuthenticationRequest
+            {
+                Email = secrets.Value.AssetScoreUsername,
+                Password = secrets.Value.AssetScorePassword,
+                OrganizationToken = secrets.Value.AssetScoreOrganizationToken
+            };
+            
+            var client = httpClientFactory.GetHttpClient();
+            client.BaseAddress = new Uri(secrets.Value.AssetScoreUri ?? string.Empty);
+
+            var authenticationResponse =
+                await RefitExtensions.For<IUserApi>(client, false).GetAssetScoreToken(request);
+            _assetScoreToken = authenticationResponse.Token;
+        }
+        catch (HttpRequestException)
+        {
+            _assetScoreToken = null;
+            throw;
+        }
+        
+        return _assetScoreToken;
     }
 
     private static AuthenticationHeaderValue CreateBasicAuthenticationHeader(string clientId, string clientSecret)
