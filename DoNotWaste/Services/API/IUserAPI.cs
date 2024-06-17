@@ -1,4 +1,3 @@
-using DoNotWaste.Models.AssetScoreModels;
 using DoNotWaste.Models.EnergyStarModels;
 using Refit;
 
@@ -12,7 +11,4 @@ public interface IUserApi
     
     [Post("/account")]
     Task<EnergyStarResponse> CreateEnergyStarAccount([Body(BodySerializationMethod.Serialized)] EnergyStarAccount account);
-
-    [Post("/users/authenticate")]
-    Task<AuthenticationResponse> GetAssetScoreToken([Body(BodySerializationMethod.Default)] AuthenticationRequest account);
 }
