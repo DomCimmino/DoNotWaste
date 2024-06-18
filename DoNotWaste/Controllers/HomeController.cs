@@ -3,6 +3,7 @@ using DoNotWaste.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using DoNotWaste.Models;
 using DoNotWaste.Models.EnergyStarModels;
+using DoNotWaste.Services.Interfaces;
 
 namespace DoNotWaste.Controllers;
 

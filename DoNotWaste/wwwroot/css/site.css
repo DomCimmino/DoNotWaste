@@ -13040,3 +13040,13 @@ body {
     font-size: 0.75rem;
     border-radius: 0.375rem !important;
 }
+
+.scrollable-row {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+}
+
+.scrollable-row .col-xl-3, .scrollable-row .col-md-6 {
+    flex: 0 0 auto;
+}

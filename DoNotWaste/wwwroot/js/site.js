@@ -1,7 +1,4 @@
-﻿// Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
-
-window.addEventListener('DOMContentLoaded', event => {
+﻿window.addEventListener('DOMContentLoaded', event => {
 
     // Toggle the side navigation
     const sidebarToggle = document.body.querySelector('#sidebarToggle');
@@ -16,4 +13,18 @@ window.addEventListener('DOMContentLoaded', event => {
         });
     }
 
+});
+
+document.querySelector('.left-btn').addEventListener('click', function() {
+    document.querySelector('.scrollable-row').scrollBy({
+        left: -300, // Adjust this value to change scroll amount
+        behavior: 'smooth'
+    });
+});
+
+document.querySelector('.right-btn').addEventListener('click', function() {
+    document.querySelector('.scrollable-row').scrollBy({
+        left: 300, // Adjust this value to change scroll amount
+        behavior: 'smooth'
+    });
 });
