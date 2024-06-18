@@ -215,8 +215,6 @@ public class BuildingRepository(IHouseHoldConnectionFactory factory)
             default:
                 throw new ArgumentOutOfRangeException(nameof(residentialNumber), residentialNumber, null);
         }
-
-        Connection.CloseAsync();
         return residentialBuilding;
     }
 
@@ -354,8 +352,6 @@ public class BuildingRepository(IHouseHoldConnectionFactory factory)
             default:
                 throw new ArgumentOutOfRangeException(nameof(industrialNumber), industrialNumber, null);
         }
-
-        Connection.CloseAsync();
         return industrialBuilding;
     }
 }

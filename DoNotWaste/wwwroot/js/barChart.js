@@ -4,7 +4,7 @@ $(document).ready(function () {
 
     $.ajax({
         type: "POST",
-        url: "/Chart/GetConsumption",
+        url: "/Home/GetConsumption",
         data: "",
         contentType: "application/json; charset=utf8",
         dataType: "json",

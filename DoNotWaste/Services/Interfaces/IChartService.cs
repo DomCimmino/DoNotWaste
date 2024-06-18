@@ -1,6 +1,9 @@
+using DoNotWaste.Models.DataModel;
+
 namespace DoNotWaste.Services.Interfaces;
 
 public interface IChartService
 {
-    (string[] Labels, double[] Data) GetDataChart();
+    (string[] Labels, double[] Data) GetSingleBuildingDataChart(NumberResidentialBuildings numberBuilding);
+    (string[] Labels, double[] Data) GetMeanDataChart();
 }

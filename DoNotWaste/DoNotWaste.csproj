@@ -18,6 +18,7 @@
 
     <ItemGroup>
       <_ContentIncludedByDefault Remove="Pages\Chart\ShowChart.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Chart\ShowChart.cshtml" />
     </ItemGroup>
 
 </Project>

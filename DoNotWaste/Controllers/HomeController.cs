@@ -1,21 +1,18 @@
 using System.Diagnostics;
-using DoNotWaste.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using DoNotWaste.Models;
+using DoNotWaste.Models.DataModel;
 using DoNotWaste.Models.EnergyStarModels;
 using DoNotWaste.Services.Interfaces;
 
 namespace DoNotWaste.Controllers;
 
-public class HomeController(IAuthenticationService authenticationService) : Controller
+public class HomeController(IChartService chartService) : Controller
 {
-    private EnergyStarProperty? Property { get; set; }
-
     private static MemoryStream? _lastReport;
 
-    public async Task<ActionResult> Index()
+    public IActionResult Index()
     {
-        var token = await authenticationService.GetAssetScoreToken();
         return View();
     }
 
@@ -25,14 +22,19 @@ public class HomeController(IAuthenticationService authenticationService) : Cont
         return File(_lastReport?.ToArray() ?? [], "application/pdf", "report.pdf");
     }
 
-    public IActionResult Privacy()
-    {
-        return View();
-    }
-
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+    }
+    
+    [HttpPost]
+    public List<object> GetConsumption()
+    {
+        var data = new List<object>();
+        var chartData = chartService.GetMeanDataChart();
+        data.Add(chartData.Labels);
+        data.Add(chartData.Data);
+        return data;
     }
 }
