@@ -29,10 +29,20 @@ public class HomeController(IChartService chartService) : Controller
     }
     
     [HttpPost]
-    public List<object> GetConsumption()
+    public List<object> GetResidentialMeanConsumption()
     {
         var data = new List<object>();
-        var chartData = chartService.GetMeanDataChart();
+        var chartData = chartService.GetResidentialMeanDataChart();
+        data.Add(chartData.Labels);
+        data.Add(chartData.Data);
+        return data;
+    }
+    
+    [HttpPost]
+    public List<object> GetIndustrialMeanConsumption()
+    {
+        var data = new List<object>();
+        var chartData = chartService.GetIndustrialMeanDataChart();
         data.Add(chartData.Labels);
         data.Add(chartData.Data);
         return data;

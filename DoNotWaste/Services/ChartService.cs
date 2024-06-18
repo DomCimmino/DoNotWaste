@@ -26,18 +26,28 @@ public class ChartService(IBuildingRepository buildingRepository) : IChartServic
         return ([.. labels], [.. data]);
     }
 
-    public (string[] Labels, double[] Data) GetMeanDataChart()
+    public (string[] Labels, double[] Data) GetResidentialMeanDataChart()
+    {
+        return GetMeanDataChart<NumberResidentialBuildings>(buildingRepository.GetResidential);
+    }
+
+    public (string[] Labels, double[] Data) GetIndustrialMeanDataChart()
+    {
+        return GetMeanDataChart<NumberIndustrialBuildings>(buildingRepository.GetIndustrial);
+    }
+
+    private (string[] Labels, double[] Data) GetMeanDataChart<T>(Func<T, BaseBuilding> getBuildingFunc) where T : Enum
     {
         var allMonthlyTotal = new List<(DateTime StartDate, DateTime EndDate, double? consumption)>();
         var labels = new List<string>();
         var data = new List<double>();
 
-        foreach (NumberResidentialBuildings number in Enum.GetValues(typeof(NumberResidentialBuildings)))
+        foreach (T number in Enum.GetValues(typeof(T)))
         {
-            var building = buildingRepository.GetResidential(number);
+            var building = getBuildingFunc(number);
             allMonthlyTotal.AddRange(building.MonthlyTotal());
         }
-        
+
         var monthlyDictionaryDivision = new Dictionary<DateTime, List<(DateTime StartDate, DateTime EndDate, double? consumption)>>();
 
         foreach (var item in allMonthlyTotal)
@@ -49,13 +59,14 @@ public class ChartService(IBuildingRepository buildingRepository) : IChartServic
             }
             list.Add(item);
         }
-        
+
         foreach (var startDate in monthlyDictionaryDivision.Keys.OrderBy(d => d))
         {
             labels.Add(startDate.ToString("MMM. yy", _cultureInfo));
             data.Add(monthlyDictionaryDivision[startDate].Average(x => x.consumption ?? 0));
         }
 
-        return ([.. labels], [.. data]);
+        return (labels.ToArray(), data.ToArray());
     }
+
 }

@@ -6,7 +6,7 @@ namespace DoNotWaste.Repository;
 
 public class BaseRepository(IHouseHoldConnectionFactory factory)
 {
-    protected readonly SQLiteConnection Connection = factory.CreateConnection();
+    private readonly SQLiteConnection Connection = factory.CreateConnection();
 
     protected DataTable DoQuery(string query)
     {

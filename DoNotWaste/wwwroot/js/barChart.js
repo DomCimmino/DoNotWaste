@@ -4,7 +4,7 @@ $(document).ready(function () {
 
     $.ajax({
         type: "POST",
-        url: "/Home/GetConsumption",
+        url: "/Home/GetIndustrialMeanConsumption",
         data: "",
         contentType: "application/json; charset=utf8",
         dataType: "json",
