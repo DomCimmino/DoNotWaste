@@ -1,10 +1,12 @@
 using System.Data;
+using System.Text.RegularExpressions;
+using DoNotWaste.DTO;
 using DoNotWaste.Models.DataModel;
 using DoNotWaste.Repository.Interfaces;
 
 namespace DoNotWaste.Repository;
 
-public class BuildingRepository(IHouseHoldConnectionFactory factory)
+public partial class BuildingRepository(IHouseHoldConnectionFactory factory)
     : BaseRepository(factory), IBuildingRepository
 {
     public ResidentialBuilding GetResidential(NumberResidentialBuildings residentialNumber)
@@ -35,12 +37,14 @@ public class BuildingRepository(IHouseHoldConnectionFactory factory)
                     Id = (int)residentialNumber,
                     DishwasherConsumption = GetMonthlyConsumption(dataTable.Rows,
                         $"DE_KN_residential{(int)residentialNumber}_dishwasher"),
-                    FreezerConsumption = GetMonthlyConsumption(dataTable.Rows, $"DE_KN_residential{(int)residentialNumber}_freezer"),
+                    FreezerConsumption = GetMonthlyConsumption(dataTable.Rows,
+                        $"DE_KN_residential{(int)residentialNumber}_freezer"),
                     UrbanImportElectricityGrid = GetMonthlyConsumption(dataTable.Rows,
                         $"DE_KN_residential{(int)residentialNumber}_grid_import"),
                     HeatPumpConsumption =
                         GetMonthlyConsumption(dataTable.Rows, $"DE_KN_residential{(int)residentialNumber}_heat_pump"),
-                    PhotovoltaicProduction = GetMonthlyConsumption(dataTable.Rows, $"DE_KN_residential{(int)residentialNumber}_pv"),
+                    PhotovoltaicProduction =
+                        GetMonthlyConsumption(dataTable.Rows, $"DE_KN_residential{(int)residentialNumber}_pv"),
                     WashingMachineConsumption = GetMonthlyConsumption(dataTable.Rows,
                         $"DE_KN_residential{(int)residentialNumber}_washing_machine")
                 };
@@ -67,7 +71,8 @@ public class BuildingRepository(IHouseHoldConnectionFactory factory)
                         $"DE_KN_residential{(int)residentialNumber}_circulation_pump"),
                     DishwasherConsumption = GetMonthlyConsumption(dataTable.Rows,
                         $"DE_KN_residential{(int)residentialNumber}_dishwasher"),
-                    FreezerConsumption = GetMonthlyConsumption(dataTable.Rows, $"DE_KN_residential{(int)residentialNumber}_freezer"),
+                    FreezerConsumption = GetMonthlyConsumption(dataTable.Rows,
+                        $"DE_KN_residential{(int)residentialNumber}_freezer"),
                     UrbanImportElectricityGrid = GetMonthlyConsumption(dataTable.Rows,
                         $"DE_KN_residential{(int)residentialNumber}_grid_import"),
                     WashingMachineConsumption = GetMonthlyConsumption(dataTable.Rows,
@@ -99,12 +104,14 @@ public class BuildingRepository(IHouseHoldConnectionFactory factory)
                         $"DE_KN_residential{(int)residentialNumber}_circulation_pump"),
                     DishwasherConsumption = GetMonthlyConsumption(dataTable.Rows,
                         $"DE_KN_residential{(int)residentialNumber}_dishwasher"),
-                    FreezerConsumption = GetMonthlyConsumption(dataTable.Rows, $"DE_KN_residential{(int)residentialNumber}_freezer"),
+                    FreezerConsumption = GetMonthlyConsumption(dataTable.Rows,
+                        $"DE_KN_residential{(int)residentialNumber}_freezer"),
                     UrbanExportElectricityGrid = GetMonthlyConsumption(dataTable.Rows,
                         $"DE_KN_residential{(int)residentialNumber}_grid_export"),
                     UrbanImportElectricityGrid = GetMonthlyConsumption(dataTable.Rows,
                         $"DE_KN_residential{(int)residentialNumber}_grid_import"),
-                    PhotovoltaicProduction = GetMonthlyConsumption(dataTable.Rows, $"DE_KN_residential{(int)residentialNumber}_pv"),
+                    PhotovoltaicProduction =
+                        GetMonthlyConsumption(dataTable.Rows, $"DE_KN_residential{(int)residentialNumber}_pv"),
                     RefrigeratorConsumption = GetMonthlyConsumption(dataTable.Rows,
                         $"DE_KN_residential{(int)residentialNumber}_refrigerator"),
                     WashingMachineConsumption = GetMonthlyConsumption(dataTable.Rows,
@@ -137,14 +144,16 @@ public class BuildingRepository(IHouseHoldConnectionFactory factory)
                         $"DE_KN_residential{(int)residentialNumber}_dishwasher"),
                     CharingEletricVehicleConsumption = GetMonthlyConsumption(dataTable.Rows,
                         $"DE_KN_residential{(int)residentialNumber}_ev"),
-                    FreezerConsumption = GetMonthlyConsumption(dataTable.Rows, $"DE_KN_residential{(int)residentialNumber}_freezer"),
+                    FreezerConsumption = GetMonthlyConsumption(dataTable.Rows,
+                        $"DE_KN_residential{(int)residentialNumber}_freezer"),
                     UrbanExportElectricityGrid = GetMonthlyConsumption(dataTable.Rows,
                         $"DE_KN_residential{(int)residentialNumber}_grid_export"),
                     UrbanImportElectricityGrid = GetMonthlyConsumption(dataTable.Rows,
                         $"DE_KN_residential{(int)residentialNumber}_grid_import"),
                     HeatPumpConsumption = GetMonthlyConsumption(dataTable.Rows,
                         $"DE_KN_residential{(int)residentialNumber}_heat_pump"),
-                    PhotovoltaicProduction = GetMonthlyConsumption(dataTable.Rows, $"DE_KN_residential{(int)residentialNumber}_pv"),
+                    PhotovoltaicProduction =
+                        GetMonthlyConsumption(dataTable.Rows, $"DE_KN_residential{(int)residentialNumber}_pv"),
                     RefrigeratorConsumption = GetMonthlyConsumption(dataTable.Rows,
                         $"DE_KN_residential{(int)residentialNumber}_refrigerator"),
                     WashingMachineConsumption = GetMonthlyConsumption(dataTable.Rows,
@@ -202,12 +211,14 @@ public class BuildingRepository(IHouseHoldConnectionFactory factory)
                         $"DE_KN_residential{(int)residentialNumber}_circulation_pump"),
                     DishwasherConsumption = GetMonthlyConsumption(dataTable.Rows,
                         $"DE_KN_residential{(int)residentialNumber}_dishwasher"),
-                    FreezerConsumption = GetMonthlyConsumption(dataTable.Rows, $"DE_KN_residential{(int)residentialNumber}_freezer"),
+                    FreezerConsumption = GetMonthlyConsumption(dataTable.Rows,
+                        $"DE_KN_residential{(int)residentialNumber}_freezer"),
                     UrbanExportElectricityGrid = GetMonthlyConsumption(dataTable.Rows,
                         $"DE_KN_residential{(int)residentialNumber}_grid_export"),
                     UrbanImportElectricityGrid = GetMonthlyConsumption(dataTable.Rows,
                         $"DE_KN_residential{(int)residentialNumber}_grid_import"),
-                    PhotovoltaicProduction = GetMonthlyConsumption(dataTable.Rows, $"DE_KN_residential{(int)residentialNumber}_pv"),
+                    PhotovoltaicProduction =
+                        GetMonthlyConsumption(dataTable.Rows, $"DE_KN_residential{(int)residentialNumber}_pv"),
                     WashingMachineConsumption = GetMonthlyConsumption(dataTable.Rows,
                         $"DE_KN_residential{(int)residentialNumber}_washing_machine")
                 };
@@ -328,7 +339,7 @@ public class BuildingRepository(IHouseHoldConnectionFactory factory)
                     CoolingPumpsConsumption = GetMonthlyConsumption(dataTable.Rows,
                         $"DE_KN_industrial{(int)industrialNumber}_cooling_pumps"),
                     DishwasherConsumption = GetMonthlyConsumption(dataTable.Rows,
-                            $"DE_KN_industrial{(int)industrialNumber}_dishwasher"),
+                        $"DE_KN_industrial{(int)industrialNumber}_dishwasher"),
                     CharingEletricVehicleConsumption = GetMonthlyConsumption(dataTable.Rows,
                         $"DE_KN_industrial{(int)industrialNumber}_ev"),
                     UrbanImportElectricityGrid = GetMonthlyConsumption(dataTable.Rows,
@@ -358,4 +369,37 @@ public class BuildingRepository(IHouseHoldConnectionFactory factory)
         Connection.CloseAsync();
         return industrialBuilding;
     }
+
+    public IEnumerable<DeviceConsumptionDto> GetOrderedDeviceConsumptions<T>(T building) where T : BaseBuilding
+    {
+        var deviceConsumptions = new List<DeviceConsumptionDto>();
+
+        var properties = typeof(T).GetProperties();
+
+        foreach (var property in properties)
+        {
+            if (property.Name.Contains("Production") || property.Name.Contains("Export")) continue;
+            if (property.GetValue(building) is not List<ConsumptionRecord> records) continue;
+            var totalConsumption = records
+                .Where(record => record.Consumption.HasValue)
+                .Sum(record => record.Consumption ?? 0);
+
+            deviceConsumptions.Add(new DeviceConsumptionDto
+            {
+                DeviceName = ConvertToReadableName(property.Name),
+                TotalConsumption = totalConsumption
+            });
+        }
+
+        return deviceConsumptions.OrderByDescending(dc => dc.TotalConsumption).ToList();
+    }
+
+    private static string ConvertToReadableName(string propertyName)
+    {
+        var readableName = propertyName.Replace("Consumption", "");
+        return MyRegex().Replace(readableName, "$1 $2");
+    }
+
+    [GeneratedRegex("([a-z])([A-Z])")]
+    private static partial Regex MyRegex();
 }

@@ -21,7 +21,9 @@ public class HomeController(IUserService userService, IBuildingRepository buildi
         var industrial1 = buildingRepository.GetIndustrial(NumberIndustrialBuildings.First);
         var industrial2 = buildingRepository.GetIndustrial(NumberIndustrialBuildings.Second);
         var industrial3 = buildingRepository.GetIndustrial(NumberIndustrialBuildings.Third);
-        
+
+
+        var orderConsumption = buildingRepository.GetOrderedDeviceConsumptions(residential4);
         return View();
     }
 
