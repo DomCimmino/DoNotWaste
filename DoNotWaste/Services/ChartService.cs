@@ -24,7 +24,7 @@ public class ChartService(IBuildingRepository buildingRepository) : IChartServic
             data.Add(item.Consumption ?? 0);
         }
 
-        return new ChartDataDto{ Labels = labels, Data = data};
+        return new ChartDataDto { Labels = labels, Data = data };
     }
 
     public ChartDataDto GetResidentialMeanDataChart()
@@ -35,6 +35,20 @@ public class ChartService(IBuildingRepository buildingRepository) : IChartServic
     public ChartDataDto GetIndustrialMeanDataChart()
     {
         return GetMeanDataChart<NumberIndustrialBuildings>(buildingRepository.GetIndustrial);
+    }
+
+    public List<DeviceConsumptionDto> GetResidentialDataProgressBar(NumberResidentialBuildings numberBuilding)
+    {
+        return buildingRepository
+            .GetOrderedDeviceConsumptions(buildingRepository.GetResidential(numberBuilding))
+            .ToList();
+    }
+
+    public List<DeviceConsumptionDto> GetIndustrialDataProgressBar(NumberIndustrialBuildings numberBuilding)
+    {
+        return buildingRepository
+            .GetOrderedDeviceConsumptions(buildingRepository.GetIndustrial(numberBuilding))
+            .ToList();
     }
 
     private ChartDataDto GetMeanDataChart<T>(Func<T, BaseBuilding> getBuildingFunc) where T : Enum
@@ -58,6 +72,7 @@ public class ChartService(IBuildingRepository buildingRepository) : IChartServic
                 list = new List<ConsumptionRecord>();
                 monthlyDictionaryDivision[item.StartDate] = list;
             }
+
             list.Add(item);
         }
 
@@ -67,7 +82,6 @@ public class ChartService(IBuildingRepository buildingRepository) : IChartServic
             data.Add(monthlyDictionaryDivision[startDate].Average(x => x.Consumption ?? 0));
         }
 
-        return new ChartDataDto{Labels = labels, Data = data};
+        return new ChartDataDto { Labels = labels, Data = data };
     }
-
 }

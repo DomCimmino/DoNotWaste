@@ -374,7 +374,7 @@ public partial class BuildingRepository(IHouseHoldConnectionFactory factory)
 
         foreach (var property in properties)
         {
-            if (property.Name.Contains("Production") || property.Name.Contains("Export")) continue;
+            if (property.Name.Contains("Production") || property.Name.Contains("Export") || property.Name.Contains("Import")) continue;
             if (property.GetValue(building) is not List<ConsumptionRecord> records) continue;
             var totalConsumption = records
                 .Where(record => record.Consumption.HasValue)
@@ -383,11 +383,11 @@ public partial class BuildingRepository(IHouseHoldConnectionFactory factory)
             deviceConsumptions.Add(new DeviceConsumptionDto
             {
                 DeviceName = ConvertToReadableName(property.Name),
-                TotalConsumption = totalConsumption
+                Consumption = totalConsumption
             });
         }
 
-        return deviceConsumptions.OrderByDescending(dc => dc.TotalConsumption).ToList();
+        return deviceConsumptions;
     }
 
     private static string ConvertToReadableName(string propertyName)
