@@ -5,6 +5,7 @@ using DoNotWaste.Repository.Interfaces;
 using DoNotWaste.Rest;
 using DoNotWaste.Services;
 using DoNotWaste.Services.Interfaces;
+using DoNotWaste.ViewModels;
 
 namespace DoNotWaste;
 
@@ -42,6 +43,12 @@ public static class StartUp
     {
         builder.Services.AddSingleton<IHouseHoldConnectionFactory, HouseHoldConnectionFactory>();
         builder.Services.AddSingleton<IBuildingRepository, BuildingRepository>();
+        return builder;
+    }
+
+    public static WebApplicationBuilder RegisterViewModels(this WebApplicationBuilder builder)
+    {
+        builder.Services.AddSingleton<HomeVm>();
         return builder;
     }
 }

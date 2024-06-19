@@ -1,17 +1,17 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using DoNotWaste.Models;
-using DoNotWaste.Services.Interfaces;
+using DoNotWaste.ViewModels;
 
 namespace DoNotWaste.Controllers;
 
-public class HomeController(IChartService chartService) : Controller
+public class HomeController(HomeVm viewModel) : Controller
 {
     private static MemoryStream? _lastReport;
 
     public IActionResult Index()
     {
-        return View();
+        return View(viewModel);
     }
 
     [HttpGet]
@@ -29,14 +29,12 @@ public class HomeController(IChartService chartService) : Controller
     [HttpGet]
     public IActionResult GetResidentialMeanConsumption()
     {
-        var chartData = chartService.GetResidentialMeanDataChart();
-        return Ok(chartData);
+        return Ok(viewModel.ResidentialMeanData);
     }
     
     [HttpGet]
     public IActionResult GetIndustrialMeanConsumption()
     {
-        var chartData = chartService.GetIndustrialMeanDataChart();
-        return Ok(chartData);
+        return Ok(viewModel.IndustrialMeanData);
     }
 }
