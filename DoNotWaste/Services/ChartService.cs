@@ -20,8 +20,8 @@ public class ChartService(IBuildingRepository buildingRepository) : IChartServic
 
         foreach (var item in building.MonthlyTotal())
         {
-            labels.Add(item.StartDate.ToString("MMM. yy", _cultureInfo));
-            data.Add(item.TotalConsumption ?? 0);
+            labels.Add(item.StartDate.ToString("MMMM yyyy", culture));
+            data.Add(item.Consumption ?? 0);
         }
 
         return new ChartDataDto{ Labels = labels, Data = data};
