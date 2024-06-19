@@ -8,50 +8,50 @@ public class ResidentialBuilding : BaseBuilding
     /// <summary>
     /// Gets or sets the dishwasher energy consumption in a residential building, located in the suburban area in kWh.
     /// </summary>
-    public List<(DateTime StartDate, DateTime EndDate, double? TotalConsumption)>? DishwasherConsumption { get; set; }
+    public List<ConsumptionRecord>? DishwasherConsumption { get; set; }
 
     /// <summary>
     /// Gets or sets the freezer energy consumption in a residential building, located in the suburban area in kWh.
     /// </summary>
-    public List<(DateTime StartDate, DateTime EndDate, double? TotalConsumption)>? FreezerConsumption { get; set; }
+    public List<ConsumptionRecord>? FreezerConsumption { get; set; }
 
     /// <summary>
     /// Gets or sets the energy imported from the public grid in a residential building, located in the suburban area in kWh.
     /// </summary>
-    public List<(DateTime StartDate, DateTime EndDate, double? TotalConsumption)>? UrbanImportElectricityGrid { get; set; }
+    public List<ConsumptionRecord>? UrbanImportElectricityGrid { get; set; }
 
     /// <summary>
     /// Gets or sets the energy exported from the residential building in a public grid, located in the suburban area in kWh.
     /// </summary>
-    public List<(DateTime StartDate, DateTime EndDate, double? TotalConsumption)>? UrbanExportElectricityGrid { get; set; }
+    public List<ConsumptionRecord>? UrbanExportElectricityGrid { get; set; }
 
     /// <summary>
     /// Gets or sets the heat pump energy consumption in a residential building, located in the suburban area in kWh.
     /// </summary>
-    public List<(DateTime StartDate, DateTime EndDate, double? TotalConsumption)>? HeatPumpConsumption { get; set; }
+    public List<ConsumptionRecord>? HeatPumpConsumption { get; set; }
 
     /// <summary>
     /// Gets or sets the total photovoltaic energy generation in a residential building, located in the suburban area in kWh.
     /// </summary>
-    public List<(DateTime StartDate, DateTime EndDate, double? TotalConsumption)>? PhotovoltaicProduction { get; set; }
+    public List<ConsumptionRecord>? PhotovoltaicProduction { get; set; }
 
     /// <summary>
     /// Gets or sets the washing machine energy consumption in a residential building, located in the suburban area in kWh.
     /// </summary>
-    public List<(DateTime StartDate, DateTime EndDate, double? TotalConsumption)>? WashingMachineConsumption { get; set; }
+    public List<ConsumptionRecord>? WashingMachineConsumption { get; set; }
 
     /// <summary>
     /// Gets or sets the circulation pump energy consumption in a residential building, located in the suburban area in kWh.
     /// </summary>
-    public List<(DateTime StartDate, DateTime EndDate, double? TotalConsumption)>? CirculationPumpConsumption { get; set; }
+    public List<ConsumptionRecord>? CirculationPumpConsumption { get; set; }
 
     /// <summary>
     /// Gets or sets the refrigerator energy consumption in a residential building, located in the suburban area in kWh.
     /// </summary>
-    public List<(DateTime StartDate, DateTime EndDate, double? TotalConsumption)>? RefrigeratorConsumption { get; set; }
+    public List<ConsumptionRecord>? RefrigeratorConsumption { get; set; }
 
     /// <summary>
     /// Electric Vehicle charging energy in a residential building, located in the suburban area in kWh.
     /// </summary>
-    public List<(DateTime StartDate, DateTime EndDate, double? TotalConsumption)>? CharingEletricVehicleConsumption { get; set; }
+    public List<ConsumptionRecord>? CharingEletricVehicleConsumption { get; set; }
 }
