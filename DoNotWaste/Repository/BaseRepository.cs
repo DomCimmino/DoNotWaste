@@ -1,5 +1,6 @@
 using System.Data;
 using System.Data.SQLite;
+using DoNotWaste.Models.DataModel;
 using DoNotWaste.Repository.Interfaces;
 
 namespace DoNotWaste.Repository;
@@ -17,7 +18,7 @@ public class BaseRepository(IHouseHoldConnectionFactory factory)
         return dataTable;
     }
 
-    protected static List<(DateTime StartDate, DateTime EndDate, double? TotalConsumption)> GetMonthlyConsumption(
+    protected static List<ConsumptionRecord> GetMonthlyConsumption(
         DataRowCollection rows, string consumptionColumnName)
     {
         if (rows == null || rows.Count == 0)
@@ -30,7 +31,7 @@ public class BaseRepository(IHouseHoldConnectionFactory factory)
             throw new ArgumentException($"Column '{consumptionColumnName}' does not exist.");
         }
 
-        var monthlyConsumption = new List<(DateTime StartDate, DateTime EndDate, double? TotalConsumption)>();
+        var monthlyConsumption = new List<ConsumptionRecord>();
 
         // Group rows by month and year
         var groupedByMonth = rows.Cast<DataRow>()
@@ -57,7 +58,7 @@ public class BaseRepository(IHouseHoldConnectionFactory factory)
             var endOfMonth = new DateTime(endDateTime.Year, endDateTime.Month,
                 DateTime.DaysInMonth(endDateTime.Year, endDateTime.Month));
 
-            monthlyConsumption.Add((startOfMonth, endOfMonth, totalConsumption));
+            monthlyConsumption.Add(new ConsumptionRecord(startOfMonth, endOfMonth, totalConsumption));
         }
 
         return monthlyConsumption;
