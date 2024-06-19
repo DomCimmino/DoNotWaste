@@ -3,7 +3,7 @@ $(document).ready(function () {
     let lineCtx = document.getElementById("lineChart");
 
     $.ajax({
-        type: "POST",
+        type: "GET",
         url: "/Home/GetResidentialMeanConsumption",
         data: "",
         contentType: "application/json; charset=utf8",
@@ -19,8 +19,8 @@ $(document).ready(function () {
             console.error("Element not found.");
             return;
         }
-        let _labels = data[0];
-        let _chartData = data[1];
+        let _labels =  data.labels;
+        let _chartData = data.data;
 
         new Chart(lineCtx,
             {
@@ -28,8 +28,7 @@ $(document).ready(function () {
                 data: {
                     labels: _labels,
                     datasets: [{
-                        label: "Monthly Consumption in kWh",
-                        backgroundColor: "rgba(2,117,216,1)",
+                        label: "Consumption in kWh",
                         borderColor: "rgba(2,117,216,1)",
                         data: _chartData,
                         borderWidth: 1
@@ -51,7 +50,6 @@ $(document).ready(function () {
                         yAxes: [{
                             ticks: {
                                 min: 0,
-                                max: 15000,
                                 maxTicksLimit: 5
                             },
                             gridLines: {
@@ -60,7 +58,7 @@ $(document).ready(function () {
                         }],
                     },
                     legend: {
-                        display: false
+                        display: true
                     }
                 }
             });

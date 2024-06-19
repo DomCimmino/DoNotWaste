@@ -14,17 +14,3 @@
     }
 
 });
-
-document.querySelector('.left-btn').addEventListener('click', function() {
-    document.querySelector('.scrollable-row').scrollBy({
-        left: -300, // Adjust this value to change scroll amount
-        behavior: 'smooth'
-    });
-});
-
-document.querySelector('.right-btn').addEventListener('click', function() {
-    document.querySelector('.scrollable-row').scrollBy({
-        left: 300, // Adjust this value to change scroll amount
-        behavior: 'smooth'
-    });
-});

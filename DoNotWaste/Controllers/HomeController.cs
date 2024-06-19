@@ -1,8 +1,6 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using DoNotWaste.Models;
-using DoNotWaste.Models.DataModel;
-using DoNotWaste.Models.EnergyStarModels;
 using DoNotWaste.Services.Interfaces;
 
 namespace DoNotWaste.Controllers;
@@ -28,23 +26,17 @@ public class HomeController(IChartService chartService) : Controller
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
     
-    [HttpPost]
-    public List<object> GetResidentialMeanConsumption()
+    [HttpGet]
+    public IActionResult GetResidentialMeanConsumption()
     {
-        var data = new List<object>();
         var chartData = chartService.GetResidentialMeanDataChart();
-        data.Add(chartData.Labels);
-        data.Add(chartData.Data);
-        return data;
+        return Ok(chartData);
     }
     
-    [HttpPost]
-    public List<object> GetIndustrialMeanConsumption()
+    [HttpGet]
+    public IActionResult GetIndustrialMeanConsumption()
     {
-        var data = new List<object>();
         var chartData = chartService.GetIndustrialMeanDataChart();
-        data.Add(chartData.Labels);
-        data.Add(chartData.Data);
-        return data;
+        return Ok(chartData);
     }
 }

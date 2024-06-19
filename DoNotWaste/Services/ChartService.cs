@@ -1,4 +1,5 @@
 using System.Globalization;
+using DoNotWaste.DTO;
 using DoNotWaste.Models.DataModel;
 using DoNotWaste.Repository.Interfaces;
 using DoNotWaste.Services.Interfaces;
@@ -10,7 +11,7 @@ public class ChartService(IBuildingRepository buildingRepository) : IChartServic
 {
     private readonly CultureInfo _cultureInfo = new("en-US");
 
-    public (string[] Labels, double[] Data) GetSingleBuildingDataChart(NumberResidentialBuildings numberBuilding)
+    public ChartDataDto GetSingleBuildingDataChart(NumberResidentialBuildings numberBuilding)
     {
         var labels = new List<string>();
         var data = new List<double>();
@@ -23,20 +24,20 @@ public class ChartService(IBuildingRepository buildingRepository) : IChartServic
             data.Add(item.TotalConsumption ?? 0);
         }
 
-        return ([.. labels], [.. data]);
+        return new ChartDataDto{ Labels = labels, Data = data};
     }
 
-    public (string[] Labels, double[] Data) GetResidentialMeanDataChart()
+    public ChartDataDto GetResidentialMeanDataChart()
     {
         return GetMeanDataChart<NumberResidentialBuildings>(buildingRepository.GetResidential);
     }
 
-    public (string[] Labels, double[] Data) GetIndustrialMeanDataChart()
+    public ChartDataDto GetIndustrialMeanDataChart()
     {
         return GetMeanDataChart<NumberIndustrialBuildings>(buildingRepository.GetIndustrial);
     }
 
-    private (string[] Labels, double[] Data) GetMeanDataChart<T>(Func<T, BaseBuilding> getBuildingFunc) where T : Enum
+    private ChartDataDto GetMeanDataChart<T>(Func<T, BaseBuilding> getBuildingFunc) where T : Enum
     {
         var allMonthlyTotal = new List<(DateTime StartDate, DateTime EndDate, double? consumption)>();
         var labels = new List<string>();
@@ -66,7 +67,7 @@ public class ChartService(IBuildingRepository buildingRepository) : IChartServic
             data.Add(monthlyDictionaryDivision[startDate].Average(x => x.consumption ?? 0));
         }
 
-        return (labels.ToArray(), data.ToArray());
+        return new ChartDataDto{Labels = labels, Data = data};
     }
 
 }
