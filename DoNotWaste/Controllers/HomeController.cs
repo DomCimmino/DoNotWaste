@@ -1,21 +1,29 @@
 using System.Diagnostics;
-using DoNotWaste.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using DoNotWaste.Models;
+using DoNotWaste.Models.DataModel;
+using DoNotWaste.Repository.Interfaces;
+using DoNotWaste.Services.Interfaces;
 
 namespace DoNotWaste.Controllers;
 
-public class HomeController : Controller
+public class HomeController(IUserService userService, IBuildingRepository buildingRepository) : Controller
 {
-    private readonly ILogger<HomeController> _logger;
-
-    public HomeController(ILogger<HomeController> logger)
+    public async Task<ActionResult> Index()
     {
-        _logger = logger;
-    }
+        var account = await userService.GetUser();
+        var residential1 = buildingRepository.GetResidential(NumberResidentialBuildings.First);
+        var residential2 = buildingRepository.GetResidential(NumberResidentialBuildings.Second);
+        var residential3 = buildingRepository.GetResidential(NumberResidentialBuildings.Third);
+        var residential4 = buildingRepository.GetResidential(NumberResidentialBuildings.Fourth);
+        var residential5 = buildingRepository.GetResidential(NumberResidentialBuildings.Fifth);
+        var residential6 = buildingRepository.GetResidential(NumberResidentialBuildings.Sixth);
+        var industrial1 = buildingRepository.GetIndustrial(NumberIndustrialBuildings.First);
+        var industrial2 = buildingRepository.GetIndustrial(NumberIndustrialBuildings.Second);
+        var industrial3 = buildingRepository.GetIndustrial(NumberIndustrialBuildings.Third);
 
-    public async Task<IActionResult> Index()
-    {
+
+        var orderConsumption = buildingRepository.GetOrderedDeviceConsumptions(residential4);
         return View();
     }
 
