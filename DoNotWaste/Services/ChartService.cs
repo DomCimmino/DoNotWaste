@@ -20,7 +20,7 @@ public class ChartService(IBuildingRepository buildingRepository) : IChartServic
 
         foreach (var item in building.MonthlyTotal())
         {
-            labels.Add(item.StartDate.ToString("MMMM yyyy", culture));
+            labels.Add(item.StartDate.ToString("MMMM yyyy", _cultureInfo));
             data.Add(item.Consumption ?? 0);
         }
 
@@ -39,7 +39,7 @@ public class ChartService(IBuildingRepository buildingRepository) : IChartServic
 
     private ChartDataDto GetMeanDataChart<T>(Func<T, BaseBuilding> getBuildingFunc) where T : Enum
     {
-        var allMonthlyTotal = new List<(DateTime StartDate, DateTime EndDate, double? consumption)>();
+        var allMonthlyTotal = new List<ConsumptionRecord>();
         var labels = new List<string>();
         var data = new List<double>();
 
@@ -49,13 +49,13 @@ public class ChartService(IBuildingRepository buildingRepository) : IChartServic
             allMonthlyTotal.AddRange(building.MonthlyTotal());
         }
 
-        var monthlyDictionaryDivision = new Dictionary<DateTime, List<(DateTime StartDate, DateTime EndDate, double? consumption)>>();
+        var monthlyDictionaryDivision = new Dictionary<DateTime, List<ConsumptionRecord>>();
 
         foreach (var item in allMonthlyTotal)
         {
             if (!monthlyDictionaryDivision.TryGetValue(item.StartDate, out var list))
             {
-                list = new List<(DateTime StartDate, DateTime EndDate, double? consumption)>();
+                list = new List<ConsumptionRecord>();
                 monthlyDictionaryDivision[item.StartDate] = list;
             }
             list.Add(item);
@@ -64,7 +64,7 @@ public class ChartService(IBuildingRepository buildingRepository) : IChartServic
         foreach (var startDate in monthlyDictionaryDivision.Keys.OrderBy(d => d))
         {
             labels.Add(startDate.ToString("MMM. yy", _cultureInfo));
-            data.Add(monthlyDictionaryDivision[startDate].Average(x => x.consumption ?? 0));
+            data.Add(monthlyDictionaryDivision[startDate].Average(x => x.Consumption ?? 0));
         }
 
         return new ChartDataDto{Labels = labels, Data = data};
