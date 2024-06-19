@@ -1,7 +1,7 @@
 namespace DoNotWaste.Models.EnergyStarModels;
 
 [XmlRoot(ElementName="contact")]
-public class Contact { 
+public class EnergyStarContact { 
 
     /// <summary>
     /// Your first name
@@ -16,7 +16,7 @@ public class Contact {
     public string? LastName { get; set; } 
     
     [XmlElement(ElementName="address")] 
-    public Address? Address { get; set; } 
+    public EnergyStarAddress? Address { get; set; } 
 
     /// <summary>
     /// Your email address
