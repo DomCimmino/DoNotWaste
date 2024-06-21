@@ -49,6 +49,7 @@ public static class StartUp
     public static WebApplicationBuilder RegisterViewModels(this WebApplicationBuilder builder)
     {
         builder.Services.AddSingleton<HomeVm>();
+        builder.Services.AddSingleton<CoSSMicVM>();
         return builder;
     }
 }
