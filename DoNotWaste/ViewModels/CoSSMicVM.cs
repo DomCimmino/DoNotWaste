@@ -6,11 +6,13 @@ namespace DoNotWaste.ViewModels;
 
 public class CoSSMicVM(IChartService chartService)
 {
-    public IEnumerable<BuildingTypeDto> BuildingsType => LoadBuildingsType();
+    public List<BuildingTypeDto> BuildingsType => LoadBuildingsType();
+    public List<BuildingDto> Buildings => LoadBuildings();
+    public List<ChartDataDto> ChartData => LoadChartData();
+    
+    
 
-    public IEnumerable<BuildingDto> Buildings => LoadBuildings();
-
-    private static IEnumerable<BuildingTypeDto> LoadBuildingsType()
+    private static List<BuildingTypeDto> LoadBuildingsType()
     {
         return
         [
@@ -30,22 +32,30 @@ public class CoSSMicVM(IChartService chartService)
         ];
     }
 
-    private static IEnumerable<BuildingDto> LoadBuildings()
+    private static List<BuildingDto> LoadBuildings()
     {
-        var buildings = new List<BuildingDto>();
+        var buildings =
+            (from NumberResidentialBuildings numberBuilding in Enum.GetValues(typeof(NumberResidentialBuildings))
+                select new BuildingDto
+                    { BuildingTypeId = 1, Id = (int?)numberBuilding, Number = Enum.GetName(numberBuilding) }).ToList();
 
-        foreach (NumberResidentialBuildings numberBuilding in Enum.GetValues(typeof(NumberResidentialBuildings)))
-        {
-            buildings.Add(new BuildingDto
-                { BuildingTypeId = 1, Id = (int?)numberBuilding, Number = Enum.GetName(numberBuilding) });
-        }
-
-        foreach (NumberIndustrialBuildings numberBuilding in Enum.GetValues(typeof(NumberIndustrialBuildings)))
-        {
-            buildings.Add(new BuildingDto
+        buildings.AddRange(
+            from NumberIndustrialBuildings numberBuilding in Enum.GetValues(typeof(NumberIndustrialBuildings))
+            select new BuildingDto
                 { BuildingTypeId = 2, Id = (int?)numberBuilding, Number = Enum.GetName(numberBuilding) });
-        }
 
         return buildings;
+    }
+
+    private List<ChartDataDto> LoadChartData()
+    {
+        var chartData =
+            (from NumberResidentialBuildings numberBuilding in Enum.GetValues(typeof(NumberResidentialBuildings))
+                select chartService.GetSingleBuildingDataChart(numberBuilding)).ToList();
+        chartData.AddRange(
+            from NumberIndustrialBuildings numberBuilding in Enum.GetValues(typeof(NumberIndustrialBuildings))
+            select chartService.GetSingleBuildingDataChart(numberBuilding));
+        
+        return chartData;
     }
 }
