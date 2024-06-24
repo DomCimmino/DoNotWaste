@@ -17,7 +17,7 @@ public class HomeController(
 {
     private EnergyStarProperty? Property { get; set; }
 
-    private static MemoryStream? _lastReport;
+    private static byte[]? _lastReport;
 
     public async Task<ActionResult> Index()
     {
