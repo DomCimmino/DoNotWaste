@@ -10,7 +10,7 @@ public class HomeVm(IChartService chartService)
     
     public ChartDataDto IndustrialMeanData => chartService.GetIndustrialMeanDataChart();
     public List<DeviceConsumptionDto> ResidentialDeviceConsumptions =>
-        chartService.GetResidentialDataProgressBar(NumberResidentialBuildings.Fourth);
+        chartService.GetResidentialDataProgressBar();
     public List<DeviceConsumptionDto> IndustrialResidentialDeviceConsumptions =>
-        chartService.GetIndustrialDataProgressBar(NumberIndustrialBuildings.Third);
+        chartService.GetIndustrialDataProgressBar();
 }

@@ -226,6 +226,7 @@ public partial class BuildingRepository(IHouseHoldConnectionFactory factory)
             default:
                 throw new ArgumentOutOfRangeException(nameof(residentialNumber), residentialNumber, null);
         }
+
         return residentialBuilding;
     }
 
@@ -363,18 +364,19 @@ public partial class BuildingRepository(IHouseHoldConnectionFactory factory)
             default:
                 throw new ArgumentOutOfRangeException(nameof(industrialNumber), industrialNumber, null);
         }
+
         return industrialBuilding;
     }
 
     public IEnumerable<DeviceConsumptionDto> GetOrderedDeviceConsumptions<T>(T building) where T : BaseBuilding
     {
         var deviceConsumptions = new List<DeviceConsumptionDto>();
-
         var properties = typeof(T).GetProperties();
 
         foreach (var property in properties)
         {
-            if (property.Name.Contains("Production") || property.Name.Contains("Export") || property.Name.Contains("Import")) continue;
+            if (property.Name.Contains("Production") || property.Name.Contains("Export") ||
+                property.Name.Contains("Import")) continue;
             if (property.GetValue(building) is not List<ConsumptionRecord> records) continue;
             var totalConsumption = records
                 .Where(record => record.Consumption.HasValue)
@@ -389,6 +391,89 @@ public partial class BuildingRepository(IHouseHoldConnectionFactory factory)
 
         return deviceConsumptions;
     }
+
+    public List<DeviceConsumptionDto> CalculateAverageDeviceConsumptionsForAllBuildings(bool isResidential = true)
+    {
+        var totalConsumptions = new Dictionary<string, double>();
+        var deviceCount = new Dictionary<string, int>();
+
+        if (isResidential)
+        {
+            foreach (NumberResidentialBuildings residentialNumber in Enum.GetValues(typeof(NumberResidentialBuildings)))
+            {
+                var building = GetResidential(residentialNumber);
+
+                var properties = typeof(ResidentialBuilding).GetProperties();
+
+                foreach (var property in properties)
+                {
+                    if (property.Name.Contains("Production") ||
+                        property.Name.Contains("Export") ||
+                        property.Name.Contains("Import")) continue;
+
+
+                    if (property.GetValue(building) is not List<ConsumptionRecord> records) continue;
+
+                    foreach (var record in records)
+                    {
+                        if (!record.Consumption.HasValue) continue;
+
+                        var deviceName = ConvertToReadableName(property.Name);
+
+                        if (!totalConsumptions.ContainsKey(deviceName))
+                        {
+                            totalConsumptions[deviceName] = 0;
+                            deviceCount[deviceName] = 0;
+                        }
+
+                        totalConsumptions[deviceName] += record.Consumption.Value;
+                        deviceCount[deviceName]++;
+                    }
+                }
+            }
+        }
+        else
+        {
+            foreach (NumberIndustrialBuildings industrialBuildings in Enum.GetValues(typeof(NumberIndustrialBuildings)))
+            {
+                var building = GetIndustrial(industrialBuildings);
+
+                var properties = typeof(IndustrialBuilding).GetProperties();
+
+                foreach (var property in properties)
+                {
+                    if (property.Name.Contains("Production") ||
+                        property.Name.Contains("Export") ||
+                        property.Name.Contains("Import") ||
+                        property.Name.Contains("Charge")) continue;
+
+
+                    if (property.GetValue(building) is not List<ConsumptionRecord> records) continue;
+
+                    foreach (var record in records)
+                    {
+                        if (!record.Consumption.HasValue) continue;
+
+                        var deviceName = ConvertToReadableName(property.Name);
+
+                        if (!totalConsumptions.ContainsKey(deviceName))
+                        {
+                            totalConsumptions[deviceName] = 0;
+                            deviceCount[deviceName] = 0;
+                        }
+
+                        totalConsumptions[deviceName] += record.Consumption.Value;
+                        deviceCount[deviceName]++;
+                    }
+                }
+            }
+        }
+        
+        return (from deviceName in totalConsumptions.Keys
+            let averageConsumption = totalConsumptions[deviceName] / deviceCount[deviceName]
+            select new DeviceConsumptionDto { DeviceName = deviceName, Consumption = averageConsumption }).ToList();
+    }
+
 
     private static string ConvertToReadableName(string propertyName)
     {

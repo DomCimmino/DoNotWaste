@@ -8,6 +8,6 @@ public interface IChartService
     ChartDataDto GetSingleBuildingDataChart<T>(T numberBuilding) where T : Enum;
     ChartDataDto GetResidentialMeanDataChart();
     ChartDataDto GetIndustrialMeanDataChart();
-    List<DeviceConsumptionDto> GetResidentialDataProgressBar(NumberResidentialBuildings numberBuilding);
-    List<DeviceConsumptionDto> GetIndustrialDataProgressBar(NumberIndustrialBuildings numberBuilding);
+    List<DeviceConsumptionDto> GetResidentialDataProgressBar();
+    List<DeviceConsumptionDto> GetIndustrialDataProgressBar();
 }

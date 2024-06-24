@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
     <link rel="icon" type="image/png" href="~/logo.ico" sizes="32x32">
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
-    @await RenderSectionAsync("Css",false);
+    @await RenderSectionAsync("Css", false);
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 </head>
 <body class="sb-nav-fixed">
@@ -30,13 +30,14 @@
                         </div>
                         Dashboard
                     </a>
-                    <div class="sb-sidenav-menu-heading">Tools</div>
+                    <div class="sb-sidenav-menu-heading">Dataset</div>
                     <a class="nav-link" asp-area="" asp-controller="CoSSMic" asp-action="Index">
                         <div class="sb-nav-link-icon">
                             <i class="fa-solid fa-building"></i>
                         </div>
                         CoSSMic Buildings
                     </a>
+                    <div class="sb-sidenav-menu-heading">Tools</div>
                     <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">
                         <div class="sb-nav-link-icon">
                             <i class="fa-solid fa-plug"></i>

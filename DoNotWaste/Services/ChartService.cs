@@ -58,18 +58,16 @@ public class ChartService(IBuildingRepository buildingRepository) : IChartServic
         return GetMeanDataChart<NumberIndustrialBuildings>(buildingRepository.GetIndustrial);
     }
 
-    public List<DeviceConsumptionDto> GetResidentialDataProgressBar(NumberResidentialBuildings numberBuilding)
+    public List<DeviceConsumptionDto> GetResidentialDataProgressBar()
     {
         return buildingRepository
-            .GetOrderedDeviceConsumptions(buildingRepository.GetResidential(numberBuilding))
-            .ToList();
+            .CalculateAverageDeviceConsumptionsForAllBuildings();
     }
 
-    public List<DeviceConsumptionDto> GetIndustrialDataProgressBar(NumberIndustrialBuildings numberBuilding)
+    public List<DeviceConsumptionDto> GetIndustrialDataProgressBar()
     {
         return buildingRepository
-            .GetOrderedDeviceConsumptions(buildingRepository.GetIndustrial(numberBuilding))
-            .ToList();
+            .CalculateAverageDeviceConsumptionsForAllBuildings(false);
     }
 
     private ChartDataDto GetMeanDataChart<T>(Func<T, BaseBuilding> getBuildingFunc) where T : Enum
@@ -105,4 +103,6 @@ public class ChartService(IBuildingRepository buildingRepository) : IChartServic
 
         return new ChartDataDto { Labels = labels, Data = data };
     }
+    
+    
 }
