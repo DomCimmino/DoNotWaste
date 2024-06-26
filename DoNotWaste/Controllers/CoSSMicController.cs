@@ -40,14 +40,14 @@ public class CoSSMicController(CoSSMicVM viewModel) : Controller
                 ? viewModel.GetConsumptionProgressBarData(buildingTypeId ?? -1, null)
                 : viewModel.GetConsumptionProgressBarData(buildingTypeId ?? -1, buildingNumberId));
     }
-    
+
     [HttpGet]
     public IActionResult GetPhotovoltaicProduction(int? buildingTypeId, int? buildingNumberId)
     {
         return buildingTypeId == null
-            ? Ok(-1)
+            ? Ok(new List<double>())
             : Ok(buildingNumberId == null
-                ? viewModel.GetPhotovoltaicProduction(buildingTypeId ?? -1, null)
-                : viewModel.GetPhotovoltaicProduction(buildingTypeId ?? -1, buildingNumberId));
+                ? new List<double> { viewModel.GetPhotovoltaicProduction((int)buildingTypeId, null) }
+                : [viewModel.GetPhotovoltaicProduction((int)buildingTypeId, buildingNumberId)]);
     }
 }

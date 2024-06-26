@@ -1,5 +1,6 @@
 let lineChart;
-let donutChart
+let donutChart;
+let rand = Math.random;
 
 function UpdateChart(data, lineCtx) {
 
@@ -14,7 +15,7 @@ function UpdateChart(data, lineCtx) {
 
     let labels = data[0].labels;
     let dataset = [];
-    let rand = Math.random;
+    
 
     data.forEach(function (chartData) {
         dataset.push({
@@ -86,7 +87,7 @@ function UpdateConsumptionProgressBar(data) {
                                     </h4>
                                     <div class="progress mb-4">
                                         <div class="progress-bar" role="progressbar"
-                                             style="width: ${percentage}%; background-color: rgba(2, 117, 216, 1);"
+                                             style="width: ${percentage}%; background-color: rgb(${Math.floor(rand() * 256)}, ${Math.floor(rand() * 256)}, ${Math.floor(rand() * 256)});"
                                              aria-valuenow="${percentage}" aria-valuemin="0" aria-valuemax="100">
                                         </div>
                                     </div>`;
@@ -97,25 +98,27 @@ function UpdateConsumptionProgressBar(data) {
 
 function UpdatePhotovoltaicProduction(data, donutCtx) {
     let container = $('#device-photovoltaic-container');
-    if (data === -1) {
-        container.append('<p>No data available please select building type or building number.</p>');
+    if (data.length === 0) {
+        donutCtx.style.display = 'none';
+        container.append('<p id="statement" style="display: block">No data available please select building type or building number.</p>');
     } else {
+        document.getElementById("statement").style.display = 'none';
+        donutCtx.style.display = 'block';
+        
         if (!donutCtx) {
             console.error("Element not found.");
             return;
         }
 
-        if (donutCtx) {
+        if (donutChart) {
             donutChart.destroy();
         }
 
         let chartData = {
             labels: ['Photovoltaic production in kWh'],
             datasets: [{
-                data: [data],
-                backgroundColor: ['#4e73df'],  // Example color, change as needed
-                hoverBackgroundColor: ['#2e59d9'],
-                hoverBorderColor: "rgba(234, 236, 244, 1)"
+                data: data,
+                backgroundColor: [`rgb(${Math.floor(rand() * 256)}, ${Math.floor(rand() * 256)}, ${Math.floor(rand() * 256)})`]
             }]
         };
 
@@ -125,17 +128,10 @@ function UpdatePhotovoltaicProduction(data, donutCtx) {
             options: {
                 maintainAspectRatio: false,
                 tooltips: {
-                    backgroundColor: "rgb(255,255,255)",
-                    bodyFontColor: "#858796",
-                    borderColor: '#dddfeb',
-                    borderWidth: 1,
                     xPadding: 15,
                     yPadding: 15,
                     displayColors: false,
                     caretPadding: 10,
-                },
-                legend: {
-                    display: false
                 },
                 cutoutPercentage: 80,
             }
@@ -144,8 +140,8 @@ function UpdatePhotovoltaicProduction(data, donutCtx) {
 }
 
 $(document).ready(function () {
-    let lineCtx = document.getElementById("buildingChart").getContext('2d');
-    let donutCtx = document.getElementById("photovoltaicProductionChart").getContext('2d');
+    let lineCtx = document.getElementById("buildingChart");
+    let donutCtx = document.getElementById("photovoltaicProductionChart");
     let selectedBuildingTypeId;
     let selectedBuildingNumberId;
 

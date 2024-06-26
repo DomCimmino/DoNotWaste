@@ -29,7 +29,7 @@ $(document).ready(function () {
                     labels: _labels,
                     datasets: [{
                         label: "Consumption in kWh",
-                        borderColor: "rgba(2,117,216,1)",
+                        borderColor: "rgba(2, 117, 216, 1)",
                         data: _chartData,
                         borderWidth: 1
                     }]
