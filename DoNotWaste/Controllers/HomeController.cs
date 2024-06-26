@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using DoNotWaste.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using DoNotWaste.Models;
 using DoNotWaste.Models.EnergyStarModels;
@@ -6,7 +7,7 @@ using DoNotWaste.Services.Interfaces;
 
 namespace DoNotWaste.Controllers;
 
-public class HomeController(IAssetScoreBuildingService buildingService) : Controller
+public class HomeController(IAssetScoreBuildingService buildingService,IAuthenticationService authenticationService) : Controller
 {
     private EnergyStarProperty? Property { get; set; }
 
@@ -14,6 +15,8 @@ public class HomeController(IAssetScoreBuildingService buildingService) : Contro
 
     public async Task<ActionResult> Index()
     {
+        var token = await authenticationService.GetAssetScoreToken();
+        var list = await buildingService.GetBuildings();
         return View();
     }
 

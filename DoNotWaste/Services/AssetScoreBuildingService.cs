@@ -19,6 +19,15 @@ public class AssetScoreBuildingService(IHttpClient httpClient, IAuthenticationSe
             });
     }
     
+    public async Task<List<BuildingResponse>> GetBuildings()
+    {
+        return await RefitExtensions.For<IAssetScoreBuildingApi>(await httpClient.GetHttpClient(false), false)
+            .GetBuildings(new BaseRequest
+            {
+                Token = await authenticationService.GetAssetScoreToken()
+            });
+    }
+    
     public async Task<BuildingResponse> GetBuildingById(int buildingId)
     {
         return await RefitExtensions.For<IAssetScoreBuildingApi>(await httpClient.GetHttpClient(false), false)
