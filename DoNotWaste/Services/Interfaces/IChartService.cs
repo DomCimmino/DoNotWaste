@@ -6,8 +6,10 @@ namespace DoNotWaste.Services.Interfaces;
 public interface IChartService
 {
     ChartDataDto GetSingleBuildingDataChart<T>(T numberBuilding) where T : Enum;
-    ChartDataDto GetResidentialMeanDataChart();
-    ChartDataDto GetIndustrialMeanDataChart();
-    List<DeviceConsumptionDto> GetResidentialDataProgressBar();
-    List<DeviceConsumptionDto> GetIndustrialDataProgressBar();
+    List<DeviceRecordDto> GetSingleBuildingDevicesConsumptionData<T>(T numberBuilding) where T : Enum;
+    ChartDataDto GetMeanDataChart(bool isResidential = true);
+    List<DeviceRecordDto> GetAverageDataProgressBar(bool isResidential = true);
+    List<DeviceRecordDto> GetSumConsumptionDataByType(bool isResidential = true);
+    public double GetSumProductionDataByType(bool isResidential = true);
+    double GetSumProductionDataById<T>(T numberBuilding) where T : Enum;
 }

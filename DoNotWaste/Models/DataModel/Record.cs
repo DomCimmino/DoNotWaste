@@ -1,8 +1,8 @@
 namespace DoNotWaste.Models.DataModel;
 
-public class ConsumptionRecord(DateTime startDate, DateTime endDate, double? consumption)
+public class Record(DateTime startDate, DateTime endDate, double? value)
 {
     public DateTime StartDate { get; set; } = startDate;
     public DateTime EndDate { get; set; } = endDate;
-    public double? Consumption { get; set; } = consumption;
+    public double? Value { get; set; } = value;
 }

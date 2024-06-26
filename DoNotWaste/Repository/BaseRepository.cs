@@ -18,7 +18,7 @@ public class BaseRepository(IHouseHoldConnectionFactory factory)
         return dataTable;
     }
 
-    protected static List<ConsumptionRecord> GetMonthlyConsumption(
+    protected static List<Record> GetMonthlyConsumption(
         DataRowCollection rows, string consumptionColumnName)
     {
         if (rows == null || rows.Count == 0)
@@ -31,7 +31,7 @@ public class BaseRepository(IHouseHoldConnectionFactory factory)
             throw new ArgumentException($"Column '{consumptionColumnName}' does not exist.");
         }
 
-        var monthlyConsumption = new List<ConsumptionRecord>();
+        var monthlyConsumption = new List<Record>();
 
         // Group rows by month and year
         var groupedByMonth = rows.Cast<DataRow>()
@@ -58,7 +58,7 @@ public class BaseRepository(IHouseHoldConnectionFactory factory)
             var endOfMonth = new DateTime(endDateTime.Year, endDateTime.Month,
                 DateTime.DaysInMonth(endDateTime.Year, endDateTime.Month));
 
-            monthlyConsumption.Add(new ConsumptionRecord(startOfMonth, endOfMonth, totalConsumption));
+            monthlyConsumption.Add(new Record(startOfMonth, endOfMonth, totalConsumption));
         }
 
         return monthlyConsumption;

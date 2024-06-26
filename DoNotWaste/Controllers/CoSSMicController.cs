@@ -1,3 +1,4 @@
+using DoNotWaste.DTO;
 using DoNotWaste.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
@@ -28,5 +29,25 @@ public class CoSSMicController(CoSSMicVM viewModel) : Controller
             : Ok(buildingNumberId == null
                 ? viewModel.ChartData.Where(x => x.BuildingTypeId == buildingTypeId)
                 : viewModel.ChartData.Where(x => x.BuildingTypeId == buildingTypeId && x.Id == buildingNumberId));
+    }
+
+    [HttpGet]
+    public IActionResult GetDeviceConsumptionData(int? buildingTypeId, int? buildingNumberId)
+    {
+        return buildingTypeId == null
+            ? Ok(new List<DeviceRecordDto>())
+            : Ok(buildingNumberId == null
+                ? viewModel.GetConsumptionProgressBarData(buildingTypeId ?? -1, null)
+                : viewModel.GetConsumptionProgressBarData(buildingTypeId ?? -1, buildingNumberId));
+    }
+    
+    [HttpGet]
+    public IActionResult GetPhotovoltaicProduction(int? buildingTypeId, int? buildingNumberId)
+    {
+        return buildingTypeId == null
+            ? Ok(-1)
+            : Ok(buildingNumberId == null
+                ? viewModel.GetPhotovoltaicProduction(buildingTypeId ?? -1, null)
+                : viewModel.GetPhotovoltaicProduction(buildingTypeId ?? -1, buildingNumberId));
     }
 }

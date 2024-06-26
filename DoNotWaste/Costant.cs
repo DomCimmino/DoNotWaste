@@ -7,4 +7,6 @@ public static class Costant
     public const string WeatherStationName = "FRIEDRICHSHAFEN";
     public const string EnergyStarTypeReport = "ENERGY_STAR";
     public const string MetricType = "EPA";
+    public const int ResidentialType = 1;
+    public const int IndustrialType = 2;
 }

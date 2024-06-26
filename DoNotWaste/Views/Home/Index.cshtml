@@ -52,15 +52,15 @@
     </div>
     <div class="card-body">
         @{
-            var maxValue = Model.ResidentialDeviceConsumptions.Max(x => x.Consumption);
+            var maxValue = Model.ResidentialDeviceConsumptions.Max(x => x.Value);
             foreach (var deviceConsumption in Model.ResidentialDeviceConsumptions)
             {
-                deviceConsumption.Percentage = Math.Ceiling(deviceConsumption.Consumption / maxValue * 100 ?? 0);
+                deviceConsumption.Percentage = Math.Ceiling(deviceConsumption.Value / maxValue * 100 ?? 0);
                 <h4 class="small font-weight-bold">
                     @deviceConsumption.DeviceName
                     <span
                         class="float-right">
-                        @Math.Round(deviceConsumption.Consumption ?? 0, 2) kWh
+                        @Math.Round(deviceConsumption.Value ?? 0, 2) kWh
                     </span>
                 </h4>
                 <div class="progress mb-4">
@@ -81,15 +81,15 @@
     </div>
     <div class="card-body">
         @{
-            maxValue = Model.IndustrialResidentialDeviceConsumptions.Max(x => x.Consumption);
+            maxValue = Model.IndustrialResidentialDeviceConsumptions.Max(x => x.Value);
             foreach (var deviceConsumption in Model.IndustrialResidentialDeviceConsumptions)
             {
-                deviceConsumption.Percentage = Math.Ceiling(deviceConsumption.Consumption / maxValue * 100 ?? 0);
+                deviceConsumption.Percentage = Math.Ceiling(deviceConsumption.Value / maxValue * 100 ?? 0);
                 <h4 class="small font-weight-bold">
                     @deviceConsumption.DeviceName
                     <span
                         class="float-right">
-                        @Math.Round(deviceConsumption.Consumption ?? 0, 2) kWh
+                        @Math.Round(deviceConsumption.Value ?? 0, 2) kWh
                     </span>
                 </h4>
                 <div class="progress mb-4">

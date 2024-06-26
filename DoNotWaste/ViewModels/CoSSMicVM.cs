@@ -9,8 +9,38 @@ public class CoSSMicVM(IChartService chartService)
     public List<BuildingTypeDto> BuildingsType => LoadBuildingsType();
     public List<BuildingDto> Buildings => LoadBuildings();
     public List<ChartDataDto> ChartData => LoadChartData();
+
+    public List<DeviceRecordDto> GetConsumptionProgressBarData(int buildingTypeId, int? buildingId)
+    {
+        if (buildingId != null)
+        {
+            return buildingTypeId == Costant.ResidentialType
+                ? chartService.GetSingleBuildingDevicesConsumptionData(
+                    (NumberResidentialBuildings)Enum.ToObject(typeof(NumberResidentialBuildings), buildingId))
+                : chartService.GetSingleBuildingDevicesConsumptionData(
+                    (NumberIndustrialBuildings)Enum.ToObject(typeof(NumberIndustrialBuildings), buildingId));
+        }
+
+        return buildingTypeId == Costant.ResidentialType
+            ? chartService.GetSumConsumptionDataByType()
+            : chartService.GetSumConsumptionDataByType(false);
+    }
     
-    
+    public double GetPhotovoltaicProduction(int buildingTypeId, int? buildingId)
+    {
+        if (buildingId != null)
+        {
+            return buildingTypeId == Costant.ResidentialType
+                ? chartService.GetSumProductionDataById(
+                    (NumberResidentialBuildings)Enum.ToObject(typeof(NumberResidentialBuildings), buildingId))
+                : chartService.GetSumProductionDataById(
+                    (NumberIndustrialBuildings)Enum.ToObject(typeof(NumberIndustrialBuildings), buildingId));
+        }
+
+        return buildingTypeId == Costant.ResidentialType
+            ? chartService.GetSumProductionDataByType()
+            : chartService.GetSumProductionDataByType(false);
+    }
 
     private static List<BuildingTypeDto> LoadBuildingsType()
     {
@@ -55,7 +85,7 @@ public class CoSSMicVM(IChartService chartService)
         chartData.AddRange(
             from NumberIndustrialBuildings numberBuilding in Enum.GetValues(typeof(NumberIndustrialBuildings))
             select chartService.GetSingleBuildingDataChart(numberBuilding));
-        
+
         return chartData;
     }
 }
