@@ -96,6 +96,12 @@ function UpdateConsumptionProgressBar(data) {
     }
 }
 
+$(document).ajaxStart(function() {
+    $('#overlay').show();
+}).ajaxStop(function() {
+    $('#overlay').hide();
+});
+
 function UpdatePhotovoltaicProduction(data, donutCtx) {
     let container = $('#device-photovoltaic-container');
     if (data.length === 0) {
@@ -164,13 +170,9 @@ $(document).ready(function () {
     });
 
     $('#buildingNumberDropdown').next('.dropdown-menu').on('click', function (e) {
-        console.log(e);
         e.preventDefault();
         selectedBuildingTypeId = e.target.dataset.typeId;
         selectedBuildingNumberId = e.target.id;
-
-        console.log(selectedBuildingTypeId);
-        console.log(selectedBuildingNumberId);
 
         if (selectedBuildingTypeId && selectedBuildingNumberId) {
             $.getJSON('/CoSSMic/GetBuildingDataChart', {
@@ -193,7 +195,7 @@ $(document).ready(function () {
             });
         }
     });
-
+    
     $.getJSON('/CoSSMic/GetBuildingsByType', function (data) {
         UpdateBuildings(data);
     });

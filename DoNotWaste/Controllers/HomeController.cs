@@ -37,4 +37,11 @@ public class HomeController(HomeVm viewModel) : Controller
     {
         return Ok(viewModel.IndustrialMeanData);
     }
+
+    [HttpGet]
+    public IActionResult Loading()
+    {
+        Thread.Sleep(3000);
+        return Ok(true);
+    }
 }
