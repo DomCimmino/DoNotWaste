@@ -11,7 +11,21 @@ namespace DoNotWaste;
 
 public static class StartUp
 {
-    public static WebApplicationBuilder RegisterServices(this WebApplicationBuilder builder)
+    public static void UpdateConfiguration(this WebApplicationBuilder builder)
+    {
+        builder.Configuration.SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+            .AddUserSecrets<Configuration>()
+            .AddEnvironmentVariables();
+    }
+    
+    public static void RegisterRepositories(this WebApplicationBuilder builder)
+    {
+        builder.Services.AddSingleton<IHouseHoldConnectionFactory, HouseHoldConnectionFactory>();
+        builder.Services.AddSingleton<IBuildingRepository, BuildingRepository>();
+    }
+    
+    public static void RegisterServices(this WebApplicationBuilder builder)
     {
         builder.Services.AddSingleton<IAuthenticationService, AuthenticationService>();
         builder.Services.AddTransient<IHttpClientFactory, HttpClientFactory>();
@@ -25,31 +39,12 @@ public static class StartUp
         builder.Services
             .Configure<Configuration>(builder.Configuration.GetSection(nameof(Configuration)))
             .AddOptions();
-        
-        return builder;
     }
 
-    public static WebApplicationBuilder UpdateConfiguration(this WebApplicationBuilder builder)
-    {
-        builder.Configuration.SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-            .AddUserSecrets<Configuration>()
-            .AddEnvironmentVariables();
-
-        return builder;
-    }
-    
-    public static WebApplicationBuilder RegisterRepositories(this WebApplicationBuilder builder)
-    {
-        builder.Services.AddSingleton<IHouseHoldConnectionFactory, HouseHoldConnectionFactory>();
-        builder.Services.AddSingleton<IBuildingRepository, BuildingRepository>();
-        return builder;
-    }
-
-    public static WebApplicationBuilder RegisterViewModels(this WebApplicationBuilder builder)
+    public static void RegisterViewModels(this WebApplicationBuilder builder)
     {
         builder.Services.AddSingleton<HomeVm>();
-        builder.Services.AddSingleton<CoSSMicVM>();
-        return builder;
+        builder.Services.AddSingleton<CoSSMicVm>();
+        builder.Services.AddSingleton<PortfolioManagerVm>();
     }
 }

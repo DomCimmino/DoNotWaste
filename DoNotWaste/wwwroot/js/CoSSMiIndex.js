@@ -96,12 +96,6 @@ function UpdateConsumptionProgressBar(data) {
     }
 }
 
-$(document).ajaxStart(function() {
-    $('#overlay').show();
-}).ajaxStop(function() {
-    $('#overlay').hide();
-});
-
 function UpdatePhotovoltaicProduction(data, donutCtx) {
     let container = $('#device-photovoltaic-container');
     if (data.length === 0) {
@@ -144,6 +138,12 @@ function UpdatePhotovoltaicProduction(data, donutCtx) {
         });
     }
 }
+
+$(document).ajaxStart(function() {
+    $('#overlay').show();
+}).ajaxStop(function() {
+    $('#overlay').hide();
+});
 
 $(document).ready(function () {
     let lineCtx = document.getElementById("buildingChart");

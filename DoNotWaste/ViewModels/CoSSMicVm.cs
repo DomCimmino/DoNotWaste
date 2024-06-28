@@ -4,7 +4,7 @@ using DoNotWaste.Services.Interfaces;
 
 namespace DoNotWaste.ViewModels;
 
-public class CoSSMicVM(IChartService chartService)
+public class CoSSMicVm(IChartService chartService)
 {
     public List<BuildingTypeDto> BuildingsType => LoadBuildingsType();
     public List<BuildingDto> Buildings => LoadBuildings();

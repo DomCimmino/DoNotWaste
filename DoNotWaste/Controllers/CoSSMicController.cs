@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DoNotWaste.Controllers;
 
-public class CoSSMicController(CoSSMicVM viewModel) : Controller
+public class CoSSMicController(CoSSMicVm viewModel) : Controller
 {
     public IActionResult Index()
     {

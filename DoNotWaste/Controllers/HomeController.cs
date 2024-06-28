@@ -7,17 +7,9 @@ namespace DoNotWaste.Controllers;
 
 public class HomeController(HomeVm viewModel) : Controller
 {
-    private static MemoryStream? _lastReport;
-
     public IActionResult Index()
     {
         return View(viewModel);
-    }
-
-    [HttpGet]
-    public IActionResult Pdf()
-    {
-        return File(_lastReport?.ToArray() ?? [], "application/pdf", "report.pdf");
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
@@ -36,12 +28,5 @@ public class HomeController(HomeVm viewModel) : Controller
     public IActionResult GetIndustrialMeanConsumption()
     {
         return Ok(viewModel.IndustrialMeanData);
-    }
-
-    [HttpGet]
-    public IActionResult Loading()
-    {
-        Thread.Sleep(3000);
-        return Ok(true);
     }
 }
