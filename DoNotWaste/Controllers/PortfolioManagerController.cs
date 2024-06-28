@@ -9,6 +9,12 @@ public class PortfolioManagerController(PortfolioManagerVm viewmodel) : Controll
     {
         return View();
     }
+
+    [HttpGet]
+    public async Task<IActionResult> LoadProperties()
+    {
+        return Ok(await viewmodel.LoadProperties());
+    }
     
     
     [HttpGet]

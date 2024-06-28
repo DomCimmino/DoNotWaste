@@ -1,5 +1,6 @@
 using DoNotWaste.Authentication;
 using DoNotWaste.HttpManager;
+using DoNotWaste.Mapper;
 using DoNotWaste.Repository;
 using DoNotWaste.Repository.Interfaces;
 using DoNotWaste.Rest;
@@ -27,6 +28,7 @@ public static class StartUp
     
     public static void RegisterServices(this WebApplicationBuilder builder)
     {
+        builder.Services.AddAutoMapper(typeof(MappingProfile));;
         builder.Services.AddSingleton<IAuthenticationService, AuthenticationService>();
         builder.Services.AddTransient<IHttpClientFactory, HttpClientFactory>();
         builder.Services.AddTransient<IHttpClient, RestClient>();

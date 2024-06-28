@@ -2,4 +2,55 @@
     ViewData["Title"] = "Dashboard";
 }
 
+@section Css
+{
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.dataTables.css"/>
+}
+
+
 <h1 class="mt-4">Portfolio Manager</h1>
+<ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item active">
+        Choose a building, and you will see all Portfolio Manager data.
+    </li>
+</ol>
+<div class="row justify-content-end">
+    <div class="col-sm-auto">
+        <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="energyStarBuilding" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fa-solid fa-building me-1"></i>
+                    Building Number
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="buildingNumberDropdown">
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="card mb-4">
+    <div class="card-header">
+        <i class="fas fa-table me-1"></i>
+        DataTable Example
+    </div>
+    <div class="card-body">
+        <table id="consumptionDataTable">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Position</th>
+                <th>Office</th>
+                <th>Age</th>
+                <th>Start date</th>
+                <th>Salary</th>
+            </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script src="~/js/portfolioManagerIndex.js" asp-append-version="true"></script>
+    <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
+}

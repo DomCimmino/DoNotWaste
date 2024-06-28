@@ -5,11 +5,6 @@
     ViewData["Title"] = "CoSSMic";
 }
 
-@section Scripts
-{
-    <script src="~/js/CoSSMiIndex.js" asp-append-version="true"></script>
-}
-
 <h1 class="mt-4">CoSSMic Buildings</h1>
 <ol class="breadcrumb mb-4">
     <li class="breadcrumb-item active">
@@ -21,7 +16,7 @@
         <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" id="buildingTypeDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="fa-solid fa-building"></i>
+                    <i class="fa-solid fa-building me-1"></i>
                     Buildings Type
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="buildingTypeDropdown">
@@ -41,7 +36,7 @@
         <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" id="buildingNumberDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="fa-solid fa-building"></i>
+                    <i class="fa-solid fa-building me-1"></i>
                     Building Number
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="buildingNumberDropdown">
@@ -82,3 +77,8 @@
         </div>
     </div>
 </div>
+
+@section Scripts
+{
+    <script src="~/js/CoSSMiIndex.js" asp-append-version="true"></script>
+}
