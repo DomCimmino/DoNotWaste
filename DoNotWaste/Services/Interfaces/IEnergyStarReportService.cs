@@ -9,5 +9,5 @@ public interface IEnergyStarReportService
     Task<EnergyStarMetric> GetPropertyMetric(int propertyId);
     Task<EnergyStarResponse> GenerateReport(int reportId);
     Task<EnergyStarResponse> ModifyReport(int reportId, EnergyStarReport report);
-    MemoryStream CreatePdf(EnergyStarProperty property, EnergyStarMetric metric);
+    Task<byte[]> CreatePdf(int propertyId);
 }

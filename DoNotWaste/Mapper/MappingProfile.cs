@@ -15,6 +15,16 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.YearBuilt, opt => opt.MapFrom(src => src.YearBuilt))
             .ForMember(dest => dest.Address, opt => opt.MapFrom(src => ConcatenateAddress(src.Address)))
             .ReverseMap();
+        CreateMap<EnergyStarMeterData, List<MeterDataDto>>()
+            .ConvertUsing(src => src.MeterConsumptions != null 
+                ? src.MeterConsumptions.Select(mc => new MeterDataDto
+                {
+                    StartDate = mc.StartDate,
+                    EndDate = mc.EndDate,
+                    Cost = mc.Cost,
+                    Usage = mc.Usage
+                }).ToList()
+                : new List<MeterDataDto>());
     }
     
     private string ConcatenateAddress(EnergyStarAddress? address)

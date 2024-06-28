@@ -15,12 +15,16 @@ public class PortfolioManagerController(PortfolioManagerVm viewmodel) : Controll
     {
         return Ok(await viewmodel.LoadProperties());
     }
-    
+
+    [HttpGet]
+    public async Task<IActionResult> LoadPropertyData(int? propertyId)
+    {
+        return Ok(propertyId != null ? await viewmodel.LoadPropertyData(propertyId ?? -1) : []);
+    }
     
     [HttpGet]
-    public IActionResult Pdf()
+    public async Task<IActionResult> LoadReport()
     {
-        return File(viewmodel.Report?.ToArray() ?? [], "application/pdf", "report.pdf");
+        return File(await viewmodel.LoadReport(), "application/pdf", "report.pdf");
     }
-
 }

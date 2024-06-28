@@ -1,5 +1,5 @@
 @{
-    ViewData["Title"] = "Dashboard";
+    ViewData["Title"] = "Portfolio Manager";
 }
 
 @section Css
@@ -11,16 +11,16 @@
 <h1 class="mt-4">Portfolio Manager</h1>
 <ol class="breadcrumb mb-4">
     <li class="breadcrumb-item active">
-        Choose a building, and you will see all Portfolio Manager data.
+        Choose a property, and you will see all Portfolio Manager data.
     </li>
 </ol>
 <div class="row justify-content-end">
     <div class="col-sm-auto">
         <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" id="energyStarBuilding" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <a class="nav-link dropdown-toggle" id="energyStarProperties" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="fa-solid fa-building me-1"></i>
-                    Building Number
+                    Property
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="buildingNumberDropdown">
                 </ul>
@@ -30,22 +30,34 @@
 </div>
 <div class="card mb-4">
     <div class="card-header">
-        <i class="fas fa-table me-1"></i>
-        DataTable Example
+        <i class="fa-solid fa-plug-circle-minus me-1"></i>
+        Consumption data
     </div>
     <div class="card-body">
-        <table id="consumptionDataTable">
+        <table id="consumptionDataTable" class="display nowrap" style="width:100%">
             <thead>
             <tr>
-                <th>Name</th>
-                <th>Position</th>
-                <th>Office</th>
-                <th>Age</th>
+                <th>Usage</th>
+                <th>Cost</th>
                 <th>Start date</th>
-                <th>Salary</th>
+                <th>End date</th>
             </tr>
             </thead>
+            <tbody class="tableBody">
+
+            </tbody>
         </table>
+    </div>
+</div>
+<div class="row justify-content-end">
+    <div class="col-sm-auto">
+        <button id="viewReportButton" class="btn btn-primary" type="submit" asp-controller="PortfolioManager" asp-action="LoadReport" style=".disabled {
+            pointer-events: none;
+            opacity: 0.6;
+        }">
+            <i class="fa-solid fa-file-arrow-down me-1"></i>
+            View report
+        </button>
     </div>
 </div>
 
@@ -53,4 +65,5 @@
 {
     <script src="~/js/portfolioManagerIndex.js" asp-append-version="true"></script>
     <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
 }

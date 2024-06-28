@@ -1,3 +1,5 @@
+using AutoMapper;
+using DoNotWaste.DTO;
 using DoNotWaste.Models.EnergyStarModels;
 using DoNotWaste.Rest;
 using DoNotWaste.Services.API;
@@ -5,7 +7,7 @@ using DoNotWaste.Services.Interfaces;
 
 namespace DoNotWaste.Services;
 
-public class EnergyStarMeterService(IHttpClient httpClient) : IEnergyStarMeterService
+public class EnergyStarMeterService(IHttpClient httpClient, IMapper mapper) : IEnergyStarMeterService
 {
     public async Task<EnergyStarResponse> GetMeterList(int propertyId, bool accessOnly = true)
     {
@@ -21,10 +23,11 @@ public class EnergyStarMeterService(IHttpClient httpClient) : IEnergyStarMeterSe
         return meter;
     }
 
-    public async Task<EnergyStarMeterData> GetMeterData(int meterId, int? page, DateTime startDate, DateTime endDate)
+    public async Task<List<MeterDataDto>> GetMeterData(int meterId, int? page, DateTime startDate, DateTime endDate)
     {
-        return await RefitExtensions.For<IEnergyStarMeterApi>(await httpClient.GetHttpClient()).GetMeterData(meterId,
+        var meterData =  await RefitExtensions.For<IEnergyStarMeterApi>(await httpClient.GetHttpClient()).GetMeterData(meterId,
             null, startDate.ToString("yyyy-MM-dd"), endDate.ToString("yyyy-MM-dd"));
+        return mapper.Map<List<MeterDataDto>>(meterData);
     }
 
     public async Task<EnergyStarResponse> CreateMeter(int propertyId, EnergyStarMeterRequest meter)

@@ -46,10 +46,13 @@ public class EnergyStarReportService(IHttpClient httpClient) : IEnergyStarReport
             .ModifyReport(reportId, report);
     }
 
-    public MemoryStream CreatePdf(EnergyStarProperty property, EnergyStarMetric metric)
+    public async Task<byte[]> CreatePdf(int propertyId)
     {
+        var metric = await GetPropertyMetric(propertyId);
+        var property = await RefitExtensions.For<IEnergyStarPropertyApi>(await httpClient.GetHttpClient())
+            .GetProperty(propertyId);
         var memoryStream = new MemoryStream();
-        using var writer = new PdfWriter(memoryStream);
+        await using var writer = new PdfWriter(memoryStream);
         using var pdf = new PdfDocument(writer);
         var document = new Document(pdf);
 
@@ -87,7 +90,7 @@ public class EnergyStarReportService(IHttpClient httpClient) : IEnergyStarReport
                 .SetFontSize(12)
                 .SetMarginTop(20);
         document.Add(propertyDetails);
-        
+
         var propertyInfo = new Paragraph(
                 $"Property & Contact Information\n\n" +
                 $"Property Address:\n{property.Address?.FirstAddress}\n{property.Address?.City}, {property.Address?.OtherState} {property.Address?.PostalCode}\n\n" +
@@ -97,7 +100,7 @@ public class EnergyStarReportService(IHttpClient httpClient) : IEnergyStarReport
             .SetFontSize(12)
             .SetMarginTop(20);
         document.Add(propertyInfo);
-        
+
         var energyConsumption = new Paragraph(
                 $"Energy Consumption and Energy Use Intensity (EUI)\n\n" +
                 $"Site EUI: {metric.Metrics?.FirstOrDefault(x => x.Name == "siteIntensity")?.Value} GJ/m²")
@@ -108,6 +111,6 @@ public class EnergyStarReportService(IHttpClient httpClient) : IEnergyStarReport
         document.Add(energyConsumption);
 
         document.Close();
-        return memoryStream;
+        return memoryStream.ToArray();
     }
 }
