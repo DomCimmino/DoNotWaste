@@ -18,7 +18,8 @@
     <div class="col-sm-auto">
         <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" id="energyStarProperties" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <a class="nav-link dropdown-toggle" id="energyStarProperties" href="#" role="button"
+                   data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="fa-solid fa-building me-1"></i>
                     Property
                 </a>
@@ -49,9 +50,9 @@
         </table>
     </div>
 </div>
-<div class="row justify-content-end">
+<div class="row justify-content-center">
     <div class="col-sm-auto">
-        <button id="viewReportButton" class="btn btn-primary" type="submit" asp-controller="PortfolioManager" asp-action="LoadReport" style=".disabled {
+        <button id="generateButton" class="btn btn-primary" type="submit" style=".disabled {
             pointer-events: none;
             opacity: 0.6;
         }">
@@ -61,9 +62,30 @@
     </div>
 </div>
 
+<div class="modal fade" id="pdfModal" tabindex="-1" role="dialog" aria-labelledby="pdfModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="pdfModalLabel">Report</h5>
+                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+                <canvas id="pdfViewer"></canvas>
+                <div class="pdf-controls mt-3">
+                    <button id="prevPage" class="btn btn-secondary">Previous Page</button>
+                    <span id="pageNum"></span> / <span id="pageCount"></span>
+                    <button id="nextPage" class="btn btn-secondary">Next Page</button>
+                </div>
+                <button id="downloadPdfButton" class="btn btn-primary mt-3">Download Report</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @section Scripts
 {
     <script src="~/js/portfolioManagerIndex.js" asp-append-version="true"></script>
     <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.9.359/pdf.min.js"></script>
 }
