@@ -10,7 +10,7 @@ function updateGenerateButtonState() {
     }
 }
 
-function updateProperty(data) {
+function updatePropertiesDropdown(data) {
     let $buildingNumberDropdown = $('#energyStarProperties').next('.dropdown-menu');
     $buildingNumberDropdown.empty();
     $.each(data, function (index, item) {
@@ -36,8 +36,8 @@ function updatePropertyData(data) {
 }
 
 function renderPage(pdf, pageNum, canvas, context) {
-    pdf.getPage(pageNum).then(function(page) {
-        const viewport = page.getViewport({ scale: 1.5 });
+    pdf.getPage(pageNum).then(function (page) {
+        const viewport = page.getViewport({scale: 1.5});
         canvas.height = viewport.height;
         canvas.width = viewport.width;
 
@@ -46,10 +46,50 @@ function renderPage(pdf, pageNum, canvas, context) {
             viewport: viewport
         };
         const renderTask = page.render(renderContext);
-        renderTask.promise.then(function() {
+        renderTask.promise.then(function () {
             console.log('Page rendered');
             document.getElementById('pageNum').textContent = pageNum;
         });
+    });
+}
+
+function updateProperty(data) {
+    $("#propertyName").text(data.name);
+    $("#primaryFunction").text(data.primaryFunction);
+    $("#address").text(data.address);
+    $("#builtYear").text(data.yearBuilt);
+}
+
+async function fetchData(url) {
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+        const lat = data[0].lat;
+        const lon = data[0].lon;
+        const placeRank = data[0].place_rank;
+        return { lat, lon, placeRank };
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+function updateMap(address, propertyName) {
+    let parts = address.split(',');
+    let result = parts[0].replace(" ", "+") + "+" + parts[1].trim();
+    let url = "https://nominatim.openstreetmap.org/search?format=json&limit=3&q=" + result;
+    
+    fetchData(url).then(({ lat, lon, placeRank }) => {
+        const map = L.map('map').setView([lat, lon], placeRank);
+
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(map);
+        
+        L.marker([lat, lon],{
+            color: 'red',
+            title: propertyName
+        }).addTo(map);
     });
 }
 
@@ -66,6 +106,10 @@ $(document).ready(function () {
         selectedPropertyId = e.target.id;
         isPropertySelected = true;
         updateGenerateButtonState();
+        $.getJSON('/PortfolioManager/LoadProperty', {propertyId: selectedPropertyId}, function (data) {
+            updateProperty(data);
+            updateMap(data.address, data.name);
+        });
         $.getJSON('/PortfolioManager/LoadPropertyData', {propertyId: selectedPropertyId}, function (data) {
             updatePropertyData(data);
         });
@@ -73,9 +117,9 @@ $(document).ready(function () {
 
     updateGenerateButtonState();
     $.getJSON('/PortfolioManager/LoadProperties', function (data) {
-        updateProperty(data);
+        updatePropertiesDropdown(data);
     });
-    $.getJSON('/PortfolioManager/LoadPropertyData', function (data) {
+    $.getJSON('/PortfolioManager/LoadPropertyData', {propertyId: selectedPropertyId}, function (data) {
         updatePropertyData(data);
     });
 
@@ -93,7 +137,7 @@ $(document).ready(function () {
             .then(blob => {
                 const url = window.URL.createObjectURL(blob);
                 const loadingTask = pdfjsLib.getDocument(url);
-                loadingTask.promise.then(function(pdf) {
+                loadingTask.promise.then(function (pdf) {
                     console.log('PDF loaded');
                     const canvas = document.getElementById('pdfViewer');
                     const context = canvas.getContext('2d');
@@ -103,22 +147,22 @@ $(document).ready(function () {
 
                     renderPage(pdf, currentPage, canvas, context);
 
-                    document.getElementById('prevPage').addEventListener('click', function() {
+                    document.getElementById('prevPage').addEventListener('click', function () {
                         if (currentPage > 1) {
                             currentPage--;
                             renderPage(currentPage);
                         }
                     });
 
-                    document.getElementById('nextPage').addEventListener('click', function() {
+                    document.getElementById('nextPage').addEventListener('click', function () {
                         if (currentPage < totalPages) {
                             currentPage++;
                             renderPage(currentPage);
                         }
                     });
-                    
+
                     const downloadButton = document.getElementById('downloadPdfButton');
-                    downloadButton.onclick = function() {
+                    downloadButton.onclick = function () {
                         fetch(url)
                             .then(response => response.blob())
                             .then(blob => {
@@ -130,9 +174,9 @@ $(document).ready(function () {
                                 URL.revokeObjectURL(blobUrl);
                             })
                     };
-                    
+
                     $('#pdfModal').modal('show');
-                }, function(reason) {
+                }, function (reason) {
                     console.error(reason);
                 });
             })

@@ -26,6 +26,11 @@ public class PortfolioManagerVm(
         return propertiesList;
     }
 
+    public async Task<BuildingDto> LoadProperty(int propertyId)
+    {
+        return await propertyService.GetProperty(propertyId);
+    }
+
     public async Task<List<MeterDataDto>> LoadPropertyData(int propertyId)
     {
         SelectedPropertyId = propertyId;

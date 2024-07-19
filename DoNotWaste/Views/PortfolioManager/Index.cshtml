@@ -5,6 +5,14 @@
 @section Css
 {
     <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.dataTables.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+
+    <style>
+        #map{
+            width: 100%;
+            height: 400px;
+        }
+    </style>
 }
 
 
@@ -29,6 +37,52 @@
         </ul>
     </div>
 </div>
+
+<div class="row">
+    <div class="col-xl-6">
+        <div class="card mb-3">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <h6 class="mb-0">Property Name</h6>
+                    </div>
+                    <div id="propertyName" class="col-sm-9 text-secondary">
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <h6 class="mb-0">Primary Function</h6>
+                    </div>
+                    <div id="primaryFunction" class="col-sm-9 text-secondary">
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <h6 class="mb-0">Address</h6>
+                    </div>
+                    <div id="address" class="col-sm-9 text-secondary">
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <h6 class="mb-0">Built Year</h6>
+                    </div>
+                    <div id="builtYear" class="col-sm-9 text-secondary">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-6">
+        <div id="mapContainer" class="card mb-3">
+            <div id="map"></div>
+        </div>
+    </div>
+</div>
+
 <div class="card mb-4">
     <div class="card-header">
         <i class="fa-solid fa-plug-circle-minus me-1"></i>
@@ -62,6 +116,9 @@
     </div>
 </div>
 
+<br/>
+<br/>
+
 <div class="modal fade" id="pdfModal" tabindex="-1" role="dialog" aria-labelledby="pdfModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
@@ -88,4 +145,5 @@
     <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.9.359/pdf.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 }
