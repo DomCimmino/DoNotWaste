@@ -24,4 +24,13 @@ public class BuildingDto
     
     [JsonProperty("address")]
     public string? Address { get; set; } = string.Empty;
+    
+    [JsonProperty("area")]
+    public int? Area { get; set; }
+
+    [JsonProperty("occupancy")]
+    public int? Occupancy { get; set; } 
+    
+    [JsonProperty("constructionStatus")]
+    public string? ConstructionStatus { get; set; }
 }

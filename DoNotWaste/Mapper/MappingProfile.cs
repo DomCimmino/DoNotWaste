@@ -14,6 +14,9 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.PrimaryFunction, opt => opt.MapFrom(src => Enum.GetName(src.PrimaryFunction)))
             .ForMember(dest => dest.YearBuilt, opt => opt.MapFrom(src => src.YearBuilt))
             .ForMember(dest => dest.Address, opt => opt.MapFrom(src => ConcatenateAddress(src.Address)))
+            .ForMember(dest => dest.Area, opt => opt.MapFrom(src => src.GrossFloorArea!.Value))
+            .ForMember(dest => dest.Occupancy, opt => opt.MapFrom(src => src.OccupancyPercentage))
+            .ForMember(dest => dest.ConstructionStatus, opt => opt.MapFrom(src => Enum.GetName(src.ConstructionStatus)))
             .ReverseMap();
         CreateMap<EnergyStarMeterData, List<MeterDataDto>>()
             .ConvertUsing(src => src.MeterConsumptions != null 
@@ -27,7 +30,7 @@ public class MappingProfile : Profile
                 : new List<MeterDataDto>());
     }
     
-    private string ConcatenateAddress(EnergyStarAddress? address)
+    private static string ConcatenateAddress(EnergyStarAddress? address)
     {
         if (address == null)
         {

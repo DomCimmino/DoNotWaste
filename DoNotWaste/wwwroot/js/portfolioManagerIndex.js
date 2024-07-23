@@ -1,6 +1,7 @@
 let propertyDataTable;
 let selectedPropertyId;
 let isPropertySelected = false;
+let map;
 
 function updateGenerateButtonState() {
     if (isPropertySelected) {
@@ -54,10 +55,14 @@ function renderPage(pdf, pageNum, canvas, context) {
 }
 
 function updateProperty(data) {
+    console.log(data)
     $("#propertyName").text(data.name);
     $("#primaryFunction").text(data.primaryFunction);
     $("#address").text(data.address);
     $("#builtYear").text(data.yearBuilt);
+    $("#area").text(data.area + "m²");
+    $("#occupancy").text(data.occupancy + "%");
+    $("#constructionStatus").text(data.constructionStatus);
 }
 
 async function fetchData(url) {
@@ -74,23 +79,37 @@ async function fetchData(url) {
 }
 
 function updateMap(address, propertyName) {
-    let parts = address.split(',');
-    let result = parts[0].replace(" ", "+") + "+" + parts[1].trim();
-    let url = "https://nominatim.openstreetmap.org/search?format=json&limit=3&q=" + result;
     
-    fetchData(url).then(({ lat, lon, placeRank }) => {
-        const map = L.map('map').setView([lat, lon], placeRank);
-
+    if (map) {
+        map.remove();
+    }
+    
+    if(address === null || propertyName === null){
+        map = L.map('map').setView([41.458, 12.706], 6);
+        
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         }).addTo(map);
-        
-        L.marker([lat, lon],{
-            color: 'red',
-            title: propertyName
-        }).addTo(map);
-    });
+    }else{
+        let parts = address.split(',');
+        let result = parts[0].replace(" ", "+") + "+" + parts[1].trim();
+        let url = "https://nominatim.openstreetmap.org/search?format=json&limit=3&q=" + result;
+
+        fetchData(url).then(({ lat, lon, placeRank }) => {
+            map = L.map('map').setView([lat, lon], placeRank);
+
+            L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+            }).addTo(map);
+
+            L.marker([lat, lon],{
+                color: 'red',
+                title: propertyName
+            }).addTo(map);
+        });
+    }
 }
 
 $(document).ajaxStart(function () {
@@ -122,6 +141,7 @@ $(document).ready(function () {
     $.getJSON('/PortfolioManager/LoadPropertyData', {propertyId: selectedPropertyId}, function (data) {
         updatePropertyData(data);
     });
+    updateMap(null, null);
 
     document.getElementById('generateButton').addEventListener('click', function () {
         $('#overlay').show();
