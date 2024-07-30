@@ -3,25 +3,27 @@ using DoNotWaste.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using DoNotWaste.Models;
 using DoNotWaste.Models.EnergyStarModels;
+using DoNotWaste.Services.Interfaces;
 
 namespace DoNotWaste.Controllers;
 
-public class HomeController(IAuthenticationService authenticationService) : Controller
+public class HomeController(IAssetScoreBuildingService buildingService,IAuthenticationService authenticationService) : Controller
 {
     private EnergyStarProperty? Property { get; set; }
 
-    private static MemoryStream? _lastReport;
+    private static byte[]? _lastReport;
 
     public async Task<ActionResult> Index()
     {
         var token = await authenticationService.GetAssetScoreToken();
+        var list = await buildingService.GetBuildings();
         return View();
     }
 
     [HttpGet]
-    public IActionResult Pdf()
+    public async Task<IActionResult> Pdf()
     {
-        return File(_lastReport?.ToArray() ?? [], "application/pdf", "report.pdf");
+        return File(await buildingService.GetReport(31534), "application/pdf", "report.pdf");
     }
 
     public IActionResult Privacy()
