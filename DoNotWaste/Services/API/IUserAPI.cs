@@ -13,6 +13,6 @@ public interface IUserApi
     [Post("/account")]
     Task<EnergyStarResponse> CreateEnergyStarAccount([Body(BodySerializationMethod.Serialized)] EnergyStarAccount account);
 
-    [Post("/users/authenticate")]
+    [Post("/api/v2/users/authenticate")]
     Task<AuthenticationResponse> GetAssetScoreToken([Body(BodySerializationMethod.Default)] AuthenticationRequest account);
 }

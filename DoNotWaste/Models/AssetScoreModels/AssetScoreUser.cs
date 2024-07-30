@@ -35,3 +35,30 @@ public class AssetScoreUser
     [JsonProperty("updated_at")]
     public DateTime? UpdatedAt { get; set; }
 }
+
+public class Owner : AssetScoreUser
+{
+    [JsonProperty("first_name")]
+    public string? FirstName { get; set; }
+
+    [JsonProperty("last_name")]
+    public string? LastName { get; set; }
+
+    [JsonProperty("organization")]
+    public Organization? Organization { get; set; }
+
+    [JsonProperty("site_admin")]
+    public bool? SiteAdmin { get; set; }
+
+    [JsonProperty("type")]
+    public string? Type { get; set; }
+}
+
+public class Organization
+{
+    [JsonProperty("id")]
+    public int? Id { get; set; }
+
+    [JsonProperty("name")]
+    public string? Name { get; set; }
+}

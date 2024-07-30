@@ -56,6 +56,7 @@ public class AuthenticationService(
     public async Task<string?> GetAssetScoreToken()
     {
         if (!string.IsNullOrEmpty(_assetScoreToken)) return _assetScoreToken;
+        
         try
         {
             var request = new AuthenticationRequest

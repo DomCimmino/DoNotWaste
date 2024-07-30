@@ -46,13 +46,11 @@ public class EnergyStarReportService(IHttpClient httpClient) : IEnergyStarReport
             .ModifyReport(reportId, report);
     }
 
-    public async Task<byte[]> CreatePdf(int propertyId)
+
+    public byte[] CreatePdf(EnergyStarProperty property, EnergyStarMetric metric)
     {
-        var metric = await GetPropertyMetric(propertyId);
-        var property = await RefitExtensions.For<IEnergyStarPropertyApi>(await httpClient.GetHttpClient())
-            .GetProperty(propertyId);
         var memoryStream = new MemoryStream();
-        await using var writer = new PdfWriter(memoryStream);
+        using var writer = new PdfWriter(memoryStream);
         using var pdf = new PdfDocument(writer);
         var document = new Document(pdf);
 

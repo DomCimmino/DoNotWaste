@@ -7,7 +7,8 @@ namespace DoNotWaste.Services.Interfaces;
 public interface IEnergyStarPropertyService
 {
     Task<EnergyStarResponse> GetPropertiesIdList(int accountId);
-    Task<BuildingDto> GetProperty(int propertyId);
+    Task<BuildingDto> GetDtoProperty(int propertyId);
+    Task<EnergyStarProperty> GetProperty(int propertyId);
     Task<EnergyStarWeatherStation> GetWeatherStations(Country country, int? page = null);
     Task<EnergyStarResponse> GetPropertyUseList(int propertyId);
     Task<EnergyStarResponse> CreateProperty(int accountId, EnergyStarProperty property);

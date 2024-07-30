@@ -16,7 +16,13 @@ public class EnergyStarPropertyService(IHttpClient httpClient, IMapper mapper) :
             .GetPropertiesList(accountId);
     }
 
-    public async Task<BuildingDto> GetProperty(int propertyId)
+    public async Task<EnergyStarProperty> GetProperty(int propertyId)
+    {
+       return await RefitExtensions.For<IEnergyStarPropertyApi>(await httpClient.GetHttpClient())
+            .GetProperty(propertyId);
+    }
+
+    public async Task<BuildingDto> GetDtoProperty(int propertyId)
     {
         var property = await RefitExtensions.For<IEnergyStarPropertyApi>(await httpClient.GetHttpClient())
             .GetProperty(propertyId);

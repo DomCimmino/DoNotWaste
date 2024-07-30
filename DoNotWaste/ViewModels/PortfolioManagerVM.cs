@@ -20,7 +20,7 @@ public class PortfolioManagerVm(
         var propertiesList = new List<BuildingDto>();
         foreach (var link in propertiesResponse.Links?.Link ?? [])
         {
-            propertiesList.Add(await propertyService.GetProperty(link.Id));
+            propertiesList.Add(await propertyService.GetDtoProperty(link.Id));
         }
 
         return propertiesList;
@@ -28,7 +28,7 @@ public class PortfolioManagerVm(
 
     public async Task<BuildingDto> LoadProperty(int propertyId)
     {
-        return await propertyService.GetProperty(propertyId);
+        return await propertyService.GetDtoProperty(propertyId);
     }
 
     public async Task<List<MeterDataDto>> LoadPropertyData(int propertyId)
@@ -42,6 +42,6 @@ public class PortfolioManagerVm(
 
     public async Task<byte[]> LoadReport()
     {
-        return await reportService.CreatePdf(SelectedPropertyId ?? -1);
+        return reportService.CreatePdf(await propertyService.GetProperty(SelectedPropertyId ?? -1), await reportService.GetPropertyMetric(SelectedPropertyId ?? -1));
     }
 }

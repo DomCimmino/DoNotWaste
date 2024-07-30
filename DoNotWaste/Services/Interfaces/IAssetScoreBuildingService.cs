@@ -4,5 +4,8 @@ namespace DoNotWaste.Services.Interfaces;
 
 public interface IAssetScoreBuildingService
 {
-    Task<int> CreateSimpleBuildings(SimpleBuildingRequest simpleBuildingRequest);
+    Task<BuildingResponse> CreateSimpleBuildings(AssetScoreSimpleBuilding simpleBuildingRequest);
+    Task<List<BuildingResponse>> GetBuildings();
+    Task<BuildingResponse> GetBuildingById(int buildingId);
+    Task<byte[]> GetReport(int buildingId);
 }
