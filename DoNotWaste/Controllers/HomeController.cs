@@ -10,7 +10,7 @@ public class HomeController(IAuthenticationService authenticationService) : Cont
 {
     private EnergyStarProperty? Property { get; set; }
 
-    private static MemoryStream? _lastReport;
+    private static byte[]? _lastReport;
 
     public async Task<ActionResult> Index()
     {

@@ -46,7 +46,7 @@ public class EnergyStarReportService(IHttpClient httpClient) : IEnergyStarReport
             .ModifyReport(reportId, report);
     }
 
-    public MemoryStream CreatePdf(EnergyStarProperty property, EnergyStarMetric metric)
+    public byte[] CreatePdf(EnergyStarProperty property, EnergyStarMetric metric)
     {
         var memoryStream = new MemoryStream();
         using var writer = new PdfWriter(memoryStream);
@@ -108,6 +108,6 @@ public class EnergyStarReportService(IHttpClient httpClient) : IEnergyStarReport
         document.Add(energyConsumption);
 
         document.Close();
-        return memoryStream;
+        return memoryStream.ToArray();
     }
 }
