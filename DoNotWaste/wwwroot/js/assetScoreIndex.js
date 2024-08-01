@@ -1,39 +1,92 @@
-let propertyDataTable;
-let selectedPropertyId;
-let isPropertySelected = false;
-let map;
+let selectedBuildingId;
+let isBuildingSelected = false;
 
 function updateGenerateButtonState() {
-    if (isPropertySelected) {
+    if (isBuildingSelected) {
         $('#generateButton').removeClass('disabled');
     } else {
         $('#generateButton').addClass('disabled');
     }
 }
 
-function updatePropertiesDropdown(data) {
-    let $buildingNumberDropdown = $('#energyStarProperties').next('.dropdown-menu');
+function isValidURL(string) {
+    try {
+        new URL(string);
+        return true;
+    } catch (_) {
+        return false;
+    }
+}
+
+function loadBuildingUrl(data) {
+    let element = document.getElementById("buildingUrl");
+    
+    if(isBuildingSelected){
+        element.style.display = "block";
+        element.innerHTML = "";
+        element.innerHTML += `Navigate to <a href="${data.htmlUrl}" target="_blank">${data.htmlUrl}</a> to view building in the tool`;
+    }else{
+        element.style.display = "none";
+    }
+    
+}
+
+function loadDropdownValues(data) {
+    let $buildingNumberDropdown = $('#assetScoreBuildings').next('.dropdown-menu');
     $buildingNumberDropdown.empty();
     $.each(data, function (index, item) {
         $buildingNumberDropdown.append(`<li><a class="dropdown-item" href="#" id="${item.id}">${item.name}</a></li>`);
     });
 }
 
-function updatePropertyData(data) {
-    if (propertyDataTable) {
-        propertyDataTable.destroy();
+function appendColToRow(name, data, row){
+    let colLabel = document.createElement("div");
+    colLabel.className = "col-sm-3";
+    colLabel.innerHTML = `<h6 class="mb-0">${name}</h6>`;
+
+    row.appendChild(colLabel);
+
+    let colValue = document.createElement("div");
+    colValue.className = "col-sm-9 text-secondary";
+    colValue.id = "propertyName";
+    
+    if (isValidURL(data)) {
+        let link = document.createElement("a");
+        link.href = data;
+        link.textContent = data;
+        link.target = "_blank";  // Open link in a new tab
+        colValue.appendChild(link);
+    } else {
+        colValue.textContent = data;
     }
-    propertyDataTable = $('#consumptionDataTable').DataTable();
-    if (data.length === 0) return;
-    let $tableBody = $('.tableBody');
-    $tableBody.empty();
-    let rows = data.map(item => [
-        item.usage + " kWh",
-        "$ " + item.cost,
-        item.startDate,
-        item.endDate
-    ]);
-    propertyDataTable.rows.add(rows).draw();
+    row.appendChild(colValue);
+}
+
+function loadBuildingRecommendation(data) {
+    let container = document.getElementById("recommendations");
+    container.innerHTML = "";
+    
+    if(!isBuildingSelected){
+        container.innerHTML = "<p>Please select building.</p>";
+    }else{
+        data.forEach(function(recommendation, index) {
+
+            let row = document.createElement("div");
+            row.className = "row";
+
+            appendColToRow("Recommendation",recommendation.advice,row);
+            appendColToRow("Cost",recommendation.cost,row);
+            appendColToRow("Energy Savings",recommendation.energySavings,row);
+            appendColToRow("Guide to upgrade",recommendation.upgradeGuide,row);
+
+            container.appendChild(row);
+
+            if (index < data.length - 1) {
+                let hr = document.createElement("hr");
+                container.appendChild(hr);
+            }
+        });
+    }
 }
 
 function renderPage(pdf, pageNum, canvas, context) {
@@ -54,98 +107,37 @@ function renderPage(pdf, pageNum, canvas, context) {
     });
 }
 
-function updateProperty(data) {
-    console.log(data)
-    $("#propertyName").text(data.name);
-    $("#primaryFunction").text(data.primaryFunction);
-    $("#address").text(data.address);
-    $("#builtYear").text(data.yearBuilt);
-    $("#area").text(data.area + "m²");
-    $("#occupancy").text(data.occupancy + "%");
-    $("#constructionStatus").text(data.constructionStatus);
-}
-
-async function fetchData(url) {
-    try {
-        const response = await fetch(url);
-        const data = await response.json();
-        const lat = data[0].lat;
-        const lon = data[0].lon;
-        const placeRank = data[0].place_rank;
-        return { lat, lon, placeRank };
-    } catch (err) {
-        console.log(err);
-    }
-}
-
-function updateMap(address, propertyName) {
-    
-    if (map) {
-        map.remove();
-    }
-    
-    if(address === null || propertyName === null){
-        map = L.map('map').setView([41.458, 12.706], 6);
-        
-        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 19,
-            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-        }).addTo(map);
-    }else{
-        let parts = address.split(',');
-        let result = parts[0].replace(" ", "+") + "+" + parts[1].trim();
-        let url = "https://nominatim.openstreetmap.org/search?format=json&limit=3&q=" + result;
-
-        fetchData(url).then(({ lat, lon, placeRank }) => {
-            map = L.map('map').setView([lat, lon], placeRank);
-
-            L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                maxZoom: 19,
-                attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-            }).addTo(map);
-
-            L.marker([lat, lon],{
-                color: 'red',
-                title: propertyName
-            }).addTo(map);
-        });
-    }
-}
-
 $(document).ajaxStart(function () {
     $('#overlay').show();
 }).ajaxStop(function () {
     $('#overlay').hide();
 });
 
+
 $(document).ready(function () {
 
-    $('#energyStarProperties').next('.dropdown-menu').on('click', function (e) {
+    $('#assetScoreBuildings').next('.dropdown-menu').on('click', function (e) {
         e.preventDefault();
-        selectedPropertyId = e.target.id;
-        isPropertySelected = true;
-        updateGenerateButtonState();
-        $.getJSON('/PortfolioManager/LoadProperty', {propertyId: selectedPropertyId}, function (data) {
-            updateProperty(data);
-            updateMap(data.address, data.name);
+        selectedBuildingId = e.target.id;
+        isBuildingSelected = true;
+        $.getJSON('/AssetScore/LoadBuilding', {buildingId: selectedBuildingId}, function (data) {
+            updateGenerateButtonState();
+            loadBuildingUrl(data);
         });
-        $.getJSON('/PortfolioManager/LoadPropertyData', {propertyId: selectedPropertyId}, function (data) {
-            updatePropertyData(data);
+        $.getJSON('/AssetScore/LoadBuildingRecommendations', function (data) {
+            loadBuildingRecommendation(data);
         });
     });
 
+    loadBuildingRecommendation();
+    loadBuildingUrl();
     updateGenerateButtonState();
-    $.getJSON('/PortfolioManager/LoadProperties', function (data) {
-        updatePropertiesDropdown(data);
+    $.getJSON('/AssetScore/LoadBuildings', function (data) {
+        loadDropdownValues(data);
     });
-    $.getJSON('/PortfolioManager/LoadPropertyData', {propertyId: selectedPropertyId}, function (data) {
-        updatePropertyData(data);
-    });
-    updateMap(null, null);
-
     document.getElementById('generateButton').addEventListener('click', function () {
         $('#overlay').show();
-        fetch('/PortfolioManager/LoadReport', {
+        fetch('/AssetScore/LoadReport', {
             method: 'GET'
         })
             .then(response => {
@@ -208,4 +200,4 @@ $(document).ready(function () {
             });
     });
 });
-
+    

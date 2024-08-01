@@ -1,5 +1,6 @@
 using AutoMapper;
 using DoNotWaste.DTO;
+using DoNotWaste.Models.AssetScoreModels;
 using DoNotWaste.Models.EnergyStarModels;
 
 namespace DoNotWaste.Mapper;
@@ -28,6 +29,12 @@ public class MappingProfile : Profile
                     Usage = mc.Usage
                 }).ToList()
                 : new List<MeterDataDto>());
+        CreateMap<BuildingResponse, BuildingDto>()
+            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+            .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
+            .ForMember(dest => dest.ConstructionStatus, opt => opt.MapFrom(src => src.Status))
+            .ForMember(dest => dest.HtmlUrl, opt => opt.MapFrom(src => src.HtmlUrl))
+            .ReverseMap();
     }
     
     private static string ConcatenateAddress(EnergyStarAddress? address)

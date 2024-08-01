@@ -48,5 +48,6 @@ public static class StartUp
         builder.Services.AddSingleton<HomeVm>();
         builder.Services.AddSingleton<CoSSMicVm>();
         builder.Services.AddSingleton<PortfolioManagerVm>();
+        builder.Services.AddSingleton<AssetScoreVm>();
     }
 }

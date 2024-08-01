@@ -10,7 +10,7 @@ public class PortfolioManagerVm(
     IEnergyStarMeterService meterService,
     IEnergyStarReportService reportService)
 {
-    public int? SelectedPropertyId { get; set; }
+    private int? SelectedPropertyId { get; set; }
 
     public async Task<List<BuildingDto>> LoadProperties()
     {

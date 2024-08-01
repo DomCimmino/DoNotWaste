@@ -33,4 +33,7 @@ public class BuildingDto
     
     [JsonProperty("constructionStatus")]
     public string? ConstructionStatus { get; set; }
+
+    [JsonProperty("html_url")]
+    public string? HtmlUrl { get; set; }
 }
