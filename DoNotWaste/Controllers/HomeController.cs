@@ -17,6 +17,7 @@ public class HomeController(IAssetScoreBuildingService buildingService,IAuthenti
     {
         var token = await authenticationService.GetAssetScoreToken();
         var list = await buildingService.GetBuildings();
+        var recommendations = await buildingService.GetRecommendations(list.FirstOrDefault()?.Id ?? -1);
         return View();
     }
 
