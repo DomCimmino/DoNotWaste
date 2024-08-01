@@ -46,4 +46,13 @@ public class AssetScoreBuildingService(IHttpClient httpClient, IAuthenticationSe
             });
         return await content.ReadAsByteArrayAsync();
     }
+
+    public async Task<List<Recommendation>> GetRecommendations(int buildingId)
+    {
+        return await RefitExtensions.For<IAssetScoreBuildingApi>(await httpClient.GetHttpClient(false), false)
+            .GetRecommendations(buildingId, new BaseRequest()
+            {
+                Token = await authenticationService.GetAssetScoreToken()
+            });
+    }
 }
