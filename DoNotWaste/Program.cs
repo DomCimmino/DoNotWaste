@@ -14,6 +14,9 @@ builder.RegisterRepositories();
 //Add service for dependency injection
 builder.RegisterServices();
 
+//Add viewModels for dependency injection
+builder.RegisterViewModels();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

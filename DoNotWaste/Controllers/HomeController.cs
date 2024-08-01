@@ -1,40 +1,32 @@
 using System.Diagnostics;
-using DoNotWaste.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using DoNotWaste.Models;
-using DoNotWaste.Models.EnergyStarModels;
-using DoNotWaste.Services.Interfaces;
+using DoNotWaste.ViewModels;
 
 namespace DoNotWaste.Controllers;
 
-public class HomeController(IAssetScoreBuildingService buildingService,IAuthenticationService authenticationService) : Controller
+public class HomeController(HomeVm viewModel) : Controller
 {
-    private EnergyStarProperty? Property { get; set; }
-
-    private static byte[]? _lastReport;
-
-    public async Task<ActionResult> Index()
+    public IActionResult Index()
     {
-        var token = await authenticationService.GetAssetScoreToken();
-        var list = await buildingService.GetBuildings();
-        var recommendations = await buildingService.GetRecommendations(list.FirstOrDefault()?.Id ?? -1);
-        return View();
-    }
-
-    [HttpGet]
-    public async Task<IActionResult> Pdf()
-    {
-        return File(await buildingService.GetReport(31534), "application/pdf", "report.pdf");
-    }
-
-    public IActionResult Privacy()
-    {
-        return View();
+        return View(viewModel);
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+    }
+    
+    [HttpGet]
+    public IActionResult GetResidentialMeanConsumption()
+    {
+        return Ok(viewModel.ResidentialMeanData);
+    }
+    
+    [HttpGet]
+    public IActionResult GetIndustrialMeanConsumption()
+    {
+        return Ok(viewModel.IndustrialMeanData);
     }
 }

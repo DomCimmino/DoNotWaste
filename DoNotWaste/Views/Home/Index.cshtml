@@ -1,8 +1,104 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@using DoNotWaste.ViewModels
+@model HomeVm
+
+@{
+    ViewData["Title"] = "Dashboard";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<h1 class="mt-4">Dashboard</h1>
+<ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item active">
+        Welcome to our website, where you can explore the energy consumption data of various facilities sourced from the
+        CoSSMic dataset.
+        Additionally, for the same facilities, our integration with Energy Score and Asset Score tools from Portfolio
+        Manager allows you to receive a comprehensive efficiency rating.
+        This empowers you with valuable insights to optimize energy use and enhance sustainability.
+    </li>
+</ol>
+<div class="row">
+    <div class="col-xl-6">
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="fas fa-chart-area me-1"></i>
+                Mean Consumption Residential Building
+            </div>
+            <div class="card-body">
+                <canvas id="lineChart" width="100%" height="40"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-6">
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="fas fa-chart-bar me-1"></i>
+                Mean Consumption Industrial Building
+            </div>
+            <div class="card-body">
+                <canvas id="barChart" width="100%" height="40"></canvas>
+            </div>
+        </div>
+    </div>
 </div>
+<div class="card mb-4">
+    <div class="card-header">
+        <i class="fa-solid fa-plug-circle-minus me-1"></i>
+        Mean residential device electricity consumption
+    </div>
+    <div class="card-body">
+        @{
+            var maxValue = Model.ResidentialDeviceConsumptions.Max(x => x.Value);
+            foreach (var deviceConsumption in Model.ResidentialDeviceConsumptions)
+            {
+                deviceConsumption.Percentage = Math.Ceiling(deviceConsumption.Value / maxValue * 100 ?? 0);
+                <h4 class="small font-weight-bold">
+                    @deviceConsumption.DeviceName
+                    <span
+                        class="float-right">
+                        @Math.Round(deviceConsumption.Value ?? 0, 2) kWh
+                    </span>
+                </h4>
+                <div class="progress mb-4">
+                    <div class="progress-bar" role="progressbar"
+                         style="width: @deviceConsumption.Percentage%; background-color: rgba(2, 117, 216, 1); "
+                         aria-valuenow="@deviceConsumption.Percentage" aria-valuemin="0" aria-valuemax="100">
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>
+
+<div class="card mb-4">
+    <div class="card-header">
+        <i class="fa-solid fa-plug-circle-minus me-1"></i>
+        Mean industrial device electricity consumption
+    </div>
+    <div class="card-body">
+        @{
+            maxValue = Model.IndustrialResidentialDeviceConsumptions.Max(x => x.Value);
+            foreach (var deviceConsumption in Model.IndustrialResidentialDeviceConsumptions)
+            {
+                deviceConsumption.Percentage = Math.Ceiling(deviceConsumption.Value / maxValue * 100 ?? 0);
+                <h4 class="small font-weight-bold">
+                    @deviceConsumption.DeviceName
+                    <span
+                        class="float-right">
+                        @Math.Round(deviceConsumption.Value ?? 0, 2) kWh
+                    </span>
+                </h4>
+                <div class="progress mb-4">
+                    <div class="progress-bar" role="progressbar"
+                         style="width: @deviceConsumption.Percentage%; background-color: rgba(2, 117, 216, 1);"
+                         aria-valuenow="@deviceConsumption.Percentage" aria-valuemin="0" aria-valuemax="100">
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>
+
+@section Scripts
+{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+    <script src="~/js/homeIndex.js" asp-append-version="true"></script>
+}

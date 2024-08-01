@@ -1,0 +1,78 @@
+@{
+    ViewData["Title"] = "Asset Score";
+}
+
+<h1 class="mt-4">Asset Score</h1>
+<ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item active">
+        Choose a building, and you will see all Asset Score data.
+    </li>
+</ol>
+<div class="row justify-content-end">
+    <div class="col-sm-auto">
+        <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="assetScoreBuildings" href="#" role="button"
+                   data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fa-solid fa-building me-1"></i>
+                    Building
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="buildingNumberDropdown">
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
+<ol class="breadcrumb mb-4">
+    <li id="buildingUrl" class="breadcrumb-item active">
+        To view building navigate to
+    </li>
+</ol>
+<div class="card mb-4">
+    <div class="card-header">
+        <i class="fas fa-notes-medical me-1"></i>
+        Recommendations
+    </div>
+    <div class="card-body" id="recommendations">
+    </div>
+</div>
+<div class="row justify-content-center">
+    <div class="col-sm-auto">
+        <button id="generateButton" class="btn btn-primary" type="submit" style=".disabled {
+            pointer-events: none;
+            opacity: 0.6;
+        }">
+            <i class="fa-solid fa-file-arrow-down me-1"></i>
+            View report
+        </button>
+    </div>
+</div>
+
+<br/>
+<br/>
+
+<div class="modal fade" id="pdfModal" tabindex="-1" role="dialog" aria-labelledby="pdfModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="pdfModalLabel">Report</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+                <canvas id="pdfViewer"></canvas>
+                <div class="pdf-controls mt-3">
+                    <button id="prevPage" class="btn btn-secondary">Previous Page</button>
+                    <span id="pageNum"></span> / <span id="pageCount"></span>
+                    <button id="nextPage" class="btn btn-secondary">Next Page</button>
+                </div>
+                <button id="downloadPdfButton" class="btn btn-primary mt-3">Download Report</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+    <script src="~/js/assetScoreIndex.js" asp-append-version="true"></script>
+}

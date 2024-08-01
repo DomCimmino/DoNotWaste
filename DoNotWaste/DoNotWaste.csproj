@@ -8,6 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="AutoMapper" Version="13.0.1" />
       <PackageReference Include="itext7" Version="8.0.4" />
       <PackageReference Include="itext7.bouncy-castle-adapter" Version="8.0.4" />
       <PackageReference Include="Refit" Version="7.0.0" />
@@ -18,6 +19,7 @@
 
     <ItemGroup>
       <_ContentIncludedByDefault Remove="Pages\Chart\ShowChart.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Chart\ShowChart.cshtml" />
     </ItemGroup>
 
 </Project>

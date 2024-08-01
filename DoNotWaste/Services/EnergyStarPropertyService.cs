@@ -1,3 +1,5 @@
+using AutoMapper;
+using DoNotWaste.DTO;
 using DoNotWaste.Models;
 using DoNotWaste.Models.EnergyStarModels;
 using DoNotWaste.Rest;
@@ -6,9 +8,9 @@ using DoNotWaste.Services.Interfaces;
 
 namespace DoNotWaste.Services;
 
-public class EnergyStarPropertyService(IHttpClient httpClient) : IEnergyStarPropertyService
+public class EnergyStarPropertyService(IHttpClient httpClient, IMapper mapper) : IEnergyStarPropertyService
 {
-    public async Task<EnergyStarResponse> GetPropertiesList(int accountId)
+    public async Task<EnergyStarResponse> GetPropertiesIdList(int accountId)
     {
         return await RefitExtensions.For<IEnergyStarPropertyApi>(await httpClient.GetHttpClient())
             .GetPropertiesList(accountId);
@@ -16,10 +18,16 @@ public class EnergyStarPropertyService(IHttpClient httpClient) : IEnergyStarProp
 
     public async Task<EnergyStarProperty> GetProperty(int propertyId)
     {
+       return await RefitExtensions.For<IEnergyStarPropertyApi>(await httpClient.GetHttpClient())
+            .GetProperty(propertyId);
+    }
+
+    public async Task<BuildingDto> GetDtoProperty(int propertyId)
+    {
         var property = await RefitExtensions.For<IEnergyStarPropertyApi>(await httpClient.GetHttpClient())
             .GetProperty(propertyId);
         property.Id = propertyId;
-        return property;
+        return mapper.Map<BuildingDto>(property);
     }
 
     public async Task<EnergyStarWeatherStation> GetWeatherStations(Country country, int? page = null)

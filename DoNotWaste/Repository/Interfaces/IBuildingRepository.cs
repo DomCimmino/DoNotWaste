@@ -7,5 +7,8 @@ public interface IBuildingRepository
 {
     ResidentialBuilding GetResidential(NumberResidentialBuildings residentialNumber);
     IndustrialBuilding GetIndustrial(NumberIndustrialBuildings industrialNumber);
-    IEnumerable<DeviceConsumptionDto> GetOrderedDeviceConsumptions<T>(T building) where T : BaseBuilding;
-}
+    List<DeviceRecordDto> GetSingleBuildingDevicesConsumptions<T>(T building) where T : BaseBuilding;
+    List<DeviceRecordDto> CalculateDeviceConsumptionsForAllBuildings(bool isResidential = true, bool isAverage = true);
+    List<DeviceRecordDto> GetBuildingTypePhotovoltaicProduction(bool isResidential = true);
+    List<DeviceRecordDto> GetSingleBuildingPhotovoltaicProduction<T>(T building) where T : BaseBuilding;
+} 

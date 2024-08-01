@@ -1,0 +1,173 @@
+@{
+    ViewData["Title"] = "Portfolio Manager";
+}
+
+@section Css
+{
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.dataTables.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+
+    <style>
+        #map{
+            width: 100%;
+            height: 400px;
+        }
+    </style>
+}
+
+
+<h1 class="mt-4">Portfolio Manager</h1>
+<ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item active">
+        Choose a property, and you will see all Portfolio Manager data.
+    </li>
+</ol>
+<div class="row justify-content-end">
+    <div class="col-sm-auto">
+        <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="energyStarProperties" href="#" role="button"
+                   data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fa-solid fa-building me-1"></i>
+                    Property
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="buildingNumberDropdown">
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xl-6">
+        <div class="card mb-3">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <h6 class="mb-0">Property Name</h6>
+                    </div>
+                    <div id="propertyName" class="col-sm-9 text-secondary">
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <h6 class="mb-0">Primary Function</h6>
+                    </div>
+                    <div id="primaryFunction" class="col-sm-9 text-secondary">
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <h6 class="mb-0">Address</h6>
+                    </div>
+                    <div id="address" class="col-sm-9 text-secondary">
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <h6 class="mb-0">Construction Status</h6>
+                    </div>
+                    <div id="constructionStatus" class="col-sm-9 text-secondary">
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <h6 class="mb-0">Built Year</h6>
+                    </div>
+                    <div id="builtYear" class="col-sm-9 text-secondary">
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <h6 class="mb-0">Area</h6>
+                    </div>
+                    <div id="area" class="col-sm-9 text-secondary">
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <h6 class="mb-0">Occupancy</h6>
+                    </div>
+                    <div id="occupancy" class="col-sm-9 text-secondary">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-6">
+        <div id="mapContainer" class="card mb-3">
+            <div id="map"></div>
+        </div>
+    </div>
+</div>
+
+<div class="card mb-4">
+    <div class="card-header">
+        <i class="fa-solid fa-plug-circle-minus me-1"></i>
+        Consumption data
+    </div>
+    <div class="card-body">
+        <table id="consumptionDataTable" class="display nowrap" style="width:100%">
+            <thead>
+            <tr>
+                <th>Usage</th>
+                <th>Cost</th>
+                <th>Start date</th>
+                <th>End date</th>
+            </tr>
+            </thead>
+            <tbody class="tableBody">
+
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="row justify-content-center">
+    <div class="col-sm-auto">
+        <button id="generateButton" class="btn btn-primary" type="submit" style=".disabled {
+            pointer-events: none;
+            opacity: 0.6;
+        }">
+            <i class="fa-solid fa-file-arrow-down me-1"></i>
+            View report
+        </button>
+    </div>
+</div>
+
+<br/>
+<br/>
+
+<div class="modal fade" id="pdfModal" tabindex="-1" role="dialog" aria-labelledby="pdfModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="pdfModalLabel">Report</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+                <canvas id="pdfViewer"></canvas>
+                <div class="pdf-controls mt-3">
+                    <button id="prevPage" class="btn btn-secondary">Previous Page</button>
+                    <span id="pageNum"></span> / <span id="pageCount"></span>
+                    <button id="nextPage" class="btn btn-secondary">Next Page</button>
+                </div>
+                <button id="downloadPdfButton" class="btn btn-primary mt-3">Download Report</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script src="~/js/portfolioManagerIndex.js" asp-append-version="true"></script>
+    <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.9.359/pdf.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+}
