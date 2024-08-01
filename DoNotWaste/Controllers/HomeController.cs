@@ -10,7 +10,6 @@ public class HomeController(HomeVm viewModel) : Controller
     public IActionResult Index()
     {
         return View(viewModel);
-
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
