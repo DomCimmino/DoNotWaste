@@ -1,0 +1,85 @@
+@using DoNotWaste.ViewModels
+@model CoSSMicVm
+
+@{
+    ViewData["Title"] = "CoSSMic";
+}
+
+<h1 class="mt-4">CoSSMic Buildings</h1>
+<ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item active">
+        Choose a building, and you will see all the consumption data for the structure for the period from January 2016 to June 2017.
+    </li>
+</ol>
+<div class="row justify-content-end">
+    <div class="col-sm-auto">
+        <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="buildingTypeDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fa-solid fa-building me-1"></i>
+                    Buildings Type
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="buildingTypeDropdown">
+                    @foreach (var buildingType in Model.BuildingsType)
+                    {
+                        <li>
+                            <a class="dropdown-item" href="#" data-type-id="@buildingType.Id">
+                                <i class="@buildingType.Icon"></i> @buildingType.Name
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <div class="col-sm-auto">
+        <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="buildingNumberDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fa-solid fa-building me-1"></i>
+                    Building Number
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="buildingNumberDropdown">
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="card mb-4">
+    <div class="card-header">
+        <i class="fas fa-chart-area me-1"></i>
+        Monthly electricity consumption
+    </div>
+    <div class="card-body" id="chart">
+        <canvas id="buildingChart" width="100%" height="40"></canvas>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xl-6">
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="fa-solid fa-plug-circle-minus me-1"></i>
+                Device consumption
+            </div>
+            <div class="card-body" id="device-consumption-container">
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-6">
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="fa-solid fa-solar-panel me-1"></i>
+                Photovoltaic production
+            </div>
+            <div class="card-body" id="device-photovoltaic-container">
+                <canvas id="photovoltaicProductionChart" width="100%" height="450" style="display: none"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+    <script src="~/js/CoSSMiIndex.js" asp-append-version="true"></script>
+}

@@ -4,6 +4,22 @@
         <TargetFramework>net8.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
+        <UserSecretsId>85ef43a9-0692-4769-8c2d-165f555c1b6c</UserSecretsId>
     </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="AutoMapper" Version="13.0.1" />
+      <PackageReference Include="itext7" Version="8.0.4" />
+      <PackageReference Include="itext7.bouncy-castle-adapter" Version="8.0.4" />
+      <PackageReference Include="Refit" Version="7.0.0" />
+      <PackageReference Include="Refit.Newtonsoft.Json" Version="7.0.0" />
+      <PackageReference Include="Refit.Xml" Version="7.0.0" />
+      <PackageReference Include="System.Data.SQLite" Version="1.0.118" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="Pages\Chart\ShowChart.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Chart\ShowChart.cshtml" />
+    </ItemGroup>
 
 </Project>
