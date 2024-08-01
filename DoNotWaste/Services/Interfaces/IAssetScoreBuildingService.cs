@@ -8,4 +8,5 @@ public interface IAssetScoreBuildingService
     Task<List<BuildingResponse>> GetBuildings();
     Task<BuildingResponse> GetBuildingById(int buildingId);
     Task<byte[]> GetReport(int buildingId);
+    Task<List<Recommendation>> GetRecommendations(int buildingId);
 }
