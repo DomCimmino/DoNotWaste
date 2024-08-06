@@ -25,21 +25,42 @@ public class CoSSMicVm(IChartService chartService)
             ? chartService.GetSumConsumptionDataByType()
             : chartService.GetSumConsumptionDataByType(false);
     }
-    
-    public double GetPhotovoltaicProduction(int buildingTypeId, int? buildingId)
+
+    public ChartDataDto GetSourceDataEnergy(int buildingTypeId, int? buildingId)
     {
         if (buildingId != null)
         {
-            return buildingTypeId == Costant.ResidentialType
+            var productionById = buildingTypeId == Costant.ResidentialType
                 ? chartService.GetSumProductionDataById(
                     (NumberResidentialBuildings)Enum.ToObject(typeof(NumberResidentialBuildings), buildingId))
                 : chartService.GetSumProductionDataById(
                     (NumberIndustrialBuildings)Enum.ToObject(typeof(NumberIndustrialBuildings), buildingId));
+
+            var importById = buildingTypeId == Costant.ResidentialType
+                ? chartService.GetSumImportGridDataById(
+                    (NumberResidentialBuildings)Enum.ToObject(typeof(NumberResidentialBuildings), buildingId))
+                : chartService.GetSumImportGridDataById(
+                    (NumberIndustrialBuildings)Enum.ToObject(typeof(NumberIndustrialBuildings), buildingId));
+            return new ChartDataDto
+            {
+                Labels = ["Photovoltaic production in kWh", "Import grid in kWh"],
+                Data = [productionById, importById]
+            };
         }
 
-        return buildingTypeId == Costant.ResidentialType
+        var productionByType = buildingTypeId == Costant.ResidentialType
             ? chartService.GetSumProductionDataByType()
             : chartService.GetSumProductionDataByType(false);
+
+        var importByType = buildingTypeId == Costant.ResidentialType
+            ? chartService.GetSumImportGridDataByType()
+            : chartService.GetSumImportGridDataByType(false);
+
+        return new ChartDataDto
+        {
+            Labels = ["Photovoltaic production in kWh", "Import grid in kWh"],
+            Data = [productionByType, importByType]
+        };
     }
 
     private static List<BuildingTypeDto> LoadBuildingsType()

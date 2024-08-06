@@ -42,12 +42,12 @@ public class CoSSMicController(CoSSMicVm viewModel) : Controller
     }
 
     [HttpGet]
-    public IActionResult GetPhotovoltaicProduction(int? buildingTypeId, int? buildingNumberId)
+    public IActionResult GetSourceDataEnergy(int? buildingTypeId, int? buildingNumberId)
     {
         return buildingTypeId == null
             ? Ok(new List<double>())
             : Ok(buildingNumberId == null
-                ? new List<double> { viewModel.GetPhotovoltaicProduction((int)buildingTypeId, null) }
-                : [viewModel.GetPhotovoltaicProduction((int)buildingTypeId, buildingNumberId)]);
+                ? viewModel.GetSourceDataEnergy((int)buildingTypeId, null)
+                : viewModel.GetSourceDataEnergy((int)buildingTypeId, buildingNumberId));
     }
 }

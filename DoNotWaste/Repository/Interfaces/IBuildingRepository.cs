@@ -9,6 +9,8 @@ public interface IBuildingRepository
     IndustrialBuilding GetIndustrial(NumberIndustrialBuildings industrialNumber);
     List<DeviceRecordDto> GetSingleBuildingDevicesConsumptions<T>(T building) where T : BaseBuilding;
     List<DeviceRecordDto> CalculateDeviceConsumptionsForAllBuildings(bool isResidential = true, bool isAverage = true);
-    List<DeviceRecordDto> GetBuildingTypePhotovoltaicProduction(bool isResidential = true);
-    List<DeviceRecordDto> GetSingleBuildingPhotovoltaicProduction<T>(T building) where T : BaseBuilding;
+    IEnumerable<DeviceRecordDto> GetBuildingTypePhotovoltaicProduction(bool isResidential = true);
+    IEnumerable<DeviceRecordDto> GetSingleBuildingPhotovoltaicProduction<T>(T building) where T : BaseBuilding;
+    IEnumerable<DeviceRecordDto> GetSingleBuildingGridImport<T>(T building) where T : BaseBuilding;
+    IEnumerable<DeviceRecordDto> GetBuildingTypeImportGrid(bool isResidential = true);
 } 
