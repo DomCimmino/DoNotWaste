@@ -15,7 +15,7 @@ function UpdateChart(data, lineCtx) {
 
     let labels = data[0].labels;
     let dataset = [];
-    
+
 
     data.forEach(function (chartData) {
         dataset.push({
@@ -96,7 +96,7 @@ function UpdateConsumptionProgressBar(data) {
     }
 }
 
-function UpdatePhotovoltaicProduction(data, donutCtx) {
+function UpdateSourceEnergy(data, donutCtx) {
     let container = $('#device-photovoltaic-container');
     if (data.length === 0) {
         donutCtx.style.display = 'none';
@@ -104,7 +104,7 @@ function UpdatePhotovoltaicProduction(data, donutCtx) {
     } else {
         document.getElementById("statement").style.display = 'none';
         donutCtx.style.display = 'block';
-        
+
         if (!donutCtx) {
             console.error("Element not found.");
             return;
@@ -113,18 +113,23 @@ function UpdatePhotovoltaicProduction(data, donutCtx) {
         if (donutChart) {
             donutChart.destroy();
         }
-
-        let chartData = {
-            labels: ['Photovoltaic production in kWh'],
-            datasets: [{
-                data: data,
-                backgroundColor: [`rgb(${Math.floor(rand() * 256)}, ${Math.floor(rand() * 256)}, ${Math.floor(rand() * 256)})`]
-            }]
-        };
-
+        
+        let dataset = [{
+            data: data.data,
+            backgroundColor: data.labels.map(() => {
+                return `rgb(${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)})`;
+            }),
+        }];
+        
+        console.log(data.labels);
+        console.log(dataset);
+        
         donutChart = new Chart(donutCtx, {
             type: "doughnut",
-            data: chartData,
+            data: {
+                labels : data.labels,
+                datasets : dataset
+            },
             options: {
                 maintainAspectRatio: false,
                 tooltips: {
@@ -139,9 +144,9 @@ function UpdatePhotovoltaicProduction(data, donutCtx) {
     }
 }
 
-$(document).ajaxStart(function() {
+$(document).ajaxStart(function () {
     $('#overlay').show();
-}).ajaxStop(function() {
+}).ajaxStop(function () {
     $('#overlay').hide();
 });
 
@@ -164,8 +169,8 @@ $(document).ready(function () {
         $.getJSON('/CoSSMic/GetDeviceConsumptionData', {buildingTypeId: selectedBuildingTypeId}, function (data) {
             UpdateConsumptionProgressBar(data);
         });
-        $.getJSON('/CoSSMic/GetPhotovoltaicProduction', {buildingTypeId: selectedBuildingTypeId}, function (data) {
-            UpdatePhotovoltaicProduction(data, donutCtx);
+        $.getJSON('/CoSSMic/GetSourceDataEnergy', {buildingTypeId: selectedBuildingTypeId}, function (data) {
+            UpdateSourceEnergy(data, donutCtx);
         });
     });
 
@@ -187,15 +192,15 @@ $(document).ready(function () {
             }, function (data) {
                 UpdateConsumptionProgressBar(data);
             });
-            $.getJSON('/CoSSMic/GetPhotovoltaicProduction', {
+            $.getJSON('/CoSSMic/GetSourceDataEnergy', {
                 buildingTypeId: selectedBuildingTypeId,
                 buildingNumberId: selectedBuildingNumberId
             }, function (data) {
-                UpdatePhotovoltaicProduction(data, donutCtx);
+                UpdateSourceEnergy(data, donutCtx);
             });
         }
     });
-    
+
     $.getJSON('/CoSSMic/GetBuildingsByType', function (data) {
         UpdateBuildings(data);
     });
@@ -205,7 +210,7 @@ $(document).ready(function () {
     $.getJSON('/CoSSMic/GetDeviceConsumptionData', function (data) {
         UpdateConsumptionProgressBar(data);
     });
-    $.getJSON('/CoSSMic/GetPhotovoltaicProduction', function (data) {
-        UpdatePhotovoltaicProduction(data, donutCtx);
+    $.getJSON('/CoSSMic/GetSourceDataEnergy', function (data) {
+        UpdateSourceEnergy(data, donutCtx);
     });
 });

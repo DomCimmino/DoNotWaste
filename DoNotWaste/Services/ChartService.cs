@@ -105,6 +105,29 @@ public class ChartService(IBuildingRepository buildingRepository) : IChartServic
             return buildingRepository.GetSingleBuildingPhotovoltaicProduction(building).Sum(x => x.Value) ?? 0;
         }
     }
+    
+    public double GetSumImportGridDataByType(bool isResidential = true)
+    {
+        return isResidential
+            ? buildingRepository.GetBuildingTypeImportGrid().Sum(x => x.Value) ?? 0
+            : buildingRepository.GetBuildingTypeImportGrid(false).Sum(x => x.Value) ?? 0;
+    }
+    
+    public double GetSumImportGridDataById<T>(T numberBuilding) where T : Enum
+    {
+        if (typeof(T) == typeof(NumberResidentialBuildings))
+        {
+            var number = (NumberResidentialBuildings)(object)numberBuilding;
+            var building = buildingRepository.GetResidential(number);
+            return buildingRepository.GetSingleBuildingGridImport(building).Sum(x => x.Value) ?? 0;
+        }
+        else
+        {
+            var number = (NumberIndustrialBuildings)(object)numberBuilding;
+            var building = buildingRepository.GetIndustrial(number);
+            return buildingRepository.GetSingleBuildingGridImport(building).Sum(x => x.Value) ?? 0;
+        }
+    }
 
     private ChartDataDto GetMeanDataChart<T>(Func<T, BaseBuilding> getBuildingFunc) where T : Enum
     {
