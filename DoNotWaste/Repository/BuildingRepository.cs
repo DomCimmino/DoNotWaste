@@ -476,7 +476,7 @@ public partial class BuildingRepository(IHouseHoldConnectionFactory factory)
             .ToList();
     }
 
-    public List<DeviceRecordDto> GetSingleBuildingPhotovoltaicProduction<T>(T building) where T : BaseBuilding
+    public IEnumerable<DeviceRecordDto> GetSingleBuildingPhotovoltaicProduction<T>(T building) where T : BaseBuilding
     {
         var deviceConsumptions = new List<DeviceRecordDto>();
         var properties = typeof(T).GetProperties();
@@ -499,7 +499,30 @@ public partial class BuildingRepository(IHouseHoldConnectionFactory factory)
         return deviceConsumptions;
     }
     
-    public List<DeviceRecordDto> GetBuildingTypePhotovoltaicProduction(bool isResidential = true) 
+    public IEnumerable<DeviceRecordDto> GetSingleBuildingGridImport<T>(T building) where T : BaseBuilding
+    {
+        var deviceConsumptions = new List<DeviceRecordDto>();
+        var properties = typeof(T).GetProperties();
+
+        foreach (var property in properties)
+        {
+            if (!property.Name.Contains("Import")) continue;
+            if (property.GetValue(building) is not List<Record> records) continue;
+            var totalConsumption = records
+                .Where(record => record.Value.HasValue)
+                .Sum(record => record.Value ?? 0);
+
+            deviceConsumptions.Add(new DeviceRecordDto
+            {
+                DeviceName = ConvertToReadableName(property.Name),
+                Value = totalConsumption
+            });
+        }
+
+        return deviceConsumptions;
+    }
+    
+    public IEnumerable<DeviceRecordDto> GetBuildingTypePhotovoltaicProduction(bool isResidential = true) 
     {
         var totalConsumptions = new Dictionary<string, double>();
         var deviceCount = new Dictionary<string, int>();
@@ -575,6 +598,82 @@ public partial class BuildingRepository(IHouseHoldConnectionFactory factory)
             .ToList();
     }
 
+    public IEnumerable<DeviceRecordDto> GetBuildingTypeImportGrid(bool isResidential = true) 
+    {
+        var totalConsumptions = new Dictionary<string, double>();
+        var deviceCount = new Dictionary<string, int>();
+
+        if (isResidential)
+        {
+            foreach (NumberResidentialBuildings residentialNumber in Enum.GetValues(typeof(NumberResidentialBuildings)))
+            {
+                var building = GetResidential(residentialNumber);
+
+                var properties = typeof(ResidentialBuilding).GetProperties();
+
+                foreach (var property in properties)
+                {
+                    if (!property.Name.Contains("Import")) continue;
+                    
+                    if (property.GetValue(building) is not List<Record> records) continue;
+
+                    foreach (var record in records)
+                    {
+                        if (!record.Value.HasValue) continue;
+
+                        var deviceName = ConvertToReadableName(property.Name);
+
+                        if (!totalConsumptions.ContainsKey(deviceName))
+                        {
+                            totalConsumptions[deviceName] = 0;
+                            deviceCount[deviceName] = 0;
+                        }
+
+                        totalConsumptions[deviceName] += record.Value.Value;
+                        deviceCount[deviceName]++;
+                    }
+                }
+            }
+        }
+        else
+        {
+            foreach (NumberIndustrialBuildings industrialBuildings in Enum.GetValues(typeof(NumberIndustrialBuildings)))
+            {
+                var building = GetIndustrial(industrialBuildings);
+
+                var properties = typeof(IndustrialBuilding).GetProperties();
+
+                foreach (var property in properties)
+                {
+                    if (!property.Name.Contains("Import")) continue;
+                    
+                    if (property.GetValue(building) is not List<Record> records) continue;
+
+                    foreach (var record in records)
+                    {
+                        if (!record.Value.HasValue) continue;
+
+                        var deviceName = ConvertToReadableName(property.Name);
+
+                        if (!totalConsumptions.ContainsKey(deviceName))
+                        {
+                            totalConsumptions[deviceName] = 0;
+                            deviceCount[deviceName] = 0;
+                        }
+
+                        totalConsumptions[deviceName] += record.Value.Value;
+                        deviceCount[deviceName]++;
+                    }
+                }
+            }
+        }
+        
+        return (from deviceName in totalConsumptions.Keys
+                select new DeviceRecordDto
+                    { DeviceName = deviceName, Value = totalConsumptions[deviceName] })
+            .ToList();
+    }
+        
     private static string ConvertToReadableName(string propertyName)
     {
         var readableName = propertyName.Replace("Consumption", "");

@@ -11,5 +11,7 @@ public interface IChartService
     List<DeviceRecordDto> GetAverageDataProgressBar(bool isResidential = true);
     List<DeviceRecordDto> GetSumConsumptionDataByType(bool isResidential = true);
     public double GetSumProductionDataByType(bool isResidential = true);
+    double GetSumImportGridDataByType(bool isResidential = true);
     double GetSumProductionDataById<T>(T numberBuilding) where T : Enum;
+    double GetSumImportGridDataById<T>(T numberBuilding) where T : Enum;
 }
